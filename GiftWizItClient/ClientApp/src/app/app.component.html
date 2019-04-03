@@ -12,7 +12,7 @@
     <div class="collapse navbar-collapse" id="navbarText">
         <ul class="navbar-nav mr-auto"></ul>
         <div class="navbar-text">
-            <span>Welcome {{username}}</span>
+            <span>Welcome {{displayName}}</span>
             <ul class="nav navbar-nav navbar-right">
                 <li routerLinkActive="active" *ngIf="!isLoggedIn">
                     <a [routerLink]="['register']">Register</a>

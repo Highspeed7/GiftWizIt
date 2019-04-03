@@ -5,7 +5,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { LeftRibbonComponent } from './left-ribbon/left-ribbon.component';
-import { RegisterComponent } from './register/register.component';
 import { HttpModule } from '@angular/http';
 
 // Services
@@ -18,7 +17,6 @@ import { AuthenticationModule } from './authentication/authentication.module';
   declarations: [
     AppComponent,
     LeftRibbonComponent,
-    RegisterComponent,
     LoginComponent
   ],
   imports: [
@@ -28,10 +26,6 @@ import { AuthenticationModule } from './authentication/authentication.module';
     CommonModule,
     AuthenticationModule,
     RouterModule.forRoot([
-      {
-        path: "register",
-        component: RegisterComponent
-      },
       {
         path: "login",
         component: LoginComponent

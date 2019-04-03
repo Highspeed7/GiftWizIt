@@ -3,7 +3,7 @@ import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { AccountsService } from '../accounts.service';
 import { WindowRefService } from '../window-ref.service';
 import { Router } from '@angular/router';
-import { MsalService } from '@azure/msal-angular';
+import { AuthService } from '../authentication/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -18,15 +18,13 @@ export class LoginComponent implements OnInit {
   private socialAuthUrl: string = '';
 
   constructor(
-    private msal: MsalService,
+    private authSvc: AuthService,
     private windowRef: WindowRefService,
     private router: Router) {
     this.window = this.windowRef.nativeWindow;
   }
 
   ngOnInit() {
-    this.msal.loginPopup(["https://giftwizit.onmicrosoft.com/api/user_impersonation"]).then((r) => {
-      this.window.localStorage.setItem("gw_access_token", r);
-    });
+    this.authSvc.login();
   }
 }

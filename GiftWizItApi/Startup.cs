@@ -23,6 +23,7 @@ namespace GiftWizItApi
         }
 
         public IConfiguration Configuration { get; }
+        readonly string GWAllowSpecificOrigins = "_gwAllowSpecificOrigins";
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -30,6 +31,15 @@ namespace GiftWizItApi
             services.AddAuthentication(AzureADB2CDefaults.BearerAuthenticationScheme)
                 .AddAzureADB2CBearer(options => Configuration.Bind("AzureAdB2C", options));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy(GWAllowSpecificOrigins, builder =>
+                {
+                    builder.WithOrigins("https://localhost:44347");
+                    builder.WithHeaders("Authorization");
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -44,7 +54,7 @@ namespace GiftWizItApi
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
+            app.UseCors(GWAllowSpecificOrigins);
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseMvc();
