@@ -22,6 +22,7 @@
     "@angular/platform-browser-dynamic": "^7.2.11",
     "@angular/platform-server": "^7.2.11",
     "@angular/router": "^7.2.11",
+    "@azure/msal-angular": "^0.1.2",
     "core-js": "^2.5.4",
     "msal": "^0.2.4",
     "rxjs": "^6.4.0",
