@@ -1,45 +1,54 @@
-import { Component } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { WindowRefService } from './window-ref.service';
 import { AccountsService } from './accounts.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { URLSearchParams } from '@angular/http';
+import { MsalService } from '@azure/msal-angular';
+import { AuthService } from './authentication/services/auth.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   public title = 'app';
   public displayName: string = "Guest";
   public isLoggedIn: boolean = false;
   private window: any;
 
-  constructor(private windowRef: WindowRefService, private acntSvc: AccountsService, private router: Router, private route: ActivatedRoute) {
+  // Injected msal service to handle redirect from auth server.
+  constructor(
+    private windowRef: WindowRefService,
+    private acntSvc: AccountsService,
+    private authSvc: AuthService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private msal: MsalService) {
     this.window = this.windowRef.nativeWindow;
+    
+    // TODO: remove in favor of reading cachedToken to determine logged in state.
     this.acntSvc.logingedIn$.subscribe((l: boolean) => {
       this.isLoggedIn = l;
-      if (this.window.gw_app !== undefined && this.window.gw_app.userInfo !== undefined && this.window.gw_app.userInfo.name !== undefined) {
-        this.displayName = this.window.gw_app.userInfo.name;
-        this.isLoggedIn = true;
-      } else {
-        this.displayName = "Guest";
-      }
+      this.setDisplayName();
     });
   }
 
+  public setDisplayName() {
+    if (this.window.localStorage.getItem("gw_app")) {
+      var userInfo = JSON.parse(this.window.localStorage.getItem("gw_app"));
+      this.displayName = userInfo.userInfo.name;
+    }
+  }
 
+  public ngOnInit() {
+    if (this.acntSvc.isLoggedIn()) {
+      this.isLoggedIn = true;
+      this.setDisplayName();
+    }
+  }
 
-  //public onLogout() {
-  //    this.acntSvc.logout().subscribe((r: any) => {
-  //        if (r.status === 200) {
-  //            this.acntSvc.loggedInSrc.next(false);
-  //            console.log(r);
-  //            this.isLoggedIn = false;
-  //            localStorage.removeItem("access_token");
-  //            this.router.navigate(['']);
-  //            this.username = "Guest";
-  //        }
-  //    });
-  //}
+  public onLogout() {
+    this.authSvc.logout();
+  }
 }

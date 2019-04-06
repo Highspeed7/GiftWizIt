@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Http, RequestOptions, Headers } from '@angular/http';
-import { Observable, Subscription, BehaviorSubject } from 'rxjs';
-
-import { RegisterModel } from './models/register';
-import { LoginLocalModel } from './models/login';
+import { BehaviorSubject } from 'rxjs';
+import { MsalService } from '@azure/msal-angular';
+import * as authConfig from './configs/authConfig';
 
 @Injectable({
   providedIn: 'root'
@@ -11,4 +9,12 @@ import { LoginLocalModel } from './models/login';
 export class AccountsService {
   public loggedInSrc: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(null);
   public logingedIn$ = this.loggedInSrc.asObservable();
+
+  constructor(
+    private msal: MsalService) { }
+
+  public isLoggedIn() {
+    var tokenCache = this.msal.getCachedTokenInternal(authConfig.config.b2cScopes);
+    return (!!tokenCache);
+  }
 }

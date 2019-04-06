@@ -12,6 +12,8 @@ import { AccountsService } from './accounts.service';
 import { LoginComponent } from './login/login.component';
 import { CommonModule } from '@angular/common';
 import { AuthenticationModule } from './authentication/authentication.module';
+import { MsalService } from '@azure/msal-angular';
+import { AuthService } from './authentication/services/auth.service';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,7 @@ import { AuthenticationModule } from './authentication/authentication.module';
       }
     ])
   ],
-  providers: [AccountsService],
+  providers: [AccountsService, MsalService, AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
