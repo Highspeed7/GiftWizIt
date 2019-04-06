@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { WindowRefService } from 'src/app/window-ref.service';
 import { Router } from '@angular/router';
 import { AccountsService } from 'src/app/accounts.service';
-import { MsalService } from '@azure/msal-angular';
+import { MsalService, BroadcastService } from '@azure/msal-angular';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
@@ -11,24 +11,32 @@ import { HttpClient } from '@angular/common/http';
 export class AuthService {
   private window: any;
   private authConfig = {
-    b2cScopes: ["http://giftwizit.onmicrosoft.com/api/read"]
+    b2cScopes: ["https://giftwizit.onmicrosoft.com/api/read"]
   };
 
   constructor(
     private msal: MsalService,
+    private bcs: BroadcastService,
     private http: HttpClient,
     private windowRef: WindowRefService,
     private acntSvc: AccountsService,
     private router: Router) {
     this.window = this.windowRef.nativeWindow;
+
+    var isLoggedInSub = this.bcs.subscribe("msal:loginSuccess", (msg) => {
+      this.router.navigate(["/"]);
+    });
   }
 
   public login() {
+    var cacheRes = this.msal.getCachedTokenInternal(this.authConfig.b2cScopes);
+    console.log(cacheRes);
     this.msal.loginPopup(this.authConfig.b2cScopes).then((r) =>
     {
       this.msal.acquireTokenSilent(this.authConfig.b2cScopes).then((res) => {
-        //this.http.get("https://localhost:44327/api/values", { headers: { 'Authorization': `bearer ${res}` } }).subscribe((response) => {
-        //});
+        this.http.get("https://localhost:44327/api/values", { headers: { 'Authorization': `bearer ${res}` } }).subscribe((response) => {
+          console.log(response);
+        });
       });
     });
   }
