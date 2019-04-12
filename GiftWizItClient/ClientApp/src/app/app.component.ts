@@ -42,6 +42,10 @@ export class AppComponent implements OnInit {
   }
 
   public ngOnInit() {
+    var url = this.route.url.subscribe((v) => {
+      console.log(v);
+    });
+    if(this.route.url)
     if (this.acntSvc.isLoggedIn()) {
       this.isLoggedIn = true;
       this.setDisplayName();

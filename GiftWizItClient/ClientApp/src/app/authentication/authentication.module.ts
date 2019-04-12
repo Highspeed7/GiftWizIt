@@ -14,7 +14,8 @@ import * as env from '../../environments/environment';
       authority: "https://login.microsoftonline.com/tfp/giftwizit.onmicrosoft.com/B2C_1_SigninSignup1",
       consentScopes: ["user_impersonation"],
       redirectUri: env.environment.redirectUri,
-      postLogoutRedirectUri: env.environment.redirectUri
+      postLogoutRedirectUri: env.environment.redirectUri,
+      cacheLocation: "localStorage"
     })
   ],
   providers: [MsalService]

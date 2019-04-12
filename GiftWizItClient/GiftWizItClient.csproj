@@ -26,11 +26,20 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\app\configs\authConfig.ts" />
+    <None Remove="ClientApp\src\app\models\appInfo.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="ClientApp\dist\" />
     <Folder Include="ClientApp\src\app\authentication\services\" />
-    <Folder Include="ClientApp\src\app\configs\" />
     <Folder Include="ClientApp\src\assets\images\" />
     <Folder Include="ClientApp\src\assets\css\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\configs\authConfig.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\models\appInfo.ts" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
