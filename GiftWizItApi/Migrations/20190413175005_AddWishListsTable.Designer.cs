@@ -4,14 +4,16 @@ using GiftWizItApi.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GiftWizItApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190413175005_AddWishListsTable")]
+    partial class AddWishListsTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -39,32 +41,6 @@ namespace GiftWizItApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("GiftLists");
-                });
-
-            modelBuilder.Entity("GiftWizItApi.Models.Items", b =>
-                {
-                    b.Property<int>("Item_Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("item_id")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("CreatedOn")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("created_on")
-                        .HasDefaultValueSql("GETUTCDATE()");
-
-                    b.Property<string>("Image")
-                        .HasColumnName("image");
-
-                    b.Property<string>("Name")
-                        .HasColumnName("name");
-
-                    b.Property<string>("UPC")
-                        .HasColumnName("upc");
-
-                    b.HasKey("Item_Id");
-
-                    b.ToTable("Items");
                 });
 
             modelBuilder.Entity("GiftWizItApi.Models.WishLists", b =>
