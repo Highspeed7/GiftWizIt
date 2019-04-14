@@ -19,5 +19,7 @@ namespace GiftWizItApi.Models
 
         [Column("created_on")]
         public DateTime CreatedAt { get; set; }
+
+        public List<WishItem> WishItems { get; set; }
     }
 }

@@ -4,14 +4,16 @@ using GiftWizItApi.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GiftWizItApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190414035238_UpdateGiftListItemsTableColumNames")]
+    partial class UpdateGiftListItemsTableColumNames
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -84,21 +86,6 @@ namespace GiftWizItApi.Migrations
                     b.ToTable("Items");
                 });
 
-            modelBuilder.Entity("GiftWizItApi.Models.WishItem", b =>
-                {
-                    b.Property<int>("WListId")
-                        .HasColumnName("w_list_id");
-
-                    b.Property<int>("ItemId")
-                        .HasColumnName("item_id");
-
-                    b.HasKey("WListId", "ItemId");
-
-                    b.HasIndex("ItemId");
-
-                    b.ToTable("WList_Items");
-                });
-
             modelBuilder.Entity("GiftWizItApi.Models.WishLists", b =>
                 {
                     b.Property<int>("Id")
@@ -123,27 +110,14 @@ namespace GiftWizItApi.Migrations
 
             modelBuilder.Entity("GiftWizItApi.Models.GiftItem", b =>
                 {
-                    b.HasOne("GiftWizItApi.Models.GiftLists", "GiftList")
+                    b.HasOne("GiftWizItApi.Models.GiftLists", "GiftLists")
                         .WithMany("GiftItems")
                         .HasForeignKey("GListId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("GiftWizItApi.Models.Items", "Item")
+                    b.HasOne("GiftWizItApi.Models.Items", "Items")
                         .WithMany("GiftItems")
                         .HasForeignKey("Item_Id")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("GiftWizItApi.Models.WishItem", b =>
-                {
-                    b.HasOne("GiftWizItApi.Models.Items", "Item")
-                        .WithMany("WishItems")
-                        .HasForeignKey("ItemId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("GiftWizItApi.Models.WishLists", "WishList")
-                        .WithMany("WishItems")
-                        .HasForeignKey("WListId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
