@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace GiftWizItApi.Migrations
 {
-    public partial class AddedRemainingTablesAndLinkingTables : Migration
+    public partial class AddRemainingEntitiesAndConstraints : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,8 +13,8 @@ namespace GiftWizItApi.Migrations
                 {
                     contact_id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    name = table.Column<string>(nullable: false),
-                    email = table.Column<string>(nullable: false)
+                    name = table.Column<string>(maxLength: 100, nullable: false),
+                    email = table.Column<string>(maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -27,7 +27,7 @@ namespace GiftWizItApi.Migrations
                 {
                     PartnerId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    name = table.Column<string>(nullable: false)
+                    name = table.Column<string>(maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -38,8 +38,7 @@ namespace GiftWizItApi.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    user_id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn)
+                    user_id = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -76,7 +75,7 @@ namespace GiftWizItApi.Migrations
                 columns: table => new
                 {
                     contact_id = table.Column<int>(nullable: false),
-                    user_id = table.Column<int>(nullable: false)
+                    user_id = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {

@@ -106,6 +106,7 @@ namespace GiftWizItApi.Models
             modelBuilder.Entity<Partners>()
                 .Property(p => p.Name)
                 .HasColumnName("name")
+                .HasMaxLength(100)
                 .IsRequired(true);
 
             // Contact Configuration
@@ -117,10 +118,12 @@ namespace GiftWizItApi.Models
             modelBuilder.Entity<Contacts>()
                 .Property(c => c.Name)
                 .HasColumnName("name")
+                .HasMaxLength(100)
                 .IsRequired(true);
             modelBuilder.Entity<Contacts>()
                 .Property(c => c.Email)
                 .HasColumnName("email")
+                .HasMaxLength(100)
                 .IsRequired(true);
 
             // ContactUsers Linking table configuration

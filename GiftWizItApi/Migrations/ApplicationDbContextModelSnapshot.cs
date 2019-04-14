@@ -21,7 +21,7 @@ namespace GiftWizItApi.Migrations
 
             modelBuilder.Entity("GiftWizItApi.Models.ContactUsers", b =>
                 {
-                    b.Property<int>("UserId")
+                    b.Property<string>("UserId")
                         .HasColumnName("user_id");
 
                     b.Property<int>("ContactId")
@@ -43,11 +43,13 @@ namespace GiftWizItApi.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnName("email");
+                        .HasColumnName("email")
+                        .HasMaxLength(100);
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnName("name");
+                        .HasColumnName("name")
+                        .HasMaxLength(100);
 
                     b.HasKey("ContactId");
 
@@ -148,7 +150,8 @@ namespace GiftWizItApi.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnName("name");
+                        .HasColumnName("name")
+                        .HasMaxLength(100);
 
                     b.HasKey("PartnerId");
 
@@ -157,10 +160,9 @@ namespace GiftWizItApi.Migrations
 
             modelBuilder.Entity("GiftWizItApi.Models.Users", b =>
                 {
-                    b.Property<int>("UserId")
+                    b.Property<string>("UserId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("user_id")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnName("user_id");
 
                     b.HasKey("UserId");
 
