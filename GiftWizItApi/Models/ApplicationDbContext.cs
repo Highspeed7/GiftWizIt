@@ -17,6 +17,12 @@ namespace GiftWizItApi.Models
         public DbSet<WishLists> WishLists { get; set; }
         public DbSet<Items> Items { get; set; }
         public DbSet<GiftItem> GiftItems { get; set; }
+        public DbSet<WishItem> WishItems { get; set; }
+        public DbSet<Contacts> Contacts { get; set; }
+        public DbSet<Users> Users { get; set; }
+        public DbSet<Partners> Partners { get; set; }
+        public DbSet<ContactUsers> ContactUsers { get; set; }
+        public DbSet<LnksItmsPtnrs> LinkItemsPartners { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -85,6 +91,77 @@ namespace GiftWizItApi.Models
                 .HasOne(wi => wi.WishList)
                 .WithMany(wl => wl.WishItems)
                 .HasForeignKey(wi => wi.WListId);
+
+            // Users Configuration
+            modelBuilder.Entity<Users>()
+                .HasKey(u => u.UserId);
+            modelBuilder.Entity<Users>()
+                .Property(u => u.UserId)
+                .HasColumnName("user_id")
+                .IsRequired(true);
+
+            // Partners Configuration
+            modelBuilder.Entity<Partners>()
+                .HasKey(p => p.PartnerId);
+            modelBuilder.Entity<Partners>()
+                .Property(p => p.Name)
+                .HasColumnName("name")
+                .IsRequired(true);
+
+            // Contact Configuration
+            modelBuilder.Entity<Contacts>()
+                .HasKey(c => c.ContactId);
+            modelBuilder.Entity<Contacts>()
+                .Property(c => c.ContactId)
+                .HasColumnName("contact_id");
+            modelBuilder.Entity<Contacts>()
+                .Property(c => c.Name)
+                .HasColumnName("name")
+                .IsRequired(true);
+            modelBuilder.Entity<Contacts>()
+                .Property(c => c.Email)
+                .HasColumnName("email")
+                .IsRequired(true);
+
+            // ContactUsers Linking table configuration
+            modelBuilder.Entity<ContactUsers>()
+                .HasKey(cu => new { cu.UserId, cu.ContactId });
+            modelBuilder.Entity<ContactUsers>()
+                .Property(cu => cu.ContactId)
+                .HasColumnName("contact_id");
+            modelBuilder.Entity<ContactUsers>()
+                .Property(cu => cu.UserId)
+                .HasColumnName("user_id");
+            modelBuilder.Entity<ContactUsers>()
+                .HasOne(cu => cu.User)
+                .WithMany(u => u.ContactUsers)
+                .HasForeignKey(cu => cu.UserId);
+            modelBuilder.Entity<ContactUsers>()
+                .HasOne(cu => cu.Contact)
+                .WithMany(c => c.ContactUsers)
+                .HasForeignKey(cu => cu.ContactId);
+
+            // Links-Items-Partners Linking table configuration
+            modelBuilder.Entity<LnksItmsPtnrs>()
+                .ToTable("Links_Items_Partners")
+                .HasKey(lip => lip.AffliateLink);
+            modelBuilder.Entity<LnksItmsPtnrs>()
+                .Property(lip => lip.AffliateLink)
+                .HasColumnName("afflt_link");
+            modelBuilder.Entity<LnksItmsPtnrs>()
+                .Property(lip => lip.ItemId)
+                .HasColumnName("item_id");
+            modelBuilder.Entity<LnksItmsPtnrs>()
+                .Property(lip => lip.PartnerId)
+                .HasColumnName("partner_id");
+            modelBuilder.Entity<LnksItmsPtnrs>()
+                .HasOne(lip => lip.Item)
+                .WithMany(i => i.LinkItemPartners)
+                .HasForeignKey(lip => lip.ItemId);
+            modelBuilder.Entity<LnksItmsPtnrs>()
+                .HasOne(lip => lip.Partner)
+                .WithMany(p => p.LinkItemPartners)
+                .HasForeignKey(lip => lip.PartnerId);
         }
     }
 }
