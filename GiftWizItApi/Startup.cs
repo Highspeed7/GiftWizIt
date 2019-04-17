@@ -14,6 +14,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using GiftWizItApi.Models;
 using Microsoft.EntityFrameworkCore;
+using GiftWizItApi.Interfaces;
+using GiftWizItApi.Implementations;
 
 namespace GiftWizItApi
 {
@@ -44,6 +46,8 @@ namespace GiftWizItApi
                     builder.WithHeaders("Authorization");
                 });
             });
+
+            services.AddScoped<IGiftListRepository, GiftListRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
