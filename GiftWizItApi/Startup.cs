@@ -47,6 +47,7 @@ namespace GiftWizItApi
                 });
             });
 
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped<IGiftListRepository, GiftListRepository>();
         }
 

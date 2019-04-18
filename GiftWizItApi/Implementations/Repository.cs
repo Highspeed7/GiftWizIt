@@ -9,7 +9,7 @@ namespace GiftWizItApi.Implementations
 {
     public class Repository<T> : IRepository<T> where T : class
     {
-        private readonly ApplicationDbContext Context;
+        protected readonly ApplicationDbContext Context;
 
         public Repository(ApplicationDbContext context) 
             => Context = context;
