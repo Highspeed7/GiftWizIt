@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GiftWizItApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190414042155_AddWishListItemsManyToManyRel")]
-    partial class AddWishListItemsManyToManyRel
+    [Migration("20190419072542_AddAllOtherTablesAndConstraints")]
+    partial class AddAllOtherTablesAndConstraints
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,43 @@ namespace GiftWizItApi.Migrations
                 .HasAnnotation("ProductVersion", "2.2.1-servicing-10028")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("GiftWizItApi.Models.ContactUsers", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnName("user_id");
+
+                    b.Property<int>("ContactId")
+                        .HasColumnName("contact_id");
+
+                    b.HasKey("UserId", "ContactId");
+
+                    b.HasIndex("ContactId");
+
+                    b.ToTable("ContactUsers");
+                });
+
+            modelBuilder.Entity("GiftWizItApi.Models.Contacts", b =>
+                {
+                    b.Property<int>("ContactId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("contact_id")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnName("email")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnName("name")
+                        .HasMaxLength(100);
+
+                    b.HasKey("ContactId");
+
+                    b.ToTable("Contacts");
+                });
 
             modelBuilder.Entity("GiftWizItApi.Models.GiftItem", b =>
                 {
@@ -86,6 +123,54 @@ namespace GiftWizItApi.Migrations
                     b.ToTable("Items");
                 });
 
+            modelBuilder.Entity("GiftWizItApi.Models.LnksItmsPtnrs", b =>
+                {
+                    b.Property<string>("AffliateLink")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("afflt_link");
+
+                    b.Property<int>("ItemId")
+                        .HasColumnName("item_id");
+
+                    b.Property<int>("PartnerId")
+                        .HasColumnName("partner_id");
+
+                    b.HasKey("AffliateLink");
+
+                    b.HasIndex("ItemId");
+
+                    b.HasIndex("PartnerId");
+
+                    b.ToTable("Links_Items_Partners");
+                });
+
+            modelBuilder.Entity("GiftWizItApi.Models.Partners", b =>
+                {
+                    b.Property<int>("PartnerId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnName("name")
+                        .HasMaxLength(100);
+
+                    b.HasKey("PartnerId");
+
+                    b.ToTable("Partners");
+                });
+
+            modelBuilder.Entity("GiftWizItApi.Models.Users", b =>
+                {
+                    b.Property<string>("UserId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("user_id");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("Users");
+                });
+
             modelBuilder.Entity("GiftWizItApi.Models.WishItem", b =>
                 {
                     b.Property<int>("WListId")
@@ -123,6 +208,19 @@ namespace GiftWizItApi.Migrations
                     b.ToTable("WishLists");
                 });
 
+            modelBuilder.Entity("GiftWizItApi.Models.ContactUsers", b =>
+                {
+                    b.HasOne("GiftWizItApi.Models.Contacts", "Contact")
+                        .WithMany("ContactUsers")
+                        .HasForeignKey("ContactId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("GiftWizItApi.Models.Users", "User")
+                        .WithMany("ContactUsers")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("GiftWizItApi.Models.GiftItem", b =>
                 {
                     b.HasOne("GiftWizItApi.Models.GiftLists", "GiftList")
@@ -133,6 +231,19 @@ namespace GiftWizItApi.Migrations
                     b.HasOne("GiftWizItApi.Models.Items", "Item")
                         .WithMany("GiftItems")
                         .HasForeignKey("Item_Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("GiftWizItApi.Models.LnksItmsPtnrs", b =>
+                {
+                    b.HasOne("GiftWizItApi.Models.Items", "Item")
+                        .WithMany("LinkItemPartners")
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("GiftWizItApi.Models.Partners", "Partner")
+                        .WithMany("LinkItemPartners")
+                        .HasForeignKey("PartnerId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

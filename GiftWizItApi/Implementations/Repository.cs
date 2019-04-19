@@ -1,5 +1,6 @@
 ﻿using GiftWizItApi.Interfaces;
 using GiftWizItApi.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,8 +18,10 @@ namespace GiftWizItApi.Implementations
         public void Add(T entity) 
             => Context.Set<T>().Add(entity);
 
-        public IEnumerable<T> Get() 
-            => Context.Set<T>().ToList();
+        public async Task<IEnumerable<T>> GetAsync()
+        {
+            return await Context.Set<T>().ToListAsync();
+        }
 
         public T GetById(Guid id) 
             => Context.Set<T>().Find(id);

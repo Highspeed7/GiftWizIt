@@ -36,6 +36,7 @@ namespace GiftWizItApi
                 .AddAzureADB2CBearer(options => Configuration.Bind("AzureAdB2C", options));
 
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddSingleton<IUnitOfWork, UnitOfWork>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddCors(options =>
@@ -49,6 +50,9 @@ namespace GiftWizItApi
 
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped<IGiftListRepository, GiftListRepository>();
+            services.AddScoped<IWishListRepository, WishListRepository>();
+            services.AddScoped<IItemRepository, ItemRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

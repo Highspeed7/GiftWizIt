@@ -7,6 +7,27 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20190413071938_GiftListsAddPropertyCreatedAt.cs" />
+    <Compile Remove="Migrations\20190413071938_GiftListsAddPropertyCreatedAt.Designer.cs" />
+    <Compile Remove="Migrations\20190413072151_GiftListsChangedColumnNameCreatedAt.cs" />
+    <Compile Remove="Migrations\20190413072151_GiftListsChangedColumnNameCreatedAt.Designer.cs" />
+    <Compile Remove="Migrations\20190413175005_AddWishListsTable.cs" />
+    <Compile Remove="Migrations\20190413175005_AddWishListsTable.Designer.cs" />
+    <Compile Remove="Migrations\20190413180256_AddedItemsTable.cs" />
+    <Compile Remove="Migrations\20190413180256_AddedItemsTable.Designer.cs" />
+    <Compile Remove="Migrations\20190413181550_ItemsAddingFieldConstraints.cs" />
+    <Compile Remove="Migrations\20190413181550_ItemsAddingFieldConstraints.Designer.cs" />
+    <Compile Remove="Migrations\20190414034532_DefineGiftListsItemsManyToManyRel.cs" />
+    <Compile Remove="Migrations\20190414034532_DefineGiftListsItemsManyToManyRel.Designer.cs" />
+    <Compile Remove="Migrations\20190414035238_UpdateGiftListItemsTableColumNames.cs" />
+    <Compile Remove="Migrations\20190414035238_UpdateGiftListItemsTableColumNames.Designer.cs" />
+    <Compile Remove="Migrations\20190414042155_AddWishListItemsManyToManyRel.cs" />
+    <Compile Remove="Migrations\20190414042155_AddWishListItemsManyToManyRel.Designer.cs" />
+    <Compile Remove="Migrations\20190414184952_AddRemainingEntitiesAndConstraints.cs" />
+    <Compile Remove="Migrations\20190414184952_AddRemainingEntitiesAndConstraints.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.AzureADB2C.UI" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />

@@ -12,5 +12,10 @@ namespace GiftWizItApi.Implementations
         public GiftListRepository(ApplicationDbContext context) : base(context)
         {
         }
+
+        //public async Task<IEnumerable<GiftLists>> GetUserListsAsync()
+        //{
+            
+        //}
     }
 }

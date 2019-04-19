@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace GiftWizItApi.Interfaces
 {
-    public interface IGiftListRepository : IRepository<GiftLists>
+    public interface IWishListRepository : IRepository<WishLists>
     {
-
     }
 }

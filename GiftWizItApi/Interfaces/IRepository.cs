@@ -11,7 +11,7 @@ namespace GiftWizItApi.Interfaces
 
         T GetById(Guid id);
 
-        IEnumerable<T> Get();
+        Task<IEnumerable<T>> GetAsync();
 
         void Remove(Guid id);
     }
