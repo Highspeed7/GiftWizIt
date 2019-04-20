@@ -1,119 +1,142 @@
 body {
-    padding-top: 50px;
-    padding-bottom: 20px;
+  padding-top: 50px;
+  padding-bottom: 20px;
 }
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
-    padding-left: 15px;
-    padding-right: 15px;
-    margin-top: 45px;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-top: 45px;
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
    will truncate terms that are too long to fit in the left column 
 */
 .dl-horizontal dt {
-    white-space: normal;
+  white-space: normal;
 }
 
 /* Set width on the form input elements since they're 100% wide by default */
 input,
 select,
 textarea {
-    max-width: 280px;
+  max-width: 280px;
 }
 
 body {
-    background-image: url(../../assets/images/gf_bg-texture.png);
+  background-image: url(../../assets/images/gf_bg-texture.png);
 }
 
 ul {
-    list-style-type: none;
+  list-style-type: none;
 }
 
-    ul li a {
-        text-decoration: none;
-        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    }
+  ul li a {
+    text-decoration: none;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  }
 
-ul.nav > li {
+  ul.nav > li {
     padding: 10px;
-}
+  }
 
 div.side-ribbon {
-    background-image: linear-gradient(to right, #e6e6e6, #ffffff, #e6e6e6);
-    height: 100%;
-    box-shadow: 10px 0px 25px #888888;
-    position: fixed;
-    top: 0px;
-    z-index: 99998;
+  background-image: linear-gradient(to right, #e6e6e6, #ffffff, #e6e6e6);
+  height: 100%;
+  box-shadow: 10px 0px 25px #888888;
+  position: fixed;
+  top: 0px;
+  z-index: 99998;
 }
 
 div.side-ribbon-content {
-    margin-top: 170px;
+  margin-top: 170px;
 }
 
 nav.top-nav {
-    top: 45px;
-    background-image: linear-gradient(to bottom, #e6e6e6, #ffffff, #e6e6e6);
-    z-index: 99999;
-    box-shadow: 10px 0px 8px #888888;
-    height: 110px;
-    position: fixed;
-    width: 100%;
+  top: 45px;
+  background-image: linear-gradient(to bottom, #e6e6e6, #ffffff, #e6e6e6);
+  z-index: 99999;
+  box-shadow: 10px 0px 8px #888888;
+  height: 110px;
+  position: fixed;
+  width: 100%;
 }
 
 div.logo img {
-    height: 165px;
-    position: relative;
-    left: -15px;
-    z-index: 99999;
+  height: 165px;
+  position: relative;
+  left: -15px;
+  z-index: 99999;
 }
 
 div.main-content {
-    margin-left: 215px;
-    margin-top: 125px;
+  margin-left: 215px;
+  margin-top: 125px;
 }
 
 /* Override default navbar-right margin */
 .navbar-right {
-    margin-right: 0px;
+  margin-right: 0px;
 }
 
 .main-content .alpha-card {
-    background-color: rgba(238, 238, 238, 0.7);
-    padding: 15px;
+  background-color: rgba(238, 238, 238, 0.7);
+  padding: 15px;
 }
 
 div.top-spacer {
-    z-index: 99997;
-    height: 45px;
-    background-image: url(../../assets/images/gf_bg-texture.png);
-    background-position-x: 15px;
-    top: 0px;
-    position: fixed;
-    background-color: blue;
-    width: 100%;
+  z-index: 99997;
+  height: 45px;
+  background-image: url(../../assets/images/gf_bg-texture.png);
+  background-position-x: 15px;
+  top: 0px;
+  position: fixed;
+  background-color: blue;
+  width: 100%;
+}
+
+div.side-ribbon ul {
+  left: -30px;
+  position: relative;
+  width: 330px;
+  font-size: 18px;
+  margin-top: 60px;
+}
+
+div.side-ribbon ul > li {
+  line-height: 110px;
+  background-image: url("../images/225pxTape.png");
+  background-repeat: no-repeat;
+  margin: 20px;
+}
+
+div.side-ribbon ul > li > a {
+  margin-left: 20px;
+  color: black;
+  font-family: cursive;
+  position: relative;
+  top: -10px;
 }
 
 @media (min-width: 1179px) {
-    div .right-vertical-rule {
-        border-right: 2px solid grey;
+  div .right-vertical-rule {
+    border-right: 2px solid grey;
+  }
+
+    div.right-vertical-rule:first-child {
+      margin-bottom: 10px;
     }
 
-        div.right-vertical-rule:first-child {
-            margin-bottom: 10px;
-        }
-
-    span.or-divider {
-        position: relative;
-        right: -15px;
-    }
+  span.or-divider {
+    position: relative;
+    right: -15px;
+  }
 }
 
 @media (max-width: 1179px) {
-    span.or-divider {
-        display: none;
-    }
+  span.or-divider {
+    display: none;
+  }
 }
