@@ -10,5 +10,7 @@ namespace GiftWizItApi.Models
         public string UserId { get; set; }
 
         public List<ContactUsers> ContactUsers { get; set; }
+
+        public List<GiftLists> GiftLists { get; set; }
     }
 }

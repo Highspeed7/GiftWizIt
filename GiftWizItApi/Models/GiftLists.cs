@@ -17,6 +17,9 @@ namespace GiftWizItApi.Models
         [MaxLength(50)]
         public string Name { get; set; }
 
+        public string UserId { get; set; }
+        public Users Users { get; set; }
+
         [Column("created_on")]
         public DateTime CreatedAt { get; set; }
         

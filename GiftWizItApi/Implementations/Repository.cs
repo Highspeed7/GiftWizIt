@@ -23,10 +23,10 @@ namespace GiftWizItApi.Implementations
             return await Context.Set<T>().ToListAsync();
         }
 
-        public T GetById(Guid id) 
+        public T GetById(int id) 
             => Context.Set<T>().Find(id);
 
-        public void Remove(Guid id)
+        public void Remove(int id)
         {
             var type = Context.Set<T>().Find(id);
 

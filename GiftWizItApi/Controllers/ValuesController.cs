@@ -16,7 +16,8 @@ namespace GiftWizItApi.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
-            return new string[] { "value1", "value2" };
+            var test = System.Security.Claims.ClaimTypes.NameIdentifier;
+            return new string[] { "value1", "value2", test };
         }
 
         // GET api/values/5

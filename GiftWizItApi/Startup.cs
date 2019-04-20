@@ -36,7 +36,7 @@ namespace GiftWizItApi
                 .AddAzureADB2CBearer(options => Configuration.Bind("AzureAdB2C", options));
 
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddSingleton<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddCors(options =>
@@ -44,7 +44,7 @@ namespace GiftWizItApi
                 options.AddPolicy(GWAllowSpecificOrigins, builder =>
                 {
                     builder.AllowAnyOrigin();
-                    builder.WithHeaders("Authorization");
+                    builder.WithHeaders("Authorization", "Content-Type");
                 });
             });
 

@@ -1,7 +1,10 @@
-﻿using GiftWizItApi.Interfaces;
+﻿using GiftWizItApi.Controllers.dtos;
+using GiftWizItApi.Interfaces;
 using GiftWizItApi.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -17,5 +20,21 @@ namespace GiftWizItApi.Implementations
         //{
             
         //}
+
+        public void Add(GiftListDto glist)
+        {
+            var giftList = new GiftLists
+            {
+                Name = glist.Name,
+                UserId = glist.UserId
+            };
+
+            base.Add(giftList);
+        }
+
+        public async Task<IEnumerable<GiftLists>> GetUserLists(string userId)
+        {
+            return await Context.GiftLists.Where(gl => gl.UserId == userId).ToListAsync();
+        }
     }
 }

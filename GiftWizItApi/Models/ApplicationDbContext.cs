@@ -33,6 +33,14 @@ namespace GiftWizItApi.Models
             modelBuilder.Entity<GiftLists>()
                 .Property(gl => gl.CreatedAt)
                 .ValueGeneratedOnAdd();
+            modelBuilder.Entity<GiftLists>()
+                .Property(gl => gl.UserId)
+                .HasColumnName("user_id");
+            modelBuilder.Entity<GiftLists>()
+                .HasOne(gl => gl.Users)
+                .WithMany(u => u.GiftLists)
+                .HasForeignKey(gl => gl.UserId);
+                
 
             // WishLists Configuration
             modelBuilder.Entity<WishLists>()

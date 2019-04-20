@@ -1,4 +1,4 @@
-import { Injectable, OnDestroy} from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { WindowRefService } from 'src/app/window-ref.service';
 import { Router } from '@angular/router';
 import { AccountsService } from 'src/app/accounts.service';
@@ -42,9 +42,13 @@ export class AuthService implements OnDestroy {
     if (!cacheRes) {
       this.msal.loginPopup(authConfig.config.b2cScopes).then((r) => {
         this.msal.acquireTokenSilent(authConfig.config.b2cScopes).then((res) => {
-          this.http.get("https://localhost:44327/api/values", { headers: { 'Authorization': `bearer ${res}` } }).subscribe((response) => {
-            console.log(response);
-          });
+          console.log("token response: " + res);
+          var user: any = this.msal.getUser();
+          // Register the user in database.
+          this.http.post("https://localhost:44327/api/Users", { userId: `${user.idToken.oid}` }, { headers: { 'Authorization': `bearer ${res}` } })
+            .subscribe((response) => {
+              console.log(response);
+            });
         });
       });
     } else {

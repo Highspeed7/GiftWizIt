@@ -9,10 +9,10 @@ namespace GiftWizItApi.Interfaces
     {
         void Add(T entity);
 
-        T GetById(Guid id);
+        T GetById(int id);
 
         Task<IEnumerable<T>> GetAsync();
 
-        void Remove(Guid id);
+        void Remove(int id);
     }
 }
