@@ -26,7 +26,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\app\authentication\guards\auth.guard.ts" />
     <None Remove="ClientApp\src\app\configs\authConfig.ts" />
+    <None Remove="ClientApp\src\app\configs\protectedResource.ts" />
+    <None Remove="ClientApp\src\app\gift-list\models\gift-list.ts" />
     <None Remove="ClientApp\src\app\models\appInfo.ts" />
   </ItemGroup>
 
@@ -38,7 +41,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\authentication\guards\auth.guard.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\configs\authConfig.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\configs\protectedResource.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\gift-list\models\gift-list.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\appInfo.ts" />
   </ItemGroup>
 

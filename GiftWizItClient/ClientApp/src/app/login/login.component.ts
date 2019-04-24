@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { AccountsService } from '../accounts.service';
 import { WindowRefService } from '../window-ref.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../authentication/services/auth.service';
 
 @Component({
@@ -20,11 +20,17 @@ export class LoginComponent implements OnInit {
   constructor(
     private authSvc: AuthService,
     private windowRef: WindowRefService,
-    private router: Router) {
-    this.window = this.windowRef.nativeWindow;
-  }
+    private route: ActivatedRoute
+    ) {
+      this.window = this.windowRef.nativeWindow;
+    }
 
   ngOnInit() {
-    this.authSvc.login();
+    if (this.route.snapshot.queryParams.redirect != null) {
+      this.authSvc.redirectUrl = this.route.snapshot.queryParams.redirect;
+      this.authSvc.login();
+    } else {
+      this.authSvc.login();
+    }
   }
 }

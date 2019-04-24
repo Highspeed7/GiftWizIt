@@ -1,0 +1,25 @@
+<div class="row">
+  <div class="col-md content">
+    <h2>Gift Lists</h2>
+    <app-create-gift-list (onListAdded)="onListAdded($event)"></app-create-gift-list>
+    <div class="card" *ngFor="let list of giftLists">
+      <div class="row">
+        <ng-template [ngIf]="giftLists.length > 0" [ngIfElse]="noGifts">
+          <div class="col-md-10">
+            <h4>{{list.name}}</h4>
+          </div>
+          <div class="col-md-2">
+            <span class="far fa-trash-alt list-trash" (click)="deleteList(list)"></span>
+          </div>
+        </ng-template>
+        <ng-template #noGifts>
+          <div class="col-md default-height">
+            <h5>There are currently no gift lists.</h5>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>
+
+

@@ -1,0 +1,9 @@
+.default-height {
+  min-height: 250px;
+}
+
+span.list-trash {
+  position: relative;
+  top: 5px;
+  cursor: pointer;
+}

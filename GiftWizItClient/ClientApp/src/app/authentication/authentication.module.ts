@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MsalModule, MsalService } from '@azure/msal-angular';
 import { HttpClientModule } from '@angular/common/http'
 import * as env from '../../environments/environment';
+import { protectedResourceMap } from '../configs/protectedResource';
 
 @NgModule({
   declarations: [],
@@ -15,6 +16,7 @@ import * as env from '../../environments/environment';
       consentScopes: ["user_impersonation"],
       redirectUri: env.environment.redirectUri,
       postLogoutRedirectUri: env.environment.redirectUri,
+      // protectedResourceMap: protectedResourceMap,
       cacheLocation: "localStorage"
     })
   ],

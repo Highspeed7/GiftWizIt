@@ -14,6 +14,7 @@ import { CommonModule } from '@angular/common';
 import { AuthenticationModule } from './authentication/authentication.module';
 import { MsalService } from '@azure/msal-angular';
 import { AuthService } from './authentication/services/auth.service';
+import { GiftListsModule } from './gift-list/gift-lists.module';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { AuthService } from './authentication/services/auth.service';
     ReactiveFormsModule,
     CommonModule,
     AuthenticationModule,
+    GiftListsModule,
     RouterModule.forRoot([
       {
         path: "login",

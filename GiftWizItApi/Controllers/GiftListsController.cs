@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace GiftWizItApi.Controllers
@@ -23,24 +25,30 @@ namespace GiftWizItApi.Controllers
 
         [Route("api/GiftLists/")]
         [HttpPost]
-        public async Task<int> CreateList(GiftListDto glist)
+        public async Task<ActionResult> CreateList(GiftListDto glist)
         {
+            // TODO: Check for valid user id's
+            // TODO: Insure unique gift list names
+            // TODO: If a previously deleted list name is the same as the one provided, re-enable it without items.
+
             // Check for user in database
             var user = await _unitOfWork.Users.GetUserByIdAsync(glist.UserId);
             if (user == null)
             {
-                var newUser = new Users
-                {
-                    UserId = glist.UserId
-                };
-                _unitOfWork.Users.Add(newUser);
+                return StatusCode((int)HttpStatusCode.BadRequest);
             }
             else
             {
                 _unitOfWork.GiftLists.Add(glist);
             }
 
-            return await _unitOfWork.CompleteAsync();
+            var result = await _unitOfWork.CompleteAsync();
+            if (result > 0)
+            {
+                return StatusCode((int)HttpStatusCode.OK, result);
+            }
+            // TODO: Device custom status codes for different errors.
+            return StatusCode((int)HttpStatusCode.InternalServerError);
         }
 
         [Route("api/GiftLists/")]
@@ -48,6 +56,18 @@ namespace GiftWizItApi.Controllers
         public async Task<IEnumerable<GiftLists>> GetUserGiftLists(string userId)
         {
             return await _unitOfWork.GiftLists.GetUserLists(userId);
+        }
+
+        [Route("api/GiftLists/")]
+        [HttpDelete]
+        public async Task<ActionResult> DeleteList(GiftListDto glist)
+        {
+            // TODO: Delete items associated with the list.
+
+            await _unitOfWork.GiftLists.DeleteGiftList(glist.Id);
+            var result = await _unitOfWork.CompleteAsync();
+
+            return StatusCode((int)HttpStatusCode.OK, result);
         }
     }
 }

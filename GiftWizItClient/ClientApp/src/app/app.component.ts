@@ -28,7 +28,7 @@ export class AppComponent implements OnInit {
     this.window = this.windowRef.nativeWindow;
     
     // TODO: remove in favor of reading cachedToken to determine logged in state.
-    this.acntSvc.logingedIn$.subscribe((l: boolean) => {
+    this.acntSvc.loggedIn$.subscribe((l: boolean) => {
       this.isLoggedIn = l;
       this.setDisplayName();
     });

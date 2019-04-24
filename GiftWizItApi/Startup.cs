@@ -43,7 +43,8 @@ namespace GiftWizItApi
             {
                 options.AddPolicy(GWAllowSpecificOrigins, builder =>
                 {
-                    builder.AllowAnyOrigin();
+                    builder.WithOrigins("https://localhost:44347",
+                                        "https://www.giftwizit.com").AllowAnyMethod();
                     builder.WithHeaders("Authorization", "Content-Type");
                 });
             });

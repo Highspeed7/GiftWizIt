@@ -7,8 +7,8 @@ import * as authConfig from './configs/authConfig';
   providedIn: 'root'
 })
 export class AccountsService {
-  public loggedInSrc: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(null);
-  public logingedIn$ = this.loggedInSrc.asObservable();
+  public loggedInSrc: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  public loggedIn$ = this.loggedInSrc.asObservable();
 
   constructor(
     private msal: MsalService) { }

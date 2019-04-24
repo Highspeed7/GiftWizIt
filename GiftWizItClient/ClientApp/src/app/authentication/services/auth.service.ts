@@ -13,6 +13,7 @@ import { Subscription } from 'rxjs';
 })
 
 export class AuthService implements OnDestroy {
+  public redirectUrl = "/";
   private window: any;
   private appInfo: AppInfo = new AppInfo();
   private isLoggedInSub: Subscription;
@@ -33,7 +34,7 @@ export class AuthService implements OnDestroy {
       // TODO: replace with modeled property.
       this.appInfo.userInfo = user;
       this.window.localStorage.setItem("gw_app", JSON.stringify(this.appInfo));
-      this.router.navigate(["/"]);
+
     });
   }
 
@@ -47,13 +48,13 @@ export class AuthService implements OnDestroy {
           // Register the user in database.
           this.http.post("https://localhost:44327/api/Users", { userId: `${user.idToken.oid}` }, { headers: { 'Authorization': `bearer ${res}` } })
             .subscribe((response) => {
-              console.log(response);
+              this.router.navigate([this.redirectUrl]);
             });
         });
       });
     } else {
-      // We're already logged in so redirect back to main page.
-      this.router.navigate(["/"]);
+      this.acntSvc.loggedInSrc.next(true);
+      this.router.navigate([this.redirectUrl]);
     }
   }
 
