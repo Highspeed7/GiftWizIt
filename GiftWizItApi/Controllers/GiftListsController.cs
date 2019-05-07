@@ -27,25 +27,28 @@ namespace GiftWizItApi.Controllers
         [HttpPost]
         public async Task<ActionResult> CreateList(GiftListDto glist)
         {
+            GiftLists insertedList = new GiftLists();
             // TODO: Check for valid user id's
             // TODO: Insure unique gift list names
             // TODO: If a previously deleted list name is the same as the one provided, re-enable it without items.
 
             // Check for user in database
             var user = await _unitOfWork.Users.GetUserByIdAsync(glist.UserId);
+
             if (user == null)
             {
                 return StatusCode((int)HttpStatusCode.BadRequest);
             }
             else
             {
-                _unitOfWork.GiftLists.Add(glist);
+                insertedList = _unitOfWork.GiftLists.Add(glist);
             }
 
             var result = await _unitOfWork.CompleteAsync();
+
             if (result > 0)
             {
-                return StatusCode((int)HttpStatusCode.OK, result);
+                return StatusCode((int)HttpStatusCode.OK, insertedList);
             }
             // TODO: Device custom status codes for different errors.
             return StatusCode((int)HttpStatusCode.InternalServerError);

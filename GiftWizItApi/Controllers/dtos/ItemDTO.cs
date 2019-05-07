@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace GiftWizItApi.Models
+namespace GiftWizItApi.Controllers.dtos
 {
-    public class Partners
+    public class ItemDTO
     {
-        public int PartnerId { get; set; }
         public string Name { get; set; }
+        public string Url { get; set; }
+        public string Partner { get; set; }
         public string Domain { get; set; }
-
-        public List<LnksItmsPtnrs> LinkItemPartners { get; set; }
     }
 }

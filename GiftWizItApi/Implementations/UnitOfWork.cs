@@ -17,15 +17,22 @@ namespace GiftWizItApi.Implementations
             GiftLists = new GiftListRepository(_context);
             Users = new UserRepository(_context);
             WishLists = new WishListRepository(_context);
+            WishItems = new WishItemRepository(_context);
+            LnksItmsPtns = new LnksItmsPtnrsRepository(_context);
+            Partners = new PartnersRepository(_context);
         }
 
         public IGiftListRepository GiftLists { get; private set; }
         public IUserRepository Users { get; private set; }
         public IWishListRepository WishLists { get; private set; }
+        public IWishItemRepository WishItems { get; private set; }
+        public ILnksItmsPtnrsRepository LnksItmsPtns { get; private set; }
+        public IPartnersRepository Partners { get; private set; }
 
         public async Task<int> CompleteAsync()
         {
-            return await _context.SaveChangesAsync();
+            var res = await _context.SaveChangesAsync();
+            return res;
         }
 
         public void Dispose()

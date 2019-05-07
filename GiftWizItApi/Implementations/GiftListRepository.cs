@@ -21,7 +21,7 @@ namespace GiftWizItApi.Implementations
             
         //}
 
-        public void Add(GiftListDto glist)
+        public GiftLists Add(GiftListDto glist)
         {
             var giftList = new GiftLists
             {
@@ -30,6 +30,7 @@ namespace GiftWizItApi.Implementations
             };
 
             base.Add(giftList);
+            return giftList;
         }
 
         public async Task<IEnumerable<GiftLists>> GetUserLists(string userId)

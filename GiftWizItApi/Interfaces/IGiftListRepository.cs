@@ -9,7 +9,7 @@ namespace GiftWizItApi.Interfaces
 {
     public interface IGiftListRepository : IRepository<GiftLists>
     {
-        void Add(GiftListDto glist);
+        GiftLists Add(GiftListDto glist);
         Task<IEnumerable<GiftLists>> GetUserLists(string userId);
         Task DeleteGiftList(int listId);
     }
