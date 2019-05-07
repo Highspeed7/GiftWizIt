@@ -33,5 +33,12 @@ namespace GiftWizItApi.Controllers
             
             return await _unitOfWork.CompleteAsync();
         }
+
+        [Route("api/Users/GetUserId")]
+        [HttpGet]
+        public string GetUserId()
+        {
+            return User.Claims.First(e => e.Type == "http://schemas.microsoft.com/identity/claims/objectidentifier").Value;
+        }
     }
 }

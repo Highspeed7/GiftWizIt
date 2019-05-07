@@ -44,7 +44,8 @@ namespace GiftWizItApi
                 options.AddPolicy(GWAllowSpecificOrigins, builder =>
                 {
                     builder.WithOrigins("https://localhost:44347",
-                                        "https://www.giftwizit.com").AllowAnyMethod();
+                                        "https://www.giftwizit.com",
+                                        "chrome-extension://adofnoobbeoahcnapncpcndebfcfdcbi").AllowAnyMethod();
                     builder.WithHeaders("Authorization", "Content-Type");
                 });
             });

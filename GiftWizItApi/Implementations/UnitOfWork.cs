@@ -16,10 +16,12 @@ namespace GiftWizItApi.Implementations
             _context = context;
             GiftLists = new GiftListRepository(_context);
             Users = new UserRepository(_context);
+            WishLists = new WishListRepository(_context);
         }
 
         public IGiftListRepository GiftLists { get; private set; }
         public IUserRepository Users { get; private set; }
+        public IWishListRepository WishLists { get; private set; }
 
         public async Task<int> CompleteAsync()
         {

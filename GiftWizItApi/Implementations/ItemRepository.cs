@@ -13,5 +13,10 @@ namespace GiftWizItApi.Implementations
         {
 
         }
+
+        public void Add(string userId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

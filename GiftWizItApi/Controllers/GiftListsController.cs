@@ -53,8 +53,10 @@ namespace GiftWizItApi.Controllers
 
         [Route("api/GiftLists/")]
         [HttpGet]
-        public async Task<IEnumerable<GiftLists>> GetUserGiftLists(string userId)
+        public async Task<IEnumerable<GiftLists>> GetUserGiftLists()
         {
+            var userId = User.Claims.First(e => e.Type == "http://schemas.microsoft.com/identity/claims/objectidentifier").Value;
+
             return await _unitOfWork.GiftLists.GetUserLists(userId);
         }
 

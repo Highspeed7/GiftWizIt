@@ -55,6 +55,11 @@ namespace GiftWizItApi.Models
                 .Entity<WishLists>()
                 .Property(wl => wl.CreatedAt)
                 .ValueGeneratedOnAdd();
+            modelBuilder
+                .Entity<WishLists>()
+                .HasOne(wl => wl.Users)
+                .WithMany(u => u.WishLists)
+                .HasForeignKey(wl => wl.UserId);
 
             // Items Configuration
             modelBuilder.Entity<Items>().HasKey(i => i.Item_Id);

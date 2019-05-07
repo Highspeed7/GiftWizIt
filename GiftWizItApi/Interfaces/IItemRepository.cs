@@ -8,6 +8,6 @@ namespace GiftWizItApi.Interfaces
 {
     public interface IItemRepository : IRepository<Items>
     {
-
+        void Add(string userId);
     }
 }

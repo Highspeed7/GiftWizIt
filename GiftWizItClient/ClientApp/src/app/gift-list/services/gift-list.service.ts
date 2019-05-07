@@ -24,7 +24,7 @@ export class GiftListService {
     var access = this.msal.getCachedTokenInternal(authConfig.config.b2cScopes);
     var userInfo: any = this.msal.getUser();
 
-    return this.http.get(`${this.apiUrl}?userId=${userInfo.idToken.oid}`, { headers: { 'Authorization': `bearer ${access.token}` } })
+    return this.http.get(`${this.apiUrl}`, { headers: { 'Authorization': `bearer ${access.token}` } })
       .map(res => res as GiftList[]);
   }
 
