@@ -34,7 +34,7 @@ namespace GiftWizItApi.Controllers
             var name = User.Claims.First(e => e.Type == "name").Value;
             var listName = $"{name}'s Wish List";
             // Check if wish list already exists
-            var wishLists = await _unitOfWork.WishLists.GetWishListsAsync(listName);
+            var wishLists = await _unitOfWork.WishLists.GetWishListsAsync(listName, userId);
             
             // If Wish list exists
             if(wishLists.Count() > 0)

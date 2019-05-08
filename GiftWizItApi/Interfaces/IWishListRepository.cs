@@ -8,6 +8,6 @@ namespace GiftWizItApi.Interfaces
 {
     public interface IWishListRepository : IRepository<WishLists>
     {
-        Task<IEnumerable<WishLists>> GetWishListsAsync(string listName);
+        Task<IEnumerable<WishLists>> GetWishListsAsync(string listName, string userId);
     }
 }
