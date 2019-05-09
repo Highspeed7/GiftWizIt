@@ -69,8 +69,11 @@ namespace GiftWizItApi.Models
                 .ValueGeneratedOnAdd();
             modelBuilder.Entity<Items>()
                 .Property(i => i.Name)
-                .HasMaxLength(50)
+                .HasMaxLength(250)
                 .IsRequired(true);
+            modelBuilder.Entity<Items>()
+                .Property(i => i.Image)
+                .HasMaxLength(450);
 
             //GiftList-Items Linking table configuration
             modelBuilder.Entity<GiftItem>()
@@ -165,7 +168,7 @@ namespace GiftWizItApi.Models
             // Links-Items-Partners Linking table configuration
             modelBuilder.Entity<LnksItmsPtnrs>()
                 .ToTable("Links_Items_Partners")
-                .HasKey(lip => lip.AffliateLink);
+                .HasKey(lip => new { lip.ItemId, lip.PartnerId });
             modelBuilder.Entity<LnksItmsPtnrs>()
                 .Property(lip => lip.AffliateLink)
                 .HasColumnName("afflt_link");

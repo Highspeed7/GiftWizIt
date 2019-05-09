@@ -1,7 +1,7 @@
 {
   "compileOnSave": false,
   "include": [
-    "./src"
+    "./src", "../../GiftWizItApi/Mapping"
   ],
   "angularCompilerOptions": {
     "enableIvy": false

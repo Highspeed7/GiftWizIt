@@ -16,6 +16,7 @@ using GiftWizItApi.Models;
 using Microsoft.EntityFrameworkCore;
 using GiftWizItApi.Interfaces;
 using GiftWizItApi.Implementations;
+using AutoMapper;
 
 namespace GiftWizItApi
 {
@@ -32,6 +33,7 @@ namespace GiftWizItApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAutoMapper(typeof(Startup));
             services.AddAuthentication(AzureADB2CDefaults.BearerAuthenticationScheme)
                 .AddAzureADB2CBearer(options => Configuration.Bind("AzureAdB2C", options));
 
@@ -46,7 +48,7 @@ namespace GiftWizItApi
                     builder.WithOrigins("https://localhost:44347",
                                         "https://www.giftwizit.com",
                                         "chrome-extension://adofnoobbeoahcnapncpcndebfcfdcbi").AllowAnyMethod();
-                    builder.WithHeaders("Authorization", "Content-Type");
+                    builder.WithHeaders("Authorization", "Content-Type", "Cache-Control");
                 });
             });
 

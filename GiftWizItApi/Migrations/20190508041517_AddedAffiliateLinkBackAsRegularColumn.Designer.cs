@@ -4,14 +4,16 @@ using GiftWizItApi.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GiftWizItApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190508041517_AddedAffiliateLinkBackAsRegularColumn")]
+    partial class AddedAffiliateLinkBackAsRegularColumn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -116,13 +118,12 @@ namespace GiftWizItApi.Migrations
                         .HasDefaultValueSql("GETUTCDATE()");
 
                     b.Property<string>("Image")
-                        .HasColumnName("image")
-                        .HasMaxLength(450);
+                        .HasColumnName("image");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnName("name")
-                        .HasMaxLength(250);
+                        .HasMaxLength(50);
 
                     b.Property<string>("UPC")
                         .HasColumnName("upc");

@@ -14,7 +14,7 @@ namespace GiftWizItApi.Implementations
         {
         }
 
-        public WishItem Add(string userId, string listName, ItemDTO item, WishLists wList = null)
+        public WishItem Add(string userId, string listName, Items item, WishLists wList = null)
         {
             WishLists wishList = new WishLists();
 
@@ -33,6 +33,7 @@ namespace GiftWizItApi.Implementations
             var newItem = new Items
             {
                 Name = item.Name,
+                Image = item.Image
             };
 
             var wishItem = new WishItem

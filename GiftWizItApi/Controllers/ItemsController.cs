@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using AutoMapper;
 using GiftWizItApi.Controllers.dtos;
 using GiftWizItApi.Interfaces;
 using GiftWizItApi.Models;
@@ -17,9 +18,11 @@ namespace GiftWizItApi.Controllers
     public class ItemsController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper mapper;
 
-        public ItemsController(IWishListRepository repository, IUnitOfWork unitOfWork) {
-            _unitOfWork = unitOfWork;    
+        public ItemsController(IWishListRepository repository, IUnitOfWork unitOfWork, IMapper mapper) {
+            _unitOfWork = unitOfWork;
+            this.mapper = mapper;
         }
 
         [Route("api/Items")]
@@ -51,12 +54,18 @@ namespace GiftWizItApi.Controllers
             }
             else
             {
-                insertedWishitem = _unitOfWork.WishItems.Add(userId, listName, item, existingWishList);
+                Items newItem = new Items();
+                // Map item dto to Items
+                mapper.Map(item, newItem);
+                // Convert to Items Object
+                // TODO: Check to make sure item doesn't already exist in item's table.
+                insertedWishitem = _unitOfWork.WishItems.Add(userId, listName, newItem, existingWishList);
                 var result = await _unitOfWork.CompleteAsync();
                 if (result > 0)
                 {
                     try
                     {
+                        // Check to make sure the affiliate link isn't already in the items list.
                         // Now update the link-items-partners table
                         _unitOfWork.LnksItmsPtns.Add(item.Url, insertedWishitem.Item.Item_Id, partner.PartnerId);
                         await _unitOfWork.CompleteAsync();

@@ -41,6 +41,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\GiftWizItApi\GiftWizItApi.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <TypeScriptCompile Include="ClientApp\src\app\authentication\guards\auth.guard.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\configs\authConfig.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\configs\protectedResource.ts" />

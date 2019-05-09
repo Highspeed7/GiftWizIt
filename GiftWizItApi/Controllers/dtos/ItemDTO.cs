@@ -9,7 +9,7 @@ namespace GiftWizItApi.Controllers.dtos
     {
         public string Name { get; set; }
         public string Url { get; set; }
-        public string Partner { get; set; }
         public string Domain { get; set; }
+        public string Image { get; set; }
     }
 }
