@@ -15,12 +15,14 @@ import { AuthenticationModule } from './authentication/authentication.module';
 import { MsalService } from '@azure/msal-angular';
 import { AuthService } from './authentication/services/auth.service';
 import { GiftListsModule } from './gift-list/gift-lists.module';
+import { WishListComponent } from './wish-list/wish-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LeftRibbonComponent,
-    LoginComponent
+    LoginComponent,
+    WishListComponent
   ],
   imports: [
     BrowserModule,
@@ -33,6 +35,10 @@ import { GiftListsModule } from './gift-list/gift-lists.module';
       {
         path: "login",
         component: LoginComponent
+      },
+      {
+        path: "wish-list",
+        component: WishListComponent
       }
     ])
   ],

@@ -1,0 +1,15 @@
+<div class="row">
+  <div class="col-md content">
+    <h2>Wish List</h2>
+    <div class="card" *ngFor="let item of wishList">
+      <div class="row">
+        <div class="col-sm-1">
+          <img style="width: 50px;" src="{{item.item.image}}" />
+        </div>
+        <div class="col-sm-11">
+          <h5>{{item.item.name}}</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

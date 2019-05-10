@@ -1,6 +1,7 @@
 ﻿using GiftWizItApi.Controllers.dtos;
 using GiftWizItApi.Interfaces;
 using GiftWizItApi.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,6 +44,16 @@ namespace GiftWizItApi.Implementations
             };
             base.Add(wishItem);
             return wishItem;
+        }
+
+        public async Task<IEnumerable<WishItem>> GetWishItem(string userId)
+        {
+            var result = await Context.WishItems
+                            .Include(wi => wi.WishList)
+                            .Include(wi => wi.Item)
+                            .Where(wi => wi.WishList.UserId == userId).ToListAsync();
+
+            return result;
         }
     }
 }

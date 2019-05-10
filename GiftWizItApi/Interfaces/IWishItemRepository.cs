@@ -10,5 +10,6 @@ namespace GiftWizItApi.Interfaces
     public interface IWishItemRepository : IRepository<WishItem>
     {
         WishItem Add(string userId, string listName, Items item, WishLists wishList = null);
+        Task<IEnumerable<WishItem>> GetWishItem(string userId);
     }
 }

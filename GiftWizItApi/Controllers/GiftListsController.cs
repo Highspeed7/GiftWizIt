@@ -18,7 +18,7 @@ namespace GiftWizItApi.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        public GiftListsController(IGiftListRepository repository, IUnitOfWork unitOfWork)
+        public GiftListsController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
