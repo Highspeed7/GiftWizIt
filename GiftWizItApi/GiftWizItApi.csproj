@@ -25,6 +25,8 @@
     <Compile Remove="Migrations\20190414042155_AddWishListItemsManyToManyRel.Designer.cs" />
     <Compile Remove="Migrations\20190414184952_AddRemainingEntitiesAndConstraints.cs" />
     <Compile Remove="Migrations\20190414184952_AddRemainingEntitiesAndConstraints.Designer.cs" />
+    <Compile Remove="Migrations\20190510084211_Test.cs" />
+    <Compile Remove="Migrations\20190510084211_Test.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

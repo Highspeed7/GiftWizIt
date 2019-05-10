@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace GiftWizItApi.Controllers.dtos
+namespace GiftWizItApi.Models
 {
-    public class WishListDto
+    public class WishListRaw
     {
         public int Item_Id { get; set; }
         public int W_List_Id { get; set; }
