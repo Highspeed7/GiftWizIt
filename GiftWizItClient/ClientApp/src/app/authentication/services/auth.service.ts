@@ -46,6 +46,7 @@ export class AuthService implements OnDestroy {
           console.log("token response: " + res);
           var user: any = this.msal.getUser();
           // Register the user in database.
+          // TODO: Move to server
           this.http.post("https://localhost:44327/api/Users", { userId: `${user.idToken.oid}` }, { headers: { 'Authorization': `bearer ${res}` } })
             .subscribe((response) => {
               this.router.navigate([this.redirectUrl]);

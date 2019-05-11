@@ -12,17 +12,13 @@ import { Router } from '@angular/router';
 export class GiftListService {
 
   private apiUrl: string = "https://localhost:44327/api/GiftLists";
-  private apiToken: string;
 
   constructor(private http: HttpClient,
     private msal: MsalService,
-    private authSvc: AuthService,
-    private router: Router
   ) { }
 
   public getLists() {
     var access = this.msal.getCachedTokenInternal(authConfig.config.b2cScopes);
-    var userInfo: any = this.msal.getUser();
 
     return this.http.get(`${this.apiUrl}`, { headers: { 'Authorization': `bearer ${access.token}` } })
       .map(res => res as GiftList[]);

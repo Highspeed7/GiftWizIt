@@ -1,7 +1,15 @@
 <div class="row">
   <div class="col-md content">
     <h2>Your Wish List</h2>
-    <div class="card" *ngFor="let item of wishList">
+    <div class="row">
+      <gw-gift-tag *ngFor="let item of wishList">
+        <div class="col-4 pt-3 pr-0" item-img>
+          <img [ngClass]="'gift-tag-img'" src="{{item.image}}" />
+        </div>
+        <a [ngClass]="'truncate item-lnk'" item-link href="{{item.afflt_Link}}" target="_blank">{{item.itm_Name}}</a>
+      </gw-gift-tag>
+    </div>
+    <!--<div class="card" *ngFor="let item of wishList">
       <div class="row">
         <div class="col-sm-1">
           <img style="width: 50px;" src="{{item.image}}" />
@@ -10,6 +18,6 @@
           <h5><a href="{{item.afflt_Link}}" target="_blank">{{item.itm_Name}}</a></h5>
         </div>
       </div>
-    </div>
+    </div>-->
   </div>
 </div>

@@ -1,0 +1,54 @@
+.gift-tag {
+  /*background: linear-gradient(to bottom, #8f6B29, #FDE08D, #DF9F28);*/
+  background: #fff4c9;
+  border: #dcdcdc;
+  border-radius: 10px 10px 10px 10px;
+  color: #23bbce;
+  display: inline-block;
+  font-size: 20px;
+  height: 100px;
+  left: 0;
+  line-height: 40px;
+  margin: 20px;
+  padding: 0 10px 0 15px;
+  position: relative;
+  top: 0;
+  width: 210px;
+}
+
+  .gift-tag:hover {
+    box-shadow: 10px 10px 10px grey;
+    cursor: pointer;
+  }
+
+  /*.gift-tag:after {
+  border-bottom: 50px transparent solid;
+  border-left: 30px white solid;
+  border-top: 50px transparent solid;
+  content: '';
+  height: 0px;
+  right: -30px;
+  position: absolute;
+  top: 0;
+  width: 0px;
+}*/
+
+  .gift-tag:before {
+    background: white;
+    border: 2px #aa8842 solid;
+    border-radius: 50%;
+    content: '';
+    height: 20px;
+    left: 185px;
+    position: absolute;
+    width: 20px;
+    top: 6px;
+    z-index: 99997;
+  }
+
+.tag-text {
+  font-size: 20px;
+  color: black;
+  font-family: Brush Script MT, Brush;
+  line-height: 1.0;
+}

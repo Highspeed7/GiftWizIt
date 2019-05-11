@@ -95,7 +95,7 @@ div.main-view .content {
 }
 
 div.top-spacer {
-  z-index: 99997;
+  z-index: 99998;
   height: 45px;
   background-image: url(../../assets/images/gf_bg-texture.png);
   background-position-x: 15px;
@@ -120,13 +120,14 @@ div.side-ribbon ul > li {
   margin: 20px;
 }
 
-div.side-ribbon ul > li > a {
-  margin-left: 20px;
-  color: black;
-  font-family: cursive;
-  position: relative;
-  top: -10px;
-}
+  div.side-ribbon ul > li > a {
+    margin-left: 20px;
+    color: black;
+    font-family: cursive;
+    position: relative;
+    top: -10px;
+    font-weight: 900;
+  }
 
 div.side-ribbon ul > li:hover {
   animation: shake 0.5s;

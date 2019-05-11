@@ -1,0 +1,13 @@
+<div class="col-sm gift-tag">
+  <div class="row">
+    <ng-content select="[item-img]"></ng-content>
+    <div class="col-7">
+      <span class="tag-text">To: </span><br />
+      <span class="tag-text">From: </span>
+    </div>
+  </div>
+  <div class="row">
+    <ng-content select="[item-link]"></ng-content>
+  </div>
+  <ng-content></ng-content>
+</div>
