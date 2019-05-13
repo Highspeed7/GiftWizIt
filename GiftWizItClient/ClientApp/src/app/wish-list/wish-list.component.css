@@ -13,12 +13,19 @@
 a.item-lnk {
   line-height: 1.0;
   font-size: 20px;
-  color: black;
+  text-decoration: initial;
   padding-left: 5px;
   font-family: Brush Script MT, Brush;
 }
 
 a.item-lnk:hover {
-  color: white;
+  color: darkturquoise;
   text-decoration: none;
+}
+
+div.itm-checkbox {
+  position: relative;
+  top: -105px;
+  right: -174px;
+  z-index: 99999;
 }

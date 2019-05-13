@@ -39,7 +39,7 @@ export class CreateGiftListComponent implements OnInit {
 
     this.glService.createList(glist).subscribe((res) => {
       console.log(res)
-      if (res > 0) {
+      if (res !== null) {
         this.addListForm.reset();
         this.listAdded(glist);
       }

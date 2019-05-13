@@ -16,7 +16,6 @@ import { MsalService } from '@azure/msal-angular';
 import { AuthService } from './authentication/services/auth.service';
 import { GiftListsModule } from './gift-list/gift-lists.module';
 import { WishListModule } from './wish-list/wish-list.module';
-import { GiftTagComponent } from './gift-tag/gift-tag.component';
 
 @NgModule({
   declarations: [

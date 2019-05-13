@@ -1,0 +1,30 @@
+.icon-container {
+  display: inline-block;
+}
+
+div.icon-container {
+  width: 30px;
+  font-size: 18px;
+  text-align: center;
+  height: 30px;
+  padding-top: 2px;
+  margin-bottom: 8px;
+}
+
+div.active {
+  border-radius: 50%;
+  background-color: white;
+}
+
+span.fa-dolly {
+  cursor: pointer;
+}
+
+span.fa-trash {
+  cursor: pointer;
+}
+
+span.fa-times {
+  cursor: pointer;
+  color: red;
+}

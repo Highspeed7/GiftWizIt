@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { WishListService } from './services/wish-list.service';
 import { HttpModule } from '@angular/http';
 import { GiftTagComponent } from '../gift-tag/gift-tag.component';
+import { ListActionModule } from '../list-action/list-action.module';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { GiftTagComponent } from '../gift-tag/gift-tag.component';
   imports: [
     CommonModule,
     HttpModule,
+    ListActionModule,
     RouterModule.forRoot([
       {
         path: "wish-list",

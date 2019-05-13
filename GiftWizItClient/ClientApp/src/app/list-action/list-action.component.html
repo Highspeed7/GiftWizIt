@@ -1,0 +1,11 @@
+<div class="row actions">
+  <div class="col-2">
+    <gw-list-action-item icon="fas fa-dolly" title="Move" [isActive]="moveActionActive" (onActionClicked)="actionClicked($event)"></gw-list-action-item>
+    <gw-list-action-item icon="fas fa-trash" title="Delete" [isActive]="trashActionActive" (onActionClicked)="actionClicked($event)"></gw-list-action-item>
+    <gw-list-action-item icon="fas fa-times" class="active" title="Cancel" *ngIf="moveActionActive || trashActionActive" (onActionClicked)="actionClicked($event)"></gw-list-action-item>
+  </div>
+  <div class="col-10">
+    <gw-move-to-gift-list *ngIf="moveActionActive == true"></gw-move-to-gift-list>
+    <gw-delete-wl-item *ngIf="trashActionActive == true"></gw-delete-wl-item>
+  </div>
+</div>

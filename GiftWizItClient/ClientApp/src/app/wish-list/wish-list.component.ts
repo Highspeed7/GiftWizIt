@@ -9,6 +9,7 @@ import { WishList } from './models/wish-list';
 })
 export class WishListComponent implements OnInit {
 
+  public showCheckboxes: boolean = false;
   public wishList: WishList[];
 
   constructor(
@@ -23,4 +24,12 @@ export class WishListComponent implements OnInit {
       });
   }
 
+  public actionClicked(actionInfo) {
+    this.showCheckboxes = true;
+    switch (actionInfo.action) {
+      case "Cancel":
+        this.showCheckboxes = false;
+        break;
+    }
+  }
 }
