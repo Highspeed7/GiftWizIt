@@ -101,7 +101,7 @@ namespace GiftWizItApi.Controllers
                 // Get WishItem Link
                 WishItem wishItem = await _unitOfWork.WishItems.GetWishItemByItemId(item.Item_Id);
                 
-                if(validGiftList.Count() < items.Count() || validItems.Count() < items.Count())
+                if(validGiftList.Count() == 0 || validItems.Count() == 0)
                 {
                     // TODO: Implement logging
                     return StatusCode((int)HttpStatusCode.BadRequest, "Invalid Gift Lists or Items");
@@ -116,7 +116,6 @@ namespace GiftWizItApi.Controllers
                     _unitOfWork.GiftItems.Add(newGiftItem);
                     // Update wishItem to deleted state
                     wishItem.Deleted = true;
-                    //_unitOfWork.WishItems.Update(wishItem);
                 }
             }
             // Add item to giftlist.
