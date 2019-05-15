@@ -7,5 +7,7 @@ namespace GiftWizItApi.Controllers.dtos
 {
     public class GiftItemDTO
     {
+        public int G_List_Id { get; set; }
+        public int Item_Id { get; set; }
     }
 }

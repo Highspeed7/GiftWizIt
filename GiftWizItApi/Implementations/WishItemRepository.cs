@@ -51,8 +51,14 @@ namespace GiftWizItApi.Implementations
 
         public async Task<IEnumerable<WishListRaw>> GetWishItem(string userId)
         {
-            var result = await Context.DbObject.FromSql($"SELECT wi.item_id, i.image, w_list_id, partner_id, Afflt_Link, i.name as itm_name, wshl.name as wlst_name FROM WList_Items as wi JOIN Links_Items_Partners as lip ON wi.w_list_id IN( SELECT wl.wish_list_id FROM WishLists as wl WHERE wl.UserId = {userId}) JOIN Items as i ON wi.item_id = i.item_id JOIN WishLists as wshl ON wshl.wish_list_id = wi.w_list_id WHERE lip.item_id = wi.item_id").ToListAsync();
+            var result = await Context.DbObject.FromSql($"SELECT wi.item_id, i.image, w_list_id, partner_id, Afflt_Link, i.name as itm_name, wshl.name as wlst_name FROM WList_Items as wi JOIN Links_Items_Partners as lip ON wi.w_list_id IN( SELECT wl.wish_list_id FROM WishLists as wl WHERE wl.UserId = {userId}) JOIN Items as i ON wi.item_id = i.item_id JOIN WishLists as wshl ON wshl.wish_list_id = wi.w_list_id WHERE lip.item_id = wi.item_id AND wi._deleted = 'false'").ToListAsync();
             
+            return result;
+        }
+
+        public async Task<WishItem> GetWishItemByItemId(int itemId)
+        {
+            var result = await Context.WishItems.Where(wi => wi.ItemId == itemId && wi.Deleted != true).FirstAsync();
             return result;
         }
     }

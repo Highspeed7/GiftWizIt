@@ -8,6 +8,7 @@ namespace GiftWizItApi.Interfaces
     public interface IUnitOfWork : IDisposable
     {
         IGiftListRepository GiftLists { get; }
+        IGiftItemRepository GiftItems { get; }
         IUserRepository Users { get; }
         IWishItemRepository WishItems { get; }
         IWishListRepository WishLists { get; }

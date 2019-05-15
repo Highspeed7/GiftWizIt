@@ -11,5 +11,6 @@ namespace GiftWizItApi.Interfaces
     {
         WishItem Add(string userId, string listName, Items item, WishLists wishList = null);
         Task<IEnumerable<WishListRaw>> GetWishItem(string userId);
+        Task<WishItem> GetWishItemByItemId(int itemId);
     }
 }

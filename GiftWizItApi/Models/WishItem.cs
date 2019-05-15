@@ -12,5 +12,7 @@ namespace GiftWizItApi.Models
 
         public int WListId { get; set; }
         public WishLists WishList { get; set; }
+
+        public bool Deleted { get; set; }
     }
 }

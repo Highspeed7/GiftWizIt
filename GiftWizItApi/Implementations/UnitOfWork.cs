@@ -15,6 +15,7 @@ namespace GiftWizItApi.Implementations
         {
             _context = context;
             GiftLists = new GiftListRepository(_context);
+            GiftItems = new GiftItemRepository(_context);
             Users = new UserRepository(_context);
             WishLists = new WishListRepository(_context);
             WishItems = new WishItemRepository(_context);
@@ -23,6 +24,7 @@ namespace GiftWizItApi.Implementations
         }
 
         public IGiftListRepository GiftLists { get; private set; }
+        public IGiftItemRepository GiftItems { get; private set; }
         public IUserRepository Users { get; private set; }
         public IWishListRepository WishLists { get; private set; }
         public IWishItemRepository WishItems { get; private set; }

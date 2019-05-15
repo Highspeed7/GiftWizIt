@@ -13,9 +13,5 @@ namespace GiftWizItApi.Implementations
         {
 
         }
-        public GiftItem Add(string userId, string listName, Items item, GiftLists giftList = null)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

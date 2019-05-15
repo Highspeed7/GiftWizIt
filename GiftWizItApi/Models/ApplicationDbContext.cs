@@ -100,6 +100,11 @@ namespace GiftWizItApi.Models
                 .ToTable("WList_Items")
                 .HasKey(wi => new { wi.WListId, wi.ItemId });
             modelBuilder.Entity<WishItem>()
+               .Property(wi => wi.Deleted)
+               .IsRequired(true)
+               .HasDefaultValue(false)
+               .HasColumnName("_deleted");
+            modelBuilder.Entity<WishItem>()
                 .Property(wi => wi.ItemId)
                 .HasColumnName("item_id");
             modelBuilder.Entity<WishItem>()
