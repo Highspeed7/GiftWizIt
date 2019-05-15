@@ -3,7 +3,7 @@ import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from
 import { MsalService } from "@azure/msal-angular";
 import * as authConfig from "../../configs/authConfig";
 import { AuthService } from "../services/auth.service";
-import { AccountsService } from "src/app/accounts.service";
+import { AccountsService } from "../../../app/accounts.service";
 
 @Injectable({
   providedIn: 'root'
@@ -24,8 +24,9 @@ export class AuthGuard implements CanActivate {
   }
 
   checkLogin(url: string) {
+    var access = this.msal.getCachedTokenInternal(authConfig.config.b2cScopes);
     // TODO: Move to auth service
-    if (this.acntSvc.loggedInSrc.value != false) {
+    if (this.acntSvc.loggedInSrc.value != false && access != null) {
       return true;
     }
     // Store the redirect url

@@ -164,6 +164,10 @@ div.side-ribbon ul > li:hover {
   }
 }
 
+*.inline {
+  display: inline !important;
+}
+
 @media (max-width: 1179px) {
   span.or-divider {
     display: none;

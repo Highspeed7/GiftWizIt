@@ -78,5 +78,13 @@ namespace GiftWizItApi.Controllers
             }
             return StatusCode((int)HttpStatusCode.OK);
         }
+
+        [Route("api/MoveItems")]
+        [HttpPost]
+        public async Task<ActionResult> ItemToGiftList(GiftItemDTO[] items)
+        {
+
+            return StatusCode((int)HttpStatusCode.OK);
+        }
     }
 }

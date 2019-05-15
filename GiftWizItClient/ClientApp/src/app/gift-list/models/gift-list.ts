@@ -1,9 +1,9 @@
 export class GiftList {
   constructor(name: string, userId: string) {
-    this.Name = name;
-    this.UserId = userId;
+    this.name = name;
+    this.userId = userId;
   }
-  public Id: number;
-  public Name: string;
-  public UserId: string;
+  public id: number;
+  public name: string;
+  public userId: string;
 }

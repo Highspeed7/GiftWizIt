@@ -2,8 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var GiftList = /** @class */ (function () {
     function GiftList(name, userId) {
-        this.Name = name;
-        this.UserId = userId;
+        this.name = name;
+        this.userId = userId;
     }
     return GiftList;
 }());

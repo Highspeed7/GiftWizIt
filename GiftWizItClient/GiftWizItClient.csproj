@@ -31,11 +31,13 @@
     <None Remove="ClientApp\src\app\configs\protectedResource.ts" />
     <None Remove="ClientApp\src\app\gift-list\models\gift-list.ts" />
     <None Remove="ClientApp\src\app\models\appInfo.ts" />
+    <None Remove="ClientApp\src\app\wish-list\models\wish-list.ts" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="ClientApp\dist\" />
     <Folder Include="ClientApp\src\app\authentication\services\" />
+    <Folder Include="ClientApp\src\app\gift-tag\" />
     <Folder Include="ClientApp\src\assets\images\" />
     <Folder Include="ClientApp\src\assets\css\" />
   </ItemGroup>
@@ -50,6 +52,7 @@
     <TypeScriptCompile Include="ClientApp\src\app\configs\protectedResource.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\gift-list\models\gift-list.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\appInfo.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\wish-list\models\wish-list.ts" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

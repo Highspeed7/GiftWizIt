@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { GiftList } from 'src/app/gift-list/models/gift-list';
 
 @Component({
   selector: 'gw-move-to-gift-list',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MoveToGiftListComponent implements OnInit {
 
-  constructor() { }
+  @Input()
+  public giftLists: GiftList[];
 
-  ngOnInit() {
+  constructor() {
   }
 
+  ngOnInit() {
+    //this.getLists();
+  }
 }

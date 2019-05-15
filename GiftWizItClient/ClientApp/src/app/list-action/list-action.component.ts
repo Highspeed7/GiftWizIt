@@ -1,4 +1,5 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { GiftList } from '../gift-list/models/gift-list';
 
 @Component({
   selector: 'gw-list-action',
@@ -10,6 +11,9 @@ export class ListActionComponent implements OnInit {
   public moveActionActive: boolean = false;
   public trashActionActive: boolean = false;
 
+  @Input()
+  giftLists: GiftList[];
+
   @Output()
   onActionClicked: EventEmitter<any> = new EventEmitter();
 
@@ -19,7 +23,6 @@ export class ListActionComponent implements OnInit {
   }
 
   public actionClicked(linkInfo: any) {
-    console.log("Action clicked");
     switch (linkInfo.action) {
       case "Move": {
         this.trashActionActive = false;
