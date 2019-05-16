@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { WishList } from '../models/wish-list';
 import { Observable } from 'rxjs';
 import { GiftItem } from '../models/gift-item';
+import { AuthService } from 'src/app/authentication/services/auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,16 +13,20 @@ import { GiftItem } from '../models/gift-item';
 export class WishListService {
 
   private apiUrl: string = "https://localhost:44327/api/WishList";
+  private access = null;
 
   constructor(
     private http: HttpClient,
-    private msal: MsalService
+    private msal: MsalService,
+    private authSvc: AuthService
   ) { }
 
-  public getLists(): Observable<WishList[]> {
-    var access = this.msal.getCachedTokenInternal(authConfig.config.b2cScopes);
+  public async getLists() {
+    await this.authSvc.getToken().then((token) => {
+      this.access = token;
+    })
 
-    return this.http.get(`${this.apiUrl}`, { headers: { 'Authorization': `bearer ${access.token}` } })
-      .map(res => res as WishList[]);
+    return this.http.get(`${this.apiUrl}`, { headers: { 'Authorization': `bearer ${this.access}` } })
+      .map(res => res as WishList[]).toPromise();
   }
 }

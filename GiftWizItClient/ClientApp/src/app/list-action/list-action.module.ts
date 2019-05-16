@@ -4,23 +4,30 @@ import { ListActionComponent } from './list-action.component';
 import { ListActionItemComponent } from './list-action-item/list-action-item.component';
 import { MoveToGiftListComponent } from './move-to-gift-list/move-to-gift-list.component';
 import { DeleteWlItemComponent } from './delete-wl-item/delete-wl-item.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { AddGiftListComponent } from './add-gift-list/add-gift-list.component';
 
 @NgModule({
   declarations: [
     ListActionComponent,
     ListActionItemComponent,
     MoveToGiftListComponent,
-    DeleteWlItemComponent
+    DeleteWlItemComponent,
+    AddGiftListComponent
   ],
   imports: [
     NgbModule.forRoot(),
     CommonModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   exports: [
-    ListActionComponent
+    ListActionComponent,
+    ListActionItemComponent,
+    MoveToGiftListComponent,
+    DeleteWlItemComponent,
+    AddGiftListComponent
   ]
 })
 export class ListActionModule { }

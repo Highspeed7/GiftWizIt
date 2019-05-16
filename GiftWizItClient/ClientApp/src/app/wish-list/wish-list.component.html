@@ -5,7 +5,16 @@
         <h2>Your Wish List</h2>
       </div>
     </div>
-    <gw-list-action (onActionClicked)="actionClicked($event)" (onMoveClicked)="itemMoveClicked($event)" [giftLists]="giftLists"></gw-list-action>
+    <gw-list-action (onActionClicked)="actionClicked($event)" (onMoveClicked)="itemMoveClicked($event)" [giftLists]="giftLists">
+      <div actions>
+        <gw-list-action-item icon="fas fa-dolly" title="Move" [isActive]="moveActionActive" (onActionClicked)="actionClicked($event)"></gw-list-action-item>
+        <gw-list-action-item icon="fas fa-trash" title="Delete" [isActive]="trashActionActive" (onActionClicked)="actionClicked($event)"></gw-list-action-item>
+      </div>
+      <div actionDisplay>
+        <gw-move-to-gift-list *ngIf="moveActionActive == true" [giftLists]="giftLists" (onMoveClicked)="itemMoveClicked($event)"></gw-move-to-gift-list>
+        <gw-delete-wl-item *ngIf="trashActionActive == true"></gw-delete-wl-item>
+      </div>
+    </gw-list-action>
     <div class="row">
       <gw-gift-tag *ngFor="let item of wishList">
         <div class="col-4 pt-3 pr-0" item-img>

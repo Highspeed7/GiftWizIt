@@ -11,9 +11,11 @@ export class GiftListComponent implements OnInit {
 
   public hasGiftLists: boolean = false;
   public giftLists: GiftList[]
+  public trashActionActive = false;
+  public addActionActive = false;
 
   constructor(private glService: GiftListService) {
-    this.glService.getLists().subscribe((data) => {
+    this.glService.getLists().then((data) => {
       this.giftLists = data
       if (this.giftLists.length > 0) {
         this.hasGiftLists = true;
@@ -24,9 +26,25 @@ export class GiftListComponent implements OnInit {
   ngOnInit() {}
 
   public onListAdded(e: GiftList) {
-    this.glService.getLists().subscribe((data) => {
+    this.glService.getLists().then((data) => {
       this.giftLists = data;
     });
+  }
+
+  public actionClicked(actionInfo) {
+    // TODO: Add checkboxes to UI
+    switch (actionInfo.action) {
+      case "Add": {
+        this.addActionActive = true;
+        this.trashActionActive = false;
+        break;
+      }
+      case "Delete": {
+        this.trashActionActive = true;
+        this.addActionActive = false;
+        break;
+      }
+    }
   }
 
   public deleteList(list: GiftList) {
@@ -34,7 +52,7 @@ export class GiftListComponent implements OnInit {
       // If more than zero rows affected.
       if (r > 0) {
         // Get lists again.
-        this.glService.getLists().subscribe((data) => {
+        this.glService.getLists().then((data) => {
           this.giftLists = data;
         });
       }

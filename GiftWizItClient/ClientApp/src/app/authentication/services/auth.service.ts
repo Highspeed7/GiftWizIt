@@ -37,28 +37,57 @@ export class AuthService implements OnDestroy {
 
     });
   }
+  public async login() {
+    var promise = new Promise((resolve, reject) => {
+      this.msal.loginPopup(authConfig.config.b2cScopes).then(() => {
 
-  public login() {
-    var cacheRes = this.msal.getCachedTokenInternal(authConfig.config.b2cScopes);
-    if (!cacheRes) {
-      this.msal.loginPopup(authConfig.config.b2cScopes).then((r) => {
-        this.msal.acquireTokenSilent(authConfig.config.b2cScopes).then((res) => {
-          console.log("token response: " + res);
-          var user: any = this.msal.getUser();
-          // Register the user in database.
-          // TODO: Move to server
-          this.http.post("https://localhost:44327/api/Users", { userId: `${user.idToken.oid}` }, { headers: { 'Authorization': `bearer ${res}` } })
-            .subscribe((response) => {
-              this.acntSvc.loggedInSrc.next(true);
-              this.router.navigate([this.redirectUrl]);
+      })
+    })
+  }
+
+  public getToken(): Promise<string> {
+    var cacheToken = this.msal.getCachedTokenInternal(authConfig.config.b2cScopes);
+    if (cacheToken == null) {
+      return this.msal.acquireTokenSilent(authConfig.config.b2cScopes)
+        .then(token => {
+          return Promise.resolve(token);
+        }).catch(error => {
+          this.msal.acquireTokenPopup(authConfig.config.b2cScopes)
+            .then(token => {
+              return Promise.resolve(token);
+            }).catch(innererror => {
+              return Promise.resolve('');
             });
         });
-      });
-    } else {
-      this.acntSvc.loggedInSrc.next(true);
-      this.router.navigate([this.redirectUrl]);
     }
+    else return Promise.resolve(cacheToken.token);
   }
+
+  public storeUser() {
+
+  }
+
+  //public login() {
+  //  var cacheRes = this.msal.getCachedTokenInternal(authConfig.config.b2cScopes);
+  //  if (!cacheRes) {
+  //    this.msal.loginPopup(authConfig.config.b2cScopes).then((r) => {
+  //      this.msal.acquireTokenSilent(authConfig.config.b2cScopes).then((res) => {
+  //        console.log("token response: " + res);
+  //        var user: any = this.msal.getUser();
+  //        // Register the user in database.
+  //        // TODO: Move to server
+  //        this.http.post("https://localhost:44327/api/Users", { userId: `${user.idToken.oid}` }, { headers: { 'Authorization': `bearer ${res}` } })
+  //          .subscribe((response) => {
+  //            this.acntSvc.loggedInSrc.next(true);
+  //            this.router.navigate([this.redirectUrl]);
+  //          });
+  //      });
+  //    });
+  //  } else {
+  //    this.acntSvc.loggedInSrc.next(true);
+  //    this.router.navigate([this.redirectUrl]);
+  //  }
+  //}
 
   public logout() {
     this.msal.logout();

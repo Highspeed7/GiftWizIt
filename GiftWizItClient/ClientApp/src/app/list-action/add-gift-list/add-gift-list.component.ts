@@ -1,25 +1,22 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { GiftListService } from '../services/gift-list.service';
-import { GiftList } from '../models/gift-list';
 import { MsalService } from '@azure/msal-angular';
-import { Router } from '@angular/router';
+import { GiftList } from 'src/app/gift-list/models/gift-list';
+import { GiftListService } from 'src/app/gift-list/services/gift-list.service';
 
 @Component({
-  selector: 'app-create-gift-list',
-  templateUrl: './create-gift-list.component.html',
-  styleUrls: ['./create-gift-list.component.css']
+  selector: 'gw-add-gift-list',
+  templateUrl: './add-gift-list.component.html',
+  styleUrls: ['./add-gift-list.component.css']
 })
-export class CreateGiftListComponent implements OnInit {
+export class AddGiftListComponent implements OnInit {
   @Output("onListAdded")
   public onListAdded = new EventEmitter<GiftList>();
-
   public addListForm: FormGroup;
 
   constructor(
-    private glService: GiftListService,
     private msal: MsalService,
-    private router: Router
+    private glService: GiftListService
   ) { }
 
   ngOnInit() {

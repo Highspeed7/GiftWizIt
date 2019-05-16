@@ -8,6 +8,7 @@ import { HttpModule } from '@angular/http';
 import { GiftTagComponent } from '../gift-tag/gift-tag.component';
 import { ListActionModule } from '../list-action/list-action.module';
 import { WishItemService } from './services/wish-item.service';
+import { MsalGuard } from '@azure/msal-angular';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,7 @@ import { WishItemService } from './services/wish-item.service';
       {
         path: "wish-list",
         component: WishListComponent,
-        canActivate: [AuthGuard]
+        canActivate: [MsalGuard]
       }
     ])
   ],

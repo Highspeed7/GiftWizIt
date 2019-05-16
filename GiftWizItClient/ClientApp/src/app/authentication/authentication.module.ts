@@ -13,7 +13,7 @@ import { protectedResourceMap } from '../configs/protectedResource';
     MsalModule.forRoot({
       clientID: "aa2f99ef-10ae-4219-ae07-224d88203152",
       authority: "https://login.microsoftonline.com/tfp/giftwizit.onmicrosoft.com/B2C_1_SigninSignup1",
-      consentScopes: ["user_impersonation"],
+      consentScopes: ["https://giftwizit.onmicrosoft.com/api/read", "https://giftwizit.onmicrosoft.com/api/user_impersonation"],
       redirectUri: env.environment.redirectUri,
       postLogoutRedirectUri: env.environment.redirectUri,
       // protectedResourceMap: protectedResourceMap,

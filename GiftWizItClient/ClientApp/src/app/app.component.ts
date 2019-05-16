@@ -28,28 +28,30 @@ export class AppComponent implements OnInit {
     this.window = this.windowRef.nativeWindow;
     
     // TODO: remove in favor of reading cachedToken to determine logged in state.
-    this.acntSvc.loggedIn$.subscribe((l: boolean) => {
-      this.isLoggedIn = l;
-      this.setDisplayName();
-    });
+    //this.acntSvc.loggedIn$.subscribe((l: boolean) => {
+    //  this.isLoggedIn = l;
+    //  //this.setDisplayName();
+    //});
   }
 
-  public setDisplayName() {
-    if (this.window.localStorage.getItem("gw_app")) {
-      var userInfo = JSON.parse(this.window.localStorage.getItem("gw_app"));
-      this.displayName = userInfo.userInfo.name;
-    }
+  //public setDisplayName() {
+  //  if (this.window.localStorage.getItem("gw_app")) {
+  //    var userInfo = JSON.parse(this.window.localStorage.getItem("gw_app"));
+  //    this.displayName = userInfo.userInfo.name;
+  //  }
+  //}
+  public login() {
+    this.authSvc.login().then(() => { });
   }
-
   public ngOnInit() {
-    var url = this.route.url.subscribe((v) => {
-      console.log(v);
-    });
-    if(this.route.url)
-    if (this.acntSvc.isLoggedIn()) {
-      this.isLoggedIn = true;
-      this.setDisplayName();
-    }
+    //var url = this.route.url.subscribe((v) => {
+    //  console.log(v);
+    //});
+    //if(this.route.url)
+    //if (this.acntSvc.isLoggedIn()) {
+    //  this.isLoggedIn = true;
+    //  this.setDisplayName();
+    //}
   }
 
   public onLogout() {

@@ -3,23 +3,23 @@ import { CommonModule } from '@angular/common';
 import { GiftListComponent } from './gift-list.component';
 import { GiftListService } from './services/gift-list.service';
 import { RouterModule } from '@angular/router';
-import { AuthGuard } from '../authentication/guards/auth.guard';
-import { CreateGiftListComponent } from './create-gift-list/create-gift-list.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MsalGuard } from '@azure/msal-angular';
+import { ListActionModule } from '../list-action/list-action.module';
 
 @NgModule({
   declarations: [
-    GiftListComponent,
-    CreateGiftListComponent
+    GiftListComponent
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    ListActionModule,
     RouterModule.forRoot([
       {
         path: "gift-lists",
         component: GiftListComponent,
-        canActivate: [AuthGuard]
+        canActivate: [MsalGuard]
       }
     ])
   ],

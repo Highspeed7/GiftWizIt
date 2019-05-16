@@ -1,14 +1,30 @@
 <div class="row">
   <div class="col-md content">
     <h2>Gift Lists</h2>
-    <app-create-gift-list (onListAdded)="onListAdded($event)"></app-create-gift-list>
+    <gw-list-action>
+      <div actions>
+        <gw-list-action-item icon="fas fa-plus" title="Add" [isActive]="addActionActive" (onActionClicked)="actionClicked($event)"></gw-list-action-item>
+        <gw-list-action-item icon="fas fa-trash" title="Delete" [isActive]="trashActionActive" (onActionClicked)="actionClicked($event)"></gw-list-action-item>
+      </div>
+      <div actionDisplay>
+        <gw-add-gift-list *ngIf="addActionActive" (onListAdded)="onListAdded($event)"></gw-add-gift-list>
+      </div>
+    </gw-list-action>
     <div class="card" *ngFor="let list of giftLists">
       <div class="row">
         <ng-template [ngIf]="giftLists.length > 0" [ngIfElse]="noGifts">
-          <div class="col-md-10">
+          <div class="col-md-7">
             <h4>{{list.name}}</h4>
           </div>
-          <div class="col-md-2">
+          <div class="col-md-4">
+            <ng-template [ngIf]="list.giftItems.length == 1" [ngIfElse]="itemGrammar">
+              There is only {{list.giftItems.length}} item in this list.
+            </ng-template>
+            <ng-template #itemGrammar>
+              There are {{list.giftItems.length}} items in this list.
+            </ng-template>
+          </div>
+          <div class="col-md-1">
             <span class="far fa-trash-alt list-trash" (click)="deleteList(list)"></span>
           </div>
         </ng-template>

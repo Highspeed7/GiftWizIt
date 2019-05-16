@@ -14,11 +14,8 @@
         <div class="navbar-text">
             <span>Welcome {{displayName}}</span>
             <ul class="nav navbar-nav navbar-right">
-                <li routerLinkActive="active" *ngIf="!isLoggedIn">
-                    <a [routerLink]="['register']">Register</a>
-                </li>
                 <li routerLinkActive="active" *ngIf="!isLoggedIn; else elseBlock">
-                    <a [routerLink]="['login']">Login</a>
+                    <a (click)="login()">Login</a>
                 </li>
                 <ng-template #elseBlock>
                     <li>
