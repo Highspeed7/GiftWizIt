@@ -5,14 +5,14 @@
         <h2>Your Wish List</h2>
       </div>
     </div>
-    <gw-list-action (onActionClicked)="actionClicked($event)" [giftLists]="giftLists"></gw-list-action>
+    <gw-list-action (onActionClicked)="actionClicked($event)" (onMoveClicked)="itemMoveClicked($event)" [giftLists]="giftLists"></gw-list-action>
     <div class="row">
       <gw-gift-tag *ngFor="let item of wishList">
         <div class="col-4 pt-3 pr-0" item-img>
           <img [ngClass]="'gift-tag-img'" src="{{item.image}}" />
         </div>
         <div class="itm-checkbox" checkbox *ngIf="showCheckboxes == true">
-          <input type="checkbox" />
+          <input class="item-chkbx" type="checkbox" value="item" (click)="itemSelected(item)" />
         </div>
         <a [ngClass]="'truncate item-lnk'" item-link href="{{item.afflt_Link}}" target="_blank">{{item.itm_Name}}</a>
       </gw-gift-tag>

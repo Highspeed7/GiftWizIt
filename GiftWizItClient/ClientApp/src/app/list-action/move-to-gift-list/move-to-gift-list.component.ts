@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { GiftList } from 'src/app/gift-list/models/gift-list';
 
 @Component({
@@ -7,14 +7,21 @@ import { GiftList } from 'src/app/gift-list/models/gift-list';
   styleUrls: ['./move-to-gift-list.component.css']
 })
 export class MoveToGiftListComponent implements OnInit {
+  @Output()
+  onMoveClicked: EventEmitter<any> = new EventEmitter<any>();
 
   @Input()
   public giftLists: GiftList[];
+  public selectedGiftList: string;
 
   constructor() {
   }
 
   ngOnInit() {
     //this.getLists();
+  }
+
+  public moveItemsClicked() {
+    this.onMoveClicked.emit(this.selectedGiftList);
   }
 }

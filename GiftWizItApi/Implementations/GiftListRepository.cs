@@ -35,7 +35,7 @@ namespace GiftWizItApi.Implementations
 
         public async Task<IEnumerable<GiftLists>> GetUserLists(string userId)
         {
-            return await Context.GiftLists.Where(gl => gl.UserId == userId && gl.Deleted == false).ToListAsync();
+            return await Context.GiftLists.Include(gl => gl.GiftItems).Where(gl => gl.UserId == userId && gl.Deleted == false).ToListAsync();
         }
 
         public async Task DeleteGiftList(int listId)

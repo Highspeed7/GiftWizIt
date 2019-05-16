@@ -17,6 +17,9 @@ export class ListActionComponent implements OnInit {
   @Output()
   onActionClicked: EventEmitter<any> = new EventEmitter();
 
+  @Output()
+  onMoveClicked: EventEmitter<any> = new EventEmitter();
+
   constructor() { }
 
   ngOnInit() {
@@ -41,5 +44,9 @@ export class ListActionComponent implements OnInit {
       }
     }
     this.onActionClicked.emit(linkInfo);
+  }
+
+  public itemMoveClicked(eventItem: any) {
+    this.onMoveClicked.emit(eventItem);
   }
 }

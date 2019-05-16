@@ -1,6 +1,9 @@
 <form>
-  <select class="form-control inline">
-    <option *ngFor="let list of giftLists">{{list.name}}</option>
+  <select class="form-control inline" name="giftList" [(ngModel)]="selectedGiftList">
+    <option *ngFor="let list of giftLists"
+            [value]="list.id">
+      {{list.name}}
+    </option>
   </select>
-  <button class="btn btn-primary inline">Move</button>
+  <button class="btn btn-primary inline" (click)="moveItemsClicked()">Move</button>
 </form>

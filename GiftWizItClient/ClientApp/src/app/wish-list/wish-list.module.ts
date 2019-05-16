@@ -7,6 +7,7 @@ import { WishListService } from './services/wish-list.service';
 import { HttpModule } from '@angular/http';
 import { GiftTagComponent } from '../gift-tag/gift-tag.component';
 import { ListActionModule } from '../list-action/list-action.module';
+import { WishItemService } from './services/wish-item.service';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,6 @@ import { ListActionModule } from '../list-action/list-action.module';
       }
     ])
   ],
-  providers: [WishListService]
+  providers: [WishListService, WishItemService]
 })
 export class WishListModule { }
