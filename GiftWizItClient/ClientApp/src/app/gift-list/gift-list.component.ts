@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { GiftListService } from './services/gift-list.service';
-import { GiftList } from './models/gift-list';
+import { GiftList, GiftItemQuery } from './models/gift-list';
 
 @Component({
   selector: 'app-gift-list',
@@ -14,7 +14,10 @@ export class GiftListComponent implements OnInit {
   public trashActionActive = false;
   public addActionActive = false;
 
-  constructor(private glService: GiftListService) {
+  constructor(
+    private glService: GiftListService,
+    private cd: ChangeDetectorRef
+  ) {
     this.glService.getLists().then((data) => {
       this.giftLists = data
       if (this.giftLists.length > 0) {
@@ -57,5 +60,18 @@ export class GiftListComponent implements OnInit {
         });
       }
     });
+  }
+
+  public async expandGiftList(list: GiftList) {
+    // TODO: Implement nocache action so that items are updated appropriately and not stale.
+    // Set the expanded property of a list.
+    if (list.isExpanded == null) {
+      await this.glService.getGiftItems(list.id).then((items: GiftItemQuery[]) => {
+        list.giftItems = items;
+      });
+    }
+    list.isExpanded = !list.isExpanded;
+    // Update the DOM
+    this.cd.detectChanges();
   }
 }

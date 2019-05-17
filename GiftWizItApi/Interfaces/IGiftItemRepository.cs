@@ -8,5 +8,6 @@ namespace GiftWizItApi.Interfaces
 {
     public interface IGiftItemRepository: IRepository<GiftItem>
     {
+        Task<IEnumerable<CombGiftItems>> GetGiftListItems(int gift_list_id, string user_id);
     }
 }

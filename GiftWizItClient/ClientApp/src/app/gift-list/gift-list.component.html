@@ -10,7 +10,7 @@
         <gw-add-gift-list *ngIf="addActionActive" (onListAdded)="onListAdded($event)"></gw-add-gift-list>
       </div>
     </gw-list-action>
-    <div class="card" *ngFor="let list of giftLists">
+    <div class="card" *ngFor="let list of giftLists" (click)="expandGiftList(list)">
       <div class="row">
         <ng-template [ngIf]="giftLists.length > 0" [ngIfElse]="noGifts">
           <div class="col-md-7">
@@ -33,6 +33,15 @@
             <h5>There are currently no gift lists.</h5>
           </div>
         </ng-template>
+      </div>
+      <div class="row" *ngIf="list.isExpanded == true">
+        <div class="col-12">
+          <div class="row" *ngFor="let item of list?.giftItems">
+            <div class="col-12">
+              {{item.itm_Name}}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

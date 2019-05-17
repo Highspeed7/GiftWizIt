@@ -8,4 +8,10 @@ var GiftList = /** @class */ (function () {
     return GiftList;
 }());
 exports.GiftList = GiftList;
+var GiftItemQuery = /** @class */ (function () {
+    function GiftItemQuery() {
+    }
+    return GiftItemQuery;
+}());
+exports.GiftItemQuery = GiftItemQuery;
 //# sourceMappingURL=gift-list.js.map

@@ -23,7 +23,8 @@ namespace GiftWizItApi.Models
         public DbSet<Partners> Partners { get; set; }
         public DbSet<ContactUsers> ContactUsers { get; set; }
         public DbSet<LnksItmsPtnrs> LinkItemsPartners { get; set; }
-        public DbQuery<WishListRaw> DbObject { get; set; }
+        public DbQuery<WishListRaw> DbWishListObject { get; set; }
+        public DbQuery<CombGiftItems> DbGiftItemsObject { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

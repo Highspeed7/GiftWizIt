@@ -1,4 +1,5 @@
-﻿using GiftWizItApi.Controllers.dtos;
+﻿using AutoMapper;
+using GiftWizItApi.Controllers.dtos;
 using GiftWizItApi.Interfaces;
 using GiftWizItApi.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -17,10 +18,12 @@ namespace GiftWizItApi.Controllers
     public class GiftListsController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper mapper;
 
-        public GiftListsController(IUnitOfWork unitOfWork)
+        public GiftListsController(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            this.mapper = mapper;
         }
 
         [Route("api/GiftLists/")]
@@ -73,6 +76,16 @@ namespace GiftWizItApi.Controllers
             var result = await _unitOfWork.CompleteAsync();
 
             return StatusCode((int)HttpStatusCode.OK, result);
+        }
+
+        [Route("api/GiftListItems/")]
+        [HttpGet]
+        public async Task<IEnumerable<QueryGiftItemDTO>> GetGiftListItems(int gift_list_id)
+        {
+            var userId = User.Claims.First(e => e.Type == "http://schemas.microsoft.com/identity/claims/objectidentifier").Value;
+            var result = await _unitOfWork.GiftItems.GetGiftListItems(gift_list_id, userId);
+
+            return mapper.Map<List<QueryGiftItemDTO>>(result);
         }
     }
 }

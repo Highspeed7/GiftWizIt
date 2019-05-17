@@ -16,6 +16,7 @@ namespace GiftWizItApi.Mapping
                 .ForSourceMember(source => source.Url, opt => opt.DoNotValidate())
                 .ForSourceMember(source => source.Domain, opt => opt.DoNotValidate());
             CreateMap<WishListRaw, WishListDto>();
+            CreateMap<CombGiftItems, QueryGiftItemDTO>();
         }
     }
 }

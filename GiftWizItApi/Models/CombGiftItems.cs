@@ -1,0 +1,18 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace GiftWizItApi.Models
+{
+    public class CombGiftItems
+    {
+        public int Item_Id { get; set; }
+        public int Gift_List_Id { get; set; }
+        public int Partner_Id { get; set; }
+        public string Afflt_Link { get; set; }
+        public string Itm_Name { get; set; }
+        public string Glst_Name { get; set; }
+        public string Image { get; set; }
+    }
+}

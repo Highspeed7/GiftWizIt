@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WishListComponent } from './wish-list.component';
-import { AuthGuard } from '../authentication/guards/auth.guard';
 import { RouterModule } from '@angular/router';
 import { WishListService } from './services/wish-list.service';
 import { HttpModule } from '@angular/http';
