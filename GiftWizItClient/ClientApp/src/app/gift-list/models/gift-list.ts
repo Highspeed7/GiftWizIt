@@ -18,4 +18,5 @@ export class GiftItemQuery {
   public itm_Name?: string;
   public glst_Name?: string;
   public image?: string;
+  public checked?: boolean;
 }

@@ -30,7 +30,7 @@ namespace GiftWizItApi.Controllers
         public async Task<IEnumerable<WishListDto>> GetWishList()
         {
             var userId = User.Claims.First(e => e.Type == "http://schemas.microsoft.com/identity/claims/objectidentifier").Value;
-            var result = await _unitOfWork.WishItems.GetWishItem(userId);
+            var result = await _unitOfWork.WishItems.GetWishItems(userId);
 
             return mapper.Map<List<WishListDto>>(result);
         }

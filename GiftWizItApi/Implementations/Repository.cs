@@ -26,9 +26,17 @@ namespace GiftWizItApi.Implementations
         public T GetById(int id) 
             => Context.Set<T>().Find(id);
 
-        public void Remove(int id)
+        public void Remove(int id, int? id2)
         {
-            var type = Context.Set<T>().Find(id);
+            T type;
+
+            if(id2 != null)
+            {
+                type = Context.Set<T>().Find(id, id2);
+            }else
+            {
+                type = Context.Set<T>().Find(id);
+            }
 
             Context.Remove(type);
         }

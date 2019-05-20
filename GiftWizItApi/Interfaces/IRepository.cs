@@ -13,6 +13,6 @@ namespace GiftWizItApi.Interfaces
 
         Task<IEnumerable<T>> GetAsync();
 
-        void Remove(int id);
+        void Remove(int id, int? id2);
     }
 }

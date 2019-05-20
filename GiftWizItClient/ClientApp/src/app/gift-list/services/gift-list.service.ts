@@ -7,6 +7,7 @@ import * as authConfig from '../../configs/authConfig';
 import { Router } from '@angular/router';
 import { AccountsService } from 'src/app/accounts.service';
 import { Subscription } from 'rxjs';
+import { GiftItem } from 'src/app/wish-list/models/gift-item';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,7 @@ export class GiftListService implements OnDestroy {
   private apiUrl: string = "https://localhost:44327/api";
   private access = null;
   private subscription: Subscription
+  private accessToken: string;
 
   constructor(private http: HttpClient,
     private bcs: BroadcastService,
@@ -57,6 +59,19 @@ export class GiftListService implements OnDestroy {
   public async getGiftItems(glist_id: number) {
     await this.authSvc.getToken().then(token => this.access = token);
     return this.http.get(`${this.apiUrl}/GiftListItems?gift_list_id=${glist_id}`, { headers: { 'Authorization': `bearer ${this.access}` } }).toPromise();
+  }
+
+  public async moveItems(itemsToMove: GiftItem[]) {
+    await this.authSvc.getToken().then((token) => {
+      this.accessToken = token;
+    });
+    var retVal;
+    try {
+      retVal = this.http.post(`${this.apiUrl}/MoveGiftItem`, itemsToMove, { headers: { 'Authorization': `bearer ${this.accessToken}` } }).toPromise();
+      return retVal;
+    } catch (e) {
+      throw e;
+    }
   }
 
   ngOnDestroy() {

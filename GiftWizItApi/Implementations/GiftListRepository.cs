@@ -16,11 +16,6 @@ namespace GiftWizItApi.Implementations
         {
         }
 
-        //public async Task<IEnumerable<GiftLists>> GetUserListsAsync()
-        //{
-            
-        //}
-
         public GiftLists Add(GiftListDto glist)
         {
             var giftList = new GiftLists

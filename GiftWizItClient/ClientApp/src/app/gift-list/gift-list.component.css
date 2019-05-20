@@ -7,3 +7,7 @@ span.list-trash {
   top: 5px;
   cursor: pointer;
 }
+
+img.gift-itm-img {
+  width: 50px;
+}

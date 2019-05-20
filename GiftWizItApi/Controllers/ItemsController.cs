@@ -89,7 +89,7 @@ namespace GiftWizItApi.Controllers
            
             // Get user lists
             IEnumerable<GiftLists> giftLists = await _unitOfWork.GiftLists.GetUserLists(userId);
-            IEnumerable<WishListRaw> wish_items = await _unitOfWork.WishItems.GetWishItem(userId);
+            IEnumerable<WishListRaw> wish_items = await _unitOfWork.WishItems.GetWishItems(userId);
             
             foreach (var item in items)
             {

@@ -84,23 +84,10 @@ export class WishListComponent implements OnInit {
       return giftItem;
     });
 
-    try {
-      this.wshItmSvc.moveItems(this.itemsToMove).then((res) => {
-        this.wshSvc.getLists().then((data) => {
-          this.wishList = data;
-        });
+    this.wshItmSvc.moveItems(this.itemsToMove).then((res) => {
+      this.wshSvc.getLists().then((data) => {
+        this.wishList = data;
       });
-    } catch (e) {
-      this.acntSvc.loggedIn$.subscribe((isLoggedIn) => {
-        if (isLoggedIn) {
-          this.wshItmSvc.moveItems(this.itemsToMove).then((res) => {
-            this.wshSvc.getLists().then((data) => {
-              this.wishList = data;
-            });
-          });
-        }
-      });
-      this.authSvc.login();
-    }
+    });
   }
 }

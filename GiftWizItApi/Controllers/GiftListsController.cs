@@ -87,5 +87,46 @@ namespace GiftWizItApi.Controllers
 
             return mapper.Map<List<QueryGiftItemDTO>>(result);
         }
+
+        [Route("api/MoveGiftItem")]
+        [HttpPost]
+        public async Task<ActionResult> MoveItem(GiftItemDTO[] giftItems)
+        {
+            var userId = User.Claims.First(e => e.Type == "http://schemas.microsoft.com/identity/claims/objectidentifier").Value;
+            
+            // Validate the provided giftlist
+            var giftLists = await _unitOfWork.GiftLists.GetUserLists(userId);
+            
+            foreach(GiftItemDTO item in giftItems)
+            {
+                // Validate the gift list destination is valid
+                var validDestGiftList = giftLists.FirstOrDefault(gl => gl.Id == item.To_Glist_Id);
+
+                if (validDestGiftList == null)
+                {
+                    return StatusCode((int)HttpStatusCode.BadRequest, "Invalid destination giftlist provided");
+                }
+                // Validate the item
+                var itemsToCheck = giftLists.SelectMany(gl => gl.GiftItems);
+                var validItems = itemsToCheck.Where(i => i.Item_Id == item.Item_Id);
+                if(validItems.Count() == 0)
+                {
+                    return StatusCode((int)HttpStatusCode.BadRequest, "Item does not exist in this context.");
+                }
+
+                // Should never return null due to the above validation.
+                var dbGiftItem = await _unitOfWork.GiftItems.GetGiftItemByIdAsync(item.Item_Id);
+
+                _unitOfWork.GiftItems.Remove(item.G_List_Id, item.Item_Id);
+
+                var mappedItem = mapper.Map<GiftItem>(item);
+
+                _unitOfWork.GiftItems.Add(mappedItem);
+            }
+
+            var result = await _unitOfWork.CompleteAsync();
+
+            return StatusCode((int)HttpStatusCode.OK, result);
+        }
     }
 }
