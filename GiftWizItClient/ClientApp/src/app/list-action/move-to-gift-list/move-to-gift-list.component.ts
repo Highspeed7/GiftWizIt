@@ -18,7 +18,6 @@ export class MoveToGiftListComponent implements OnInit {
   }
 
   ngOnInit() {
-    //this.getLists();
   }
 
   public moveItemsClicked() {

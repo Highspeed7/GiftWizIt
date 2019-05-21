@@ -1,0 +1,17 @@
+<form #form [formGroup]="addContactForm">
+  <div class="row">
+    <div class="col-4">
+      <label for="name">Name: </label>
+      <input type="text" class="form-control" formControlName="name" />
+    </div>
+    <div class="col-4">
+      <label for="email">Email: </label>
+      <input type="text" class="form-control" formControlName="email" />
+    </div>
+    <div class="col-4">
+      <br />
+      <button class="btn btn-primary add-btn" [disabled]="addContactForm.invalid">Add</button>
+    </div>
+  </div>
+    
+</form>

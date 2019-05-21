@@ -1,0 +1,18 @@
+<div class="row">
+  <div class="col-md content">
+    <div class="row">
+      <div class="col-3">
+        <h2>Your Contacts</h2>
+      </div>
+    </div>
+    <gw-list-action>
+      <div actions>
+        <gw-list-action-item icon="fas fa-plus" title="Add" [isActive]="addActionActive" (onActionClicked)="actionClicked($event)"></gw-list-action-item>
+        <gw-list-action-item icon="fas fa-trash" title="Trash" [isActive]="trashActionActive" (onActionClicked)="actionClicked($event)"></gw-list-action-item>
+      </div>
+      <div actionDisplay>
+        <gw-add-contact *ngIf="addActionActive"></gw-add-contact>
+      </div>
+    </gw-list-action>
+  </div>
+</div>

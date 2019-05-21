@@ -153,6 +153,19 @@ namespace GiftWizItApi.Models
                 .HasColumnName("email")
                 .HasMaxLength(100)
                 .IsRequired(true);
+            modelBuilder.Entity<Contacts>()
+                .Property(c => c.AccessGuid)
+                .HasColumnName("access_guid")
+                .ValueGeneratedOnAdd()
+                .IsRequired(true);
+            modelBuilder.Entity<Contacts>()
+                .Property(c => c.Verified)
+                .HasColumnName("verified")
+                .HasDefaultValue(false);
+            modelBuilder.Entity<Contacts>()
+                .Property(c => c.EmailSent)
+                .HasColumnName("email_sent")
+                .HasDefaultValue(false);
 
             // ContactUsers Linking table configuration
             modelBuilder.Entity<ContactUsers>()

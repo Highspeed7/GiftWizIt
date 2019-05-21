@@ -7,6 +7,7 @@ import { DeleteWlItemComponent } from './delete-wl-item/delete-wl-item.component
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AddGiftListComponent } from './add-gift-list/add-gift-list.component';
+import { AddContactComponent } from './add-contact/add-contact.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { AddGiftListComponent } from './add-gift-list/add-gift-list.component';
     ListActionItemComponent,
     MoveToGiftListComponent,
     DeleteWlItemComponent,
-    AddGiftListComponent
+    AddGiftListComponent,
+    AddContactComponent
   ],
   imports: [
     NgbModule.forRoot(),
@@ -27,7 +29,8 @@ import { AddGiftListComponent } from './add-gift-list/add-gift-list.component';
     ListActionItemComponent,
     MoveToGiftListComponent,
     DeleteWlItemComponent,
-    AddGiftListComponent
+    AddGiftListComponent,
+    AddContactComponent
   ]
 })
 export class ListActionModule { }

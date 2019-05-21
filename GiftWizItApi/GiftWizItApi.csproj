@@ -27,6 +27,12 @@
     <Compile Remove="Migrations\20190414184952_AddRemainingEntitiesAndConstraints.Designer.cs" />
     <Compile Remove="Migrations\20190510084211_Test.cs" />
     <Compile Remove="Migrations\20190510084211_Test.Designer.cs" />
+    <Compile Remove="Migrations\20190521220339_AddedEmailAndAccessFieldsToContactsTable.cs" />
+    <Compile Remove="Migrations\20190521220339_AddedEmailAndAccessFieldsToContactsTable.Designer.cs" />
+    <Compile Remove="Migrations\20190521220645_AddedGUIDDefaultValueToContactsTable.cs" />
+    <Compile Remove="Migrations\20190521220645_AddedGUIDDefaultValueToContactsTable.Designer.cs" />
+    <Compile Remove="Migrations\20190521222217_AddedEmailAndAccessFieldsToContacts.cs" />
+    <Compile Remove="Migrations\20190521222217_AddedEmailAndAccessFieldsToContacts.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -36,6 +42,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Authentication.AzureADB2C.UI" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.0" />
+    <PackageReference Include="Sendgrid" Version="9.11.0" />
   </ItemGroup>
 
 </Project>

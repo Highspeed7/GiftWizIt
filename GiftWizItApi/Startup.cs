@@ -17,6 +17,8 @@ using Microsoft.EntityFrameworkCore;
 using GiftWizItApi.Interfaces;
 using GiftWizItApi.Implementations;
 using AutoMapper;
+using GiftWizItApi.Service;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace GiftWizItApi
 {
@@ -44,6 +46,9 @@ namespace GiftWizItApi
                     options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
                 )
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddSingleton<IEmailSender, EmailSender>();
+            services.Configure<EmailOptions>(Configuration.GetSection("SendGrid"));
 
             services.AddCors(options =>
             {

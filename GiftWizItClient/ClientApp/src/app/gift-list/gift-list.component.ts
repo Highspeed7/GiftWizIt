@@ -76,6 +76,7 @@ export class GiftListComponent implements OnInit {
     }
   }
 
+  // TODO: Add a check for moves to same gift lists.
   public itemMoveClicked(eventItem) {
     var checkedItems: any[] = [];
 

@@ -5,7 +5,7 @@
         <h2>Your Wish List</h2>
       </div>
     </div>
-    <gw-list-action (onActionClicked)="actionClicked($event)" (onMoveClicked)="itemMoveClicked($event)" [giftLists]="giftLists">
+    <gw-list-action>
       <div actions>
         <gw-list-action-item icon="fas fa-dolly" title="Move" [isActive]="moveActionActive" (onActionClicked)="actionClicked($event)"></gw-list-action-item>
         <gw-list-action-item icon="fas fa-trash" title="Delete" [isActive]="trashActionActive" (onActionClicked)="actionClicked($event)"></gw-list-action-item>

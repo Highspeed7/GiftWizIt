@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.2",
-    "signature": "defd4c94083e6401bc2a0a14af1e4ac893028d00"
+    "signature": "c2308ffe2ebe03efc434d80944bdcab1f0045948"
   },
   "compilationOptions": {
     "defines": [
@@ -30,7 +30,8 @@
           "Microsoft.AspNetCore.Authentication.AzureADB2C.UI": "2.2.0",
           "Microsoft.AspNetCore.Razor.Design": "2.2.0",
           "Microsoft.NETCore.App": "2.2.0",
-          "Microsoft.VisualStudio.Web.CodeGeneration.Design": "2.2.0"
+          "Microsoft.VisualStudio.Web.CodeGeneration.Design": "2.2.0",
+          "Sendgrid": "9.11.0"
         },
         "runtime": {
           "GiftWizItApi.dll": {}
@@ -429,6 +430,20 @@
         },
         "compile": {
           "lib/netstandard1.6/NuGet.Frameworks.dll": {}
+        }
+      },
+      "Sendgrid/9.11.0": {
+        "dependencies": {
+          "Newtonsoft.Json": "11.0.2"
+        },
+        "runtime": {
+          "lib/netstandard2.0/SendGrid.dll": {
+            "assemblyVersion": "9.11.0.0",
+            "fileVersion": "9.11.0.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.0/SendGrid.dll": {}
         }
       },
       "System.Composition/1.0.31": {
@@ -3735,6 +3750,13 @@
       "sha512": "sha512-qbXaB76XYUVLocLBs8Z9TS/ERGK2wm797feO+0JEPFvT7o7MRadOR77mqaSD4J1k8G+DlZQyq+MlkCuxrkr3ag==",
       "path": "nuget.frameworks/4.7.0",
       "hashPath": "nuget.frameworks.4.7.0.nupkg.sha512"
+    },
+    "Sendgrid/9.11.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-I3VdLmsDbqazS5k8OsMAuKvnZz3YruNQxOACfVMDdrM5jjlQE/jOoaNJXcZEG+49TbanCVvOldE56pbKxdiVGA==",
+      "path": "sendgrid/9.11.0",
+      "hashPath": "sendgrid.9.11.0.nupkg.sha512"
     },
     "System.Composition/1.0.31": {
       "type": "package",
