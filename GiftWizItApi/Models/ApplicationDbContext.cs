@@ -128,6 +128,10 @@ namespace GiftWizItApi.Models
                 .HasColumnName("user_id")
                 .IsRequired(true);
             modelBuilder.Entity<Users>()
+                .Property(u => u.Email)
+                .HasColumnName("email")
+                .IsRequired(true);
+            modelBuilder.Entity<Users>()
                 .HasAlternateKey(u => u.Email)
                 .HasName("email");
 
