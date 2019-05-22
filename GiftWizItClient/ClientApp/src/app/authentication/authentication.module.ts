@@ -16,7 +16,6 @@ import { protectedResourceMap } from '../configs/protectedResource';
       consentScopes: ["https://giftwizit.onmicrosoft.com/api/read", "https://giftwizit.onmicrosoft.com/api/user_impersonation"],
       redirectUri: env.environment.redirectUri,
       postLogoutRedirectUri: env.environment.redirectUri,
-      // protectedResourceMap: protectedResourceMap,
       cacheLocation: "localStorage"
     })
   ],

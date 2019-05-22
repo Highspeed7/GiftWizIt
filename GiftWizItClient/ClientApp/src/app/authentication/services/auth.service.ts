@@ -34,14 +34,18 @@ export class AuthService implements OnDestroy {
       // TODO: replace with modeled property.
       this.appInfo.userInfo = user;
       this.window.localStorage.setItem("gw_app", JSON.stringify(this.appInfo));
-
+      this.registerUser().then((r) => {
+        if (r > 0) {
+          this.appInfo.userInfo['isRegistered'] = true;
+        } else {
+          this.appInfo.userInfo['isRegistered'] = false;
+        }
+      });
     });
   }
   public async login() {
     var promise = new Promise((resolve, reject) => {
-      this.msal.loginPopup(authConfig.config.b2cScopes).then(() => {
-
-      })
+      this.msal.loginPopup(authConfig.config.b2cScopes).then(() => {})
     })
   }
 
@@ -63,8 +67,12 @@ export class AuthService implements OnDestroy {
     else return Promise.resolve(cacheToken.token);
   }
 
-  public storeUser() {
-
+  public async registerUser() {
+    var access_token = null;
+    await this.getToken().then((token) => {
+      access_token = token;
+    });
+    return this.http.post("https://localhost:44327/api/Users", null, { headers: { 'Authorization': `bearer ${access_token}` } }).toPromise();
   }
 
   //public login() {

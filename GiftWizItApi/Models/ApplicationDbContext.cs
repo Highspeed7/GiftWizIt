@@ -127,6 +127,9 @@ namespace GiftWizItApi.Models
                 .Property(u => u.UserId)
                 .HasColumnName("user_id")
                 .IsRequired(true);
+            modelBuilder.Entity<Users>()
+                .HasAlternateKey(u => u.Email)
+                .HasName("email");
 
             // Partners Configuration
             modelBuilder.Entity<Partners>()
@@ -152,11 +155,6 @@ namespace GiftWizItApi.Models
                 .Property(c => c.Email)
                 .HasColumnName("email")
                 .HasMaxLength(100)
-                .IsRequired(true);
-            modelBuilder.Entity<Contacts>()
-                .Property(c => c.AccessGuid)
-                .HasColumnName("access_guid")
-                .ValueGeneratedOnAdd()
                 .IsRequired(true);
             modelBuilder.Entity<Contacts>()
                 .Property(c => c.Verified)

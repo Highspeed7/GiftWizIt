@@ -37,9 +37,9 @@ export class GiftListService implements OnDestroy {
       .map(res => res as GiftList[]).toPromise();
   }
 
-  public createList(body: GiftList) {
-    this.access = this.authSvc.getToken().then(token => this.access = token);
-    return this.http.post(`${this.apiUrl}/GiftLists`, body, { headers: { 'Authorization': `bearer ${this.access.token}` } });
+  public async createList(body: GiftList) {
+    await this.authSvc.getToken().then(token => this.access = token);
+    return this.http.post(`${this.apiUrl}/GiftLists`, body, { headers: { 'Authorization': `bearer ${this.access}` } }).toPromise();
   }
 
   public deleteList(body: GiftList) {

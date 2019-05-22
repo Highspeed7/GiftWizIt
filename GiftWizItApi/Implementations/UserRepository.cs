@@ -21,11 +21,12 @@ namespace GiftWizItApi.Implementations
                 .SingleOrDefaultAsync();
         }
 
-        public Users Add(string userId)
+        public Users Add(string userId, string email)
         {
             var user = new Users
             {
-                UserId = userId
+                UserId = userId,
+                Email = email
             };
 
             return Context.Users.Add(user).Entity;

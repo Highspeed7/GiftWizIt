@@ -34,7 +34,7 @@ export class AddGiftListComponent implements OnInit {
       userId.idToken.oid
     );
 
-    this.glService.createList(glist).subscribe((res) => {
+    this.glService.createList(glist).then((res) => {
       console.log(res)
       if (res !== null) {
         this.addListForm.reset();

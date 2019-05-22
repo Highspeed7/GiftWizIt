@@ -23,14 +23,18 @@ namespace GiftWizItApi.Controllers
 
         [Route("api/Users")]
         [HttpPost]
-        public async Task<int> RegisterUserId([FromBody] Users userId)
+        public async Task<int> RegisterUser()
         {
-            var user = await this._unitOfWork.Users.GetUserByIdAsync(userId.UserId);
-            if(user == null)
+            var userId = User.Claims.First(e => e.Type == "http://schemas.microsoft.com/identity/claims/objectidentifier").Value;
+            var email = User.Claims.First(e => e.Type == "emails").Value;
+
+            var user = await _unitOfWork.Users.GetUserByIdAsync(userId);
+
+            if (user == null)
             {
-                _unitOfWork.Users.Add(userId);
+                _unitOfWork.Users.Add(userId, email);
             }
-            
+
             return await _unitOfWork.CompleteAsync();
         }
 

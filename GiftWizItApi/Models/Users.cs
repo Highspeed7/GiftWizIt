@@ -8,6 +8,7 @@ namespace GiftWizItApi.Models
     public class Users
     {
         public string UserId { get; set; }
+        public string Email { get; set; }
 
         public List<ContactUsers> ContactUsers { get; set; }
 

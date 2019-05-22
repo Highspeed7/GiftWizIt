@@ -10,7 +10,6 @@ namespace GiftWizItApi.Models
         public int ContactId { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
-        public Guid AccessGuid { get; set; }
         public bool Verified { get; set; }
         public bool EmailSent { get; set; }
 
