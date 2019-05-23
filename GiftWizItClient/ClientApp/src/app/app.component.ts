@@ -4,7 +4,7 @@ import { AccountsService } from './accounts.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { URLSearchParams } from '@angular/http';
-import { MsalService } from '@azure/msal-angular';
+import { MsalService, BroadcastService } from '@azure/msal-angular';
 import { AuthService } from './authentication/services/auth.service';
 @Component({
   selector: 'app-root',
@@ -22,6 +22,7 @@ export class AppComponent implements OnInit {
     private windowRef: WindowRefService,
     private acntSvc: AccountsService,
     private authSvc: AuthService,
+    private bcs: BroadcastService,
     private router: Router,
     private route: ActivatedRoute,
     private msal: MsalService) {

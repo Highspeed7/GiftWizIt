@@ -19,6 +19,7 @@ using GiftWizItApi.Implementations;
 using AutoMapper;
 using GiftWizItApi.Service;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using GiftWizItApi.Services;
 
 namespace GiftWizItApi
 {
@@ -47,7 +48,7 @@ namespace GiftWizItApi
                 )
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            services.AddSingleton<IEmailSender, EmailSender>();
+            services.AddSingleton<IContactEmailer, ContactEmailer>();
             services.Configure<EmailOptions>(Configuration.GetSection("SendGrid"));
 
             services.AddCors(options =>

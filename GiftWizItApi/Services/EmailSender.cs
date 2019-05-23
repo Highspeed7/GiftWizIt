@@ -18,10 +18,34 @@ namespace GiftWizItApi.Service
 
         public Task SendEmailAsync(string email, string subject, string message)
         {
-            return Execute(Options.SendGridKey, subject, message, email);
+            return Execute(Options.ApiKey, subject, message, email);
         }
 
-        private Task Execute(string sendGridKey, string subject, string message, string email)
+        protected Task Execute<T>(string email, T templateData, string templateId)
+        {
+            var client = new SendGridClient(Options.ApiKey);
+            var msg = new SendGridMessage()
+            {
+                From = new EmailAddress(Options.FromEmail, Options.EmailTitle),
+
+            };
+
+            msg.AddTo(new EmailAddress(email));
+            msg.SetTemplateData(templateData);
+            msg.SetTemplateId(templateId);
+
+            try
+            {
+                return client.SendEmailAsync(msg);
+            }catch (Exception ex)
+            {
+                // TODO: Logging
+                Console.WriteLine(ex.Message);
+            }
+            return null;
+        }
+
+        protected Task Execute(string sendGridKey, string subject, string message, string email)
         {
             var client = new SendGridClient(sendGridKey);
             var msg = new SendGridMessage()
@@ -29,7 +53,6 @@ namespace GiftWizItApi.Service
                 // TODO: Get rid of magic strings.
                 From = new EmailAddress(Options.FromEmail, Options.EmailTitle),
                 Subject = subject,
-                PlainTextContent = message,
                 HtmlContent = message
             };
 
@@ -41,6 +64,7 @@ namespace GiftWizItApi.Service
             }catch (Exception ex)
             {
                 // TODO: Logging
+                Console.WriteLine(ex.Message);
             }
             return null;
         }

@@ -7,8 +7,9 @@ namespace GiftWizItApi.Service
 {
     public class EmailOptions
     {
-        public string SendGridKey { get; set; }
+        public string ApiKey { get; set; }
         public string FromEmail { get; set; }
         public string EmailTitle { get; set; }
+        public string ContactGreetTemplateId { get; set; }
     }
 }
