@@ -19,5 +19,10 @@ namespace GiftWizItApi.Services
         {
             return base.Execute<ContactMailTemplate>(email, templateData, emailOptions.Value.ContactGreetTemplateId);
         }
+
+        public async Task SendEmailAsync(string email, string subject, string message)
+        {
+            await SendEmailAsync(email, subject, message);
+        }
     }
 }

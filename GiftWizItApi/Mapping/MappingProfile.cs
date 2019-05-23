@@ -19,6 +19,8 @@ namespace GiftWizItApi.Mapping
             CreateMap<CombGiftItems, QueryGiftItemDTO>();
             CreateMap<GiftItemDTO, GiftItem>()
                 .ForMember(d => d.GListId, opt => opt.MapFrom(s => s.To_Glist_Id));
+            CreateMap<ContactDTO, Contacts>();
+            CreateMap<ContactUsersDTO, ContactUsers>();
         }
     }
 }

@@ -21,6 +21,8 @@ namespace GiftWizItApi.Implementations
             WishItems = new WishItemRepository(_context);
             LnksItmsPtns = new LnksItmsPtnrsRepository(_context);
             Partners = new PartnersRepository(_context);
+            Contacts = new ContactRepository(_context);
+            ContactUsers = new ContactUsersRepository(_context);
         }
 
         public IGiftListRepository GiftLists { get; private set; }
@@ -30,6 +32,8 @@ namespace GiftWizItApi.Implementations
         public IWishItemRepository WishItems { get; private set; }
         public ILnksItmsPtnrsRepository LnksItmsPtns { get; private set; }
         public IPartnersRepository Partners { get; private set; }
+        public IContactRepository Contacts { get; private set; }
+        public IContactUsersRepository ContactUsers { get; private set; }
 
         public async Task<int> CompleteAsync()
         {

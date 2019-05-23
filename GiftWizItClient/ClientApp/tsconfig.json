@@ -1,7 +1,7 @@
 {
   "compileOnSave": false,
   "include": [
-    "./src", "../../GiftWizItApi/Mapping", "../../GiftWizItApi/EmailTemplateModels/ContactMailTemplate.cs", "../../GiftWizItApi/Implementations/EmailTemplateData/ContactMailTemplate.cs"
+    "./src", "../../GiftWizItApi/Mapping", "../../GiftWizItApi/Interfaces/IContactUserRepository.cs", "../../GiftWizItApi/EmailTemplateModels/ContactMailTemplate.cs", "../../GiftWizItApi/Implementations/EmailTemplateData/ContactMailTemplate.cs"
   ],
   "angularCompilerOptions": {
     "enableIvy": false

@@ -53,7 +53,8 @@ namespace GiftWizItApi.Service
                 // TODO: Get rid of magic strings.
                 From = new EmailAddress(Options.FromEmail, Options.EmailTitle),
                 Subject = subject,
-                HtmlContent = message
+                HtmlContent = message,
+                ReplyTo = new EmailAddress(Options.FromEmail, Options.EmailTitle)
             };
 
             msg.AddTo(new EmailAddress(email));

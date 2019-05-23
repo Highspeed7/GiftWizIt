@@ -14,6 +14,8 @@ namespace GiftWizItApi.Interfaces
         IWishListRepository WishLists { get; }
         ILnksItmsPtnrsRepository LnksItmsPtns { get; }
         IPartnersRepository Partners { get; }
+        IContactRepository Contacts { get; }
+        IContactUsersRepository ContactUsers { get; }
         Task<int> CompleteAsync();
     }
 }

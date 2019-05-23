@@ -1,4 +1,4 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit, OnDestroy} from '@angular/core';
 import { WindowRefService } from './window-ref.service';
 import { AccountsService } from './accounts.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
@@ -6,16 +6,20 @@ import { map } from 'rxjs/operators';
 import { URLSearchParams } from '@angular/http';
 import { MsalService, BroadcastService } from '@azure/msal-angular';
 import { AuthService } from './authentication/services/auth.service';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   public title = 'app';
   public displayName: string = "Guest";
   public isLoggedIn: boolean = false;
+  public user: any;
   private window: any;
+  private bcsSub: Subscription
+  private isAuthenticated: boolean = false;
 
   // Injected msal service to handle redirect from auth server.
   constructor(
@@ -45,6 +49,20 @@ export class AppComponent implements OnInit {
     this.authSvc.login().then(() => { });
   }
   public ngOnInit() {
+    this.authSvc.getToken().then((token) => {
+      if (token != null) {
+        this.isAuthenticated = true;
+      } else {
+        this.isAuthenticated = false;
+      }
+    });
+    this.user = this.msal.getUser();
+    this.displayName = this.user.name;
+    this.bcs.subscribe("msal:loginSuccess", () => {
+      this.user = this.msal.getUser();
+      console.log(this.user);
+      this.displayName = this.user.name;
+    });
     //var url = this.route.url.subscribe((v) => {
     //  console.log(v);
     //});
@@ -57,5 +75,9 @@ export class AppComponent implements OnInit {
 
   public onLogout() {
     this.authSvc.logout();
+  }
+
+  public ngOnDestroy() {
+    this.bcsSub.unsubscribe();
   }
 }
