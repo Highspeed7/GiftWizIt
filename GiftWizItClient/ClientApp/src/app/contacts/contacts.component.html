@@ -11,7 +11,7 @@
         <gw-list-action-item icon="fas fa-trash" title="Trash" [isActive]="trashActionActive" (onActionClicked)="actionClicked($event)"></gw-list-action-item>
       </div>
       <div actionDisplay>
-        <gw-add-contact *ngIf="addActionActive"></gw-add-contact>
+        <gw-add-contact *ngIf="addActionActive" (onContactAdded)="contactAdded($event)"></gw-add-contact>
       </div>
     </gw-list-action>
   </div>

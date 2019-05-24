@@ -1,4 +1,4 @@
-<form #form [formGroup]="addContactForm">
+<form #form [formGroup]="addContactForm" (ngSubmit)="onAddContact()">
   <div class="row">
     <div class="col-4">
       <label for="name">Name: </label>
@@ -13,5 +13,4 @@
       <button class="btn btn-primary add-btn" [disabled]="addContactForm.invalid">Add</button>
     </div>
   </div>
-    
 </form>

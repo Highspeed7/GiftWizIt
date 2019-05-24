@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { AddContactModel } from '../models/add-contact-model';
 
 @Component({
   selector: 'gw-add-contact',
@@ -8,7 +9,12 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 })
 export class AddContactComponent implements OnInit {
 
+  @Output()
+  public onContactAdded = new EventEmitter<AddContactModel>();
+
   public addContactForm: FormGroup;
+
+  private addedContact: AddContactModel = new AddContactModel();
 
   constructor() { }
 
@@ -19,4 +25,9 @@ export class AddContactComponent implements OnInit {
     });
   }
 
+  public onAddContact() {
+    this.addedContact.name = this.addContactForm.controls.name.value;
+    this.addedContact.email = this.addContactForm.controls.email.value;
+    this.onContactAdded.emit(this.addedContact);
+  }
 }

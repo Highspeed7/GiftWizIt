@@ -5,13 +5,8 @@ using System.Net;
 using System.Threading.Tasks;
 using AutoMapper;
 using GiftWizItApi.Controllers.dtos;
-using GiftWizItApi.EmailTemplateModels;
 using GiftWizItApi.Interfaces;
-using GiftWizItApi.Models;
-using GiftWizItApi.Service;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GiftWizItApi.Controllers

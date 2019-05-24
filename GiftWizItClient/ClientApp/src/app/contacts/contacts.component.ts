@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AddContactModel } from '../list-action/models/add-contact-model';
+import { ContactService } from './contact.service';
 
 @Component({
   selector: 'gw-contacts',
@@ -10,7 +12,7 @@ export class ContactsComponent implements OnInit {
   public addActionActive: boolean = false;
   public trashActionActive: boolean = false;
 
-  constructor() { }
+  constructor(private contactSvc: ContactService) { }
 
   ngOnInit() {
   }
@@ -30,4 +32,9 @@ export class ContactsComponent implements OnInit {
     }
   }
 
+  public contactAdded(contact: AddContactModel) {
+    this.contactSvc.addContact(contact).then((res) => {
+      console.log("Added contact response " + res);
+    });
+  }
 }
