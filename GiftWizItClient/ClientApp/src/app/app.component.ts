@@ -7,6 +7,7 @@ import { URLSearchParams } from '@angular/http';
 import { MsalService, BroadcastService } from '@azure/msal-angular';
 import { AuthService } from './authentication/services/auth.service';
 import { Subscription } from 'rxjs';
+import { AppInfo } from './models/appInfo';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -17,6 +18,7 @@ export class AppComponent implements OnInit, OnDestroy {
   public displayName: string = "Guest";
   public isLoggedIn: boolean = false;
   public user: any;
+  private appInfo: AppInfo = new AppInfo();
   private window: any;
   private bcsSub: Subscription
   private isAuthenticated: boolean = false;
@@ -49,20 +51,29 @@ export class AppComponent implements OnInit, OnDestroy {
     this.authSvc.login().then(() => { });
   }
   public ngOnInit() {
-    this.authSvc.getToken().then((token) => {
-      if (token != null) {
-        this.isAuthenticated = true;
-      } else {
-        this.isAuthenticated = false;
-      }
-    });
     this.user = this.msal.getUser();
-    this.displayName = this.user.name;
-    this.bcs.subscribe("msal:loginSuccess", () => {
-      this.user = this.msal.getUser();
-      console.log(this.user);
+    if (this.user !== null) {
       this.displayName = this.user.name;
+      this.isAuthenticated = true;
+    }
+    this.bcsSub = this.bcs.subscribe("msal:loginSuccess", (msg) => {
+      this.user = this.msal.getUser();
+      this.isAuthenticated = true;
+      this.displayName = this.user.name;
+
+      this.authSvc.registerUser().then((r) => {
+        this.appInfo.userInfo['isRegistered'] = true;
+      });
     });
+    //this.authSvc.getToken().then((token) => {
+    //  if (token != null) {
+    //    this.isAuthenticated = true;
+    //  } else {
+    //    this.isAuthenticated = false;
+    //  }
+    //});
+    //this.user = this.msal.getUser();
+    //this.displayName = this.user.name;
     //var url = this.route.url.subscribe((v) => {
     //  console.log(v);
     //});

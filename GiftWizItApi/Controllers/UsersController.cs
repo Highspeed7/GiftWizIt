@@ -25,6 +25,7 @@ namespace GiftWizItApi.Controllers
         [HttpPost]
         public async Task<int> RegisterUser()
         {
+            // TODO: Help mitigate incidents where facebook email is the same as an already registered user.
             var userId = User.Claims.First(e => e.Type == "http://schemas.microsoft.com/identity/claims/objectidentifier").Value;
             var email = User.Claims.First(e => e.Type == "emails").Value;
 
@@ -33,6 +34,9 @@ namespace GiftWizItApi.Controllers
             if (user == null)
             {
                 _unitOfWork.Users.Add(userId, email);
+            }else
+            {
+                return 0;
             }
 
             return await _unitOfWork.CompleteAsync();

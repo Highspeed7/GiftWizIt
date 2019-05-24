@@ -2,6 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var AppInfo = /** @class */ (function () {
     function AppInfo() {
+        this.userInfo = {
+            "isRegistered": false
+        };
     }
     return AppInfo;
 }());

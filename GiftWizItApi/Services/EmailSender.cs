@@ -50,7 +50,6 @@ namespace GiftWizItApi.Service
             var client = new SendGridClient(sendGridKey);
             var msg = new SendGridMessage()
             {
-                // TODO: Get rid of magic strings.
                 From = new EmailAddress(Options.FromEmail, Options.EmailTitle),
                 Subject = subject,
                 HtmlContent = message,

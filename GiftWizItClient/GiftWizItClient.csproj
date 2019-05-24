@@ -28,7 +28,9 @@
   <ItemGroup>
     <None Remove="ClientApp\src\app\configs\authConfig.ts" />
     <None Remove="ClientApp\src\app\configs\protectedResource.ts" />
+    <None Remove="ClientApp\src\app\contacts\models\contact.ts" />
     <None Remove="ClientApp\src\app\gift-list\models\gift-list.ts" />
+    <None Remove="ClientApp\src\app\list-action\models\add-contact-model.ts" />
     <None Remove="ClientApp\src\app\models\appInfo.ts" />
     <None Remove="ClientApp\src\app\wish-list\models\gift-item.ts" />
     <None Remove="ClientApp\src\app\wish-list\models\wish-list.ts" />
@@ -49,7 +51,9 @@
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\src\app\configs\authConfig.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\configs\protectedResource.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\contacts\models\contact.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\gift-list\models\gift-list.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\list-action\models\add-contact-model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\appInfo.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\wish-list\models\gift-item.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\wish-list\models\wish-list.ts" />

@@ -15,7 +15,6 @@ import { Subscription } from 'rxjs';
 export class AuthService implements OnDestroy {
   public redirectUrl = "/";
   private window: any;
-  private appInfo: AppInfo = new AppInfo();
   private isLoggedInSub: Subscription;
   private isLoggedOutSub: Subscription;
   constructor(
@@ -26,22 +25,6 @@ export class AuthService implements OnDestroy {
     private acntSvc: AccountsService,
     private router: Router) {
     this.window = this.windowRef.nativeWindow;
-
-    this.isLoggedInSub = this.bcs.subscribe("msal:loginSuccess", (msg) => {
-      this.acntSvc.loggedInSrc.next(true);
-      // Store the user info
-      var user = this.msal.getUser();
-      // TODO: replace with modeled property.
-      this.appInfo.userInfo = user;
-      this.window.localStorage.setItem("gw_app", JSON.stringify(this.appInfo));
-      this.registerUser().then((r) => {
-        if (r > 0) {
-          this.appInfo.userInfo['isRegistered'] = true;
-        } else {
-          this.appInfo.userInfo['isRegistered'] = false;
-        }
-      });
-    });
   }
   public async login() {
     var promise = new Promise((resolve, reject) => {

@@ -16,9 +16,11 @@ namespace GiftWizItApi.Implementations
 
         public async Task<Users> GetUserByIdAsync(string id)
         {
-            return await Context.Users
+            var result = await Context.Users
                 .Where(u => u.UserId == id)
                 .SingleOrDefaultAsync();
+
+            return result;
         }
 
         public Users Add(string userId, string email)
