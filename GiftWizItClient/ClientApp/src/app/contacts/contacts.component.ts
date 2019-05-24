@@ -40,7 +40,9 @@ export class ContactsComponent implements OnInit {
 
   public contactAdded(contact: AddContactModel) {
     this.contactSvc.addContact(contact).then((res) => {
-      console.log("Added contact response " + res);
+      this.contactSvc.getUserContacts().then((data: Contact[]) => {
+        this.contacts = data;
+      });
     });
   }
 }

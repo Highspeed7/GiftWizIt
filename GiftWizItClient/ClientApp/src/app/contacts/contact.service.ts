@@ -24,7 +24,7 @@ export class ContactService {
     await this.authSvc.getToken().then((token) => {
       this.token = token;
     });
-    this.http.post(`${this.apiUrl}/Contacts/Add`, contact, { headers: { 'Authorization': `bearer ${this.token}` } })
+    return this.http.post(`${this.apiUrl}/Contacts/Add`, contact, { headers: { 'Authorization': `bearer ${this.token}` } })
       .toPromise();
   }
 }
