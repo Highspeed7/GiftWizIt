@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AddContactModel } from '../list-action/models/add-contact-model';
 import { ContactService } from './contact.service';
+import { Contact } from './models/contact';
 
 @Component({
   selector: 'gw-contacts',
@@ -12,9 +13,14 @@ export class ContactsComponent implements OnInit {
   public addActionActive: boolean = false;
   public trashActionActive: boolean = false;
 
+  public contacts: Contact[];
+
   constructor(private contactSvc: ContactService) { }
 
   ngOnInit() {
+    this.contactSvc.getUserContacts().then((data: Contact[]) => {
+      this.contacts = data;
+    });
   }
 
   public actionClicked(actionInfo) {

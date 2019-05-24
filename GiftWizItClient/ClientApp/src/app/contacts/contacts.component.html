@@ -14,5 +14,10 @@
         <gw-add-contact *ngIf="addActionActive" (onContactAdded)="contactAdded($event)"></gw-add-contact>
       </div>
     </gw-list-action>
+    <div class="row">
+      <div class="col-md" *ngFor="let contact of contacts">
+        {{contact.contact.name}}
+      </div>
+    </div>
   </div>
 </div>
