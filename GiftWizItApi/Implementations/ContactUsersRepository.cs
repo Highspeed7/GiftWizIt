@@ -47,8 +47,9 @@ namespace GiftWizItApi.Implementations
                     {
                         Email = contact.Email,
                         Name = contact.Name,
-                        EmailSent = true,
-                        Verified = true
+                        EmailSent = false,
+                        Verified = false,
+                        VerifyGuid = Guid.NewGuid().ToString()
                     },
                     UserId = userId
                 };

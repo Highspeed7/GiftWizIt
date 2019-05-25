@@ -1,9 +1,11 @@
-﻿namespace GiftWizItApi.EmailTemplateModels
+﻿using GiftWizItApi.Models;
+
+namespace GiftWizItApi.EmailTemplateModels
 {
     public class ContactMailTemplate
     {
-        public string contactName { get; set; }
-        public string from { get; set; }
+        public EmailAddress contactEmail { get; set; }
+        public string fromUser { get; set; }
         public string getStartedUrl { get; set; }
     }
 }

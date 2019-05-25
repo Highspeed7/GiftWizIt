@@ -168,6 +168,10 @@ namespace GiftWizItApi.Models
                 .Property(c => c.EmailSent)
                 .HasColumnName("email_sent")
                 .HasDefaultValue(false);
+            modelBuilder.Entity<Contacts>()
+                .Property(c => c.VerifyGuid)
+                .HasColumnName("verify_guid")
+                .IsRequired(false);
 
             // ContactUsers Linking table configuration
             modelBuilder.Entity<ContactUsers>()

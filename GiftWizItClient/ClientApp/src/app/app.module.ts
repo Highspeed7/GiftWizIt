@@ -17,12 +17,14 @@ import { AuthService } from './authentication/services/auth.service';
 import { GiftListsModule } from './gift-list/gift-lists.module';
 import { WishListModule } from './wish-list/wish-list.module';
 import { ContactsModule } from './contacts/contacts.module';
+import { ContactGetStartedComponent } from './contact-get-started/contact-get-started.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LeftRibbonComponent,
-    LoginComponent
+    LoginComponent,
+    ContactGetStartedComponent
   ],
   imports: [
     BrowserModule,
@@ -37,6 +39,10 @@ import { ContactsModule } from './contacts/contacts.module';
       {
         path: "login",
         component: LoginComponent
+      },
+      {
+        path: "contact-get-started",
+        component: ContactGetStartedComponent
       }
     ])
   ],

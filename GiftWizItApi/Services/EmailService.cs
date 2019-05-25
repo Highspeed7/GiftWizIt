@@ -1,6 +1,7 @@
 ﻿using GiftWizItApi.Interfaces;
 using GiftWizItApi.Models;
 using MailKit.Net.Smtp;
+using Microsoft.AspNetCore.Hosting;
 using MimeKit;
 using MimeKit.Cryptography;
 using MimeKit.Text;
@@ -16,10 +17,12 @@ namespace GiftWizItApi.Services
     public class EmailService: IEmailService
     {
         private readonly IEmailConfiguration emailConfiguration;
+        private readonly IHostingEnvironment env;
 
-        public EmailService(IEmailConfiguration emailConfiguration)
+        public EmailService(IEmailConfiguration emailConfiguration, IHostingEnvironment env)
         {
             this.emailConfiguration = emailConfiguration;
+            this.env = env;
         }
 
         public List<EmailMessage> ReceiveEmail(int maxCount = 10)
