@@ -5,8 +5,11 @@ using System.Net;
 using System.Threading.Tasks;
 using AutoMapper;
 using GiftWizItApi.Controllers.dtos;
+using GiftWizItApi.EmailTemplateModels;
 using GiftWizItApi.Interfaces;
+using GiftWizItApi.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GiftWizItApi.Controllers
@@ -20,11 +23,11 @@ namespace GiftWizItApi.Controllers
     [ApiController]
     public class ContactsController : ControllerBase
     {
-        private readonly IContactEmailer emailer;
+        private readonly IEmailService emailer;
         private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;
 
-        public ContactsController(IContactEmailer emailer, IUnitOfWork unitOfWork, IMapper mapper)
+        public ContactsController(IEmailService emailer, IUnitOfWork unitOfWork, IMapper mapper)
         {
             this.emailer = emailer;
             this.unitOfWork = unitOfWork;
@@ -73,26 +76,31 @@ namespace GiftWizItApi.Controllers
             return StatusCode((int)HttpStatusCode.OK);
         }
 
-        private async Task<bool> SendEmail(Test valueToSend)
+        [Route("api/Contacts/Email")]
+        [HttpPost]
+        public async Task<IActionResult> SendEmail(EmailAddress emailAddress)
         {
-            return true;
+            var toAddresses = new List<EmailAddress>();
+            toAddresses.Add(emailAddress);
+
+            var fromAddresses = new List<EmailAddress>();
+            fromAddresses.Add(new EmailAddress()
+            {
+                Name = "GiftWizIt",
+                Address = "greetings@giftwizit.com"
+            });
+
+            var email = new EmailMessage()
+            {
+                ToAddresses = toAddresses,
+                FromAddresses = fromAddresses,
+                Content = "This is a test email",
+                Subject = "Testing email"
+            };
+
+            await emailer.Send(email);
+
+            return StatusCode((int)HttpStatusCode.OK);
         }
-
-        //[Route("api/Contacts/Email")]
-        //[HttpPost]
-        //public async Task<IActionResult> SendEmail(Test valueToSend)
-        //{
-        //    var to = "brwest@enlistedinnovations.com";
-
-        //    ContactMailTemplate templateData = new ContactMailTemplate()
-        //    {
-        //        contactName = "Lauren",
-        //        from = "Brian West",
-        //        getStartedUrl = "https://www.giftwizit.com"
-        //    };
-
-        //    await emailer.SendEmailTransactionalAsync(to, templateData);
-        //    return StatusCode((int)HttpStatusCode.OK);
-        //}
     }
 }
