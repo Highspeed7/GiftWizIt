@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { ContactService } from '../contacts/contact.service';
 
 @Component({
   selector: 'gw-contact-get-started',
@@ -7,9 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ContactGetStartedComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private route: ActivatedRoute,
+    private contactSvc: ContactService,
+  ) { }
 
   ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      this.contactSvc.verifyEmail(params["emailId"]).then(res => { alert("Email verified; thanks!") });
+    });
   }
 
 }

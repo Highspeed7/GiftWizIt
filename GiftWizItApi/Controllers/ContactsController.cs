@@ -116,6 +116,18 @@ namespace GiftWizItApi.Controllers
             return StatusCode((int)HttpStatusCode.OK);
         }
 
+        [Route("api/Contacts/EmailVerify")]
+        [HttpPost]
+        public async Task VerifyEmail(string emailId)
+        {
+            Contacts contact = await unitOfWork.Contacts.GetContactByEmailGuid(emailId);
+            if(contact != null)
+            {
+                contact.Verified = true;
+                await unitOfWork.CompleteAsync();
+            }
+        }
+
         private async Task SendGreetEmail()
         {
             var toAddresses = new List<EmailAddress>();

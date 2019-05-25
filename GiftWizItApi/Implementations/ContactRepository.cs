@@ -24,5 +24,11 @@ namespace GiftWizItApi.Implementations
             var result = await Context.Contacts.Where(c => c.Email == email).FirstOrDefaultAsync();
             return result;
         }
+
+        public async Task<Contacts> GetContactByEmailGuid(string emailId)
+        {
+            var result = await Context.Contacts.Where(c => c.VerifyGuid == emailId).FirstOrDefaultAsync();
+            return result;
+        }
     }
 }
