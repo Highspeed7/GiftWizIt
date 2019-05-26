@@ -29,10 +29,7 @@ export class ContactService {
   }
 
   public async verifyEmail(emailId: string) {
-    await this.authSvc.getToken().then((token) => {
-      this.token = token;
-    });
-    return this.http.post(`${this.apiUrl}/Contacts/EmailVerify?emailId=${emailId}`, null, { headers: { 'Authorization': `bearer ${this.token}` } })
+    return this.http.post(`${this.apiUrl}/Contacts/EmailVerify?emailId=${emailId}`, null)
       .toPromise();
   }
 }

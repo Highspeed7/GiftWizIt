@@ -23,7 +23,6 @@ namespace GiftWizItApi.Controllers
         public string valueToSend { get; set; }
     }
 
-    [Authorize]
     [ApiController]
     public class ContactsController : ControllerBase
     {
@@ -47,6 +46,7 @@ namespace GiftWizItApi.Controllers
 
         public IUnitOfWork UnitOfWork { get; }
 
+        [Authorize]
         [Route("api/Contacts/Get")]
         [HttpGet]
         public async Task<IEnumerable<ContactUsersDTO>> GetAllUserContacts()
@@ -57,6 +57,7 @@ namespace GiftWizItApi.Controllers
             return mapper.Map<List<ContactUsersDTO>>(results);
         }
 
+        [Authorize]
         [Route("api/Contacts/Add")]
         [HttpPost]
         public async Task<IActionResult> AddContact(AddContactDTO contact)
