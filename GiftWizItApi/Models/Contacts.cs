@@ -15,5 +15,6 @@ namespace GiftWizItApi.Models
         public string VerifyGuid { get; set; }
 
         public List<ContactUsers> ContactUsers { get; set; }
+        public List<SharedLists> SharedLists { get; set; }
     }
 }

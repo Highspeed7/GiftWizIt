@@ -18,6 +18,7 @@ import { GiftListsModule } from './gift-list/gift-lists.module';
 import { WishListModule } from './wish-list/wish-list.module';
 import { ContactsModule } from './contacts/contacts.module';
 import { ContactGetStartedComponent } from './contact-get-started/contact-get-started.component';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { ContactGetStartedComponent } from './contact-get-started/contact-get-st
     HttpModule,
     ReactiveFormsModule,
     CommonModule,
+    NgMultiSelectDropDownModule.forRoot(),
     AuthenticationModule,
     GiftListsModule,
     WishListModule,

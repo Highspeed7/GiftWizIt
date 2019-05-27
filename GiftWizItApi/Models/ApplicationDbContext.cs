@@ -23,6 +23,8 @@ namespace GiftWizItApi.Models
         public DbSet<Partners> Partners { get; set; }
         public DbSet<ContactUsers> ContactUsers { get; set; }
         public DbSet<LnksItmsPtnrs> LinkItemsPartners { get; set; }
+        public DbSet<SharedLists> SharedLists { get; set; }
+
         public DbQuery<WishListRaw> DbWishListObject { get; set; }
         public DbQuery<CombGiftItems> DbGiftItemsObject { get; set; }
 
@@ -212,6 +214,40 @@ namespace GiftWizItApi.Models
                 .HasOne(lip => lip.Partner)
                 .WithMany(p => p.LinkItemPartners)
                 .HasForeignKey(lip => lip.PartnerId);
+
+            // Shared-Lists linking table configuration
+            modelBuilder.Entity<SharedLists>()
+                .ToTable("Shared_Lists")
+                .HasKey(sl => new { sl.UserId, sl.GiftListId });
+            modelBuilder.Entity<SharedLists>()
+                .Property(sl => sl.Password)
+                .HasColumnName("password")
+                .IsRequired(true);
+            modelBuilder.Entity<SharedLists>()
+                .Property(sl => sl.EmailSent)
+                .HasColumnName("email_sent")
+                .HasDefaultValue(false);
+            modelBuilder.Entity<SharedLists>()
+                .Property(sl => sl.ContactId)
+                .HasColumnName("contact_id");
+            modelBuilder.Entity<SharedLists>()
+                .Property(sl => sl.UserId)
+                .HasColumnName("user_id");
+            modelBuilder.Entity<SharedLists>()
+                .Property(sl => sl.GiftListId)
+                .HasColumnName("g_list_id");
+            modelBuilder.Entity<SharedLists>()
+                .HasOne(sl => sl.Contact)
+                .WithMany(c => c.SharedLists)
+                .HasForeignKey(sl => sl.ContactId);
+            modelBuilder.Entity<SharedLists>()
+                .HasOne(sl => sl.GiftList)
+                .WithMany(gl => gl.SharedLists)
+                .HasForeignKey(sl => sl.GiftListId);
+            modelBuilder.Entity<SharedLists>()
+                .HasOne(sl => sl.User)
+                .WithMany(u => u.SharedLists)
+                .HasForeignKey(sl => sl.UserId);
         }
     }
 }

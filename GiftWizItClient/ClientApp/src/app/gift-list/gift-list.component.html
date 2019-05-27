@@ -11,12 +11,12 @@
       <div actionDisplay>
         <gw-add-gift-list *ngIf="addActionActive" (onListAdded)="onListAdded($event)"></gw-add-gift-list>
         <gw-move-to-gift-list *ngIf="moveActionActive" [giftLists]="giftLists" (onMoveClicked)="itemMoveClicked($event)"></gw-move-to-gift-list>
+        <gw-share-gift-list *ngIf="shareActionActive" [contacts]="contacts"></gw-share-gift-list>
       </div>
     </gw-list-action>
     <div class="card" *ngFor="let list of giftLists">
       <div class="row" (click)="expandGiftList(list)">
         <ng-template [ngIf]="giftLists.length > 0" [ngIfElse]="noGifts">
-          
           <div class="col-md-5 pl-4">
             <h4>{{list.name}}</h4>
           </div>

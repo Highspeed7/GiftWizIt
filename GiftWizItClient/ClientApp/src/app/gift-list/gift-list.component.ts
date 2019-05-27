@@ -2,6 +2,8 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { GiftListService } from './services/gift-list.service';
 import { GiftList, GiftItemQuery } from './models/gift-list';
 import { GiftItem } from '../wish-list/models/gift-item';
+import { Contact } from '../contacts/models/contact';
+import { ContactService } from '../contacts/contact.service';
 
 @Component({
   selector: 'app-gift-list',
@@ -13,6 +15,7 @@ export class GiftListComponent implements OnInit {
   public showCheckboxes = false;
   public hasGiftLists: boolean = false;
   public giftLists: GiftList[]
+  public contacts: any[]
   public trashActionActive = false;
   public addActionActive = false;
   public moveActionActive = false;
@@ -21,6 +24,7 @@ export class GiftListComponent implements OnInit {
 
   constructor(
     private glService: GiftListService,
+    private cntctService: ContactService,
     private cd: ChangeDetectorRef
   ) {
     this.glService.getLists().then((data) => {
@@ -28,6 +32,14 @@ export class GiftListComponent implements OnInit {
       if (this.giftLists.length > 0) {
         this.hasGiftLists = true;
       }
+    });
+
+    this.cntctService.getUserContacts().then((contacts) => {
+      this.contacts = contacts.map((contact: any) => {
+        if (contact.contact != null)
+          return contact.contact;
+      });
+      console.log();
     });
   }
 

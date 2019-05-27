@@ -1,0 +1,13 @@
+<form standalone="true">
+  <ng-multiselect-dropdown
+    [placeholder]="'Select one or more contacts'"
+    [data]="contacts"
+    [(ngModel)]="selectedItems"
+    name="contact-list"
+    [settings]="dropdownSettings"
+    (onSelect)="onItemSelect($event)"
+    (onSelectAll)="onSelectAll($event)"
+  >
+  </ng-multiselect-dropdown>
+  <button class="btn btn-primary inline" (click)="shareWithContactClicked()">Share</button>
+</form>

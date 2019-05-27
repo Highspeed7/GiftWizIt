@@ -26,5 +26,6 @@ namespace GiftWizItApi.Models
         public bool Deleted { get; set; }
         
         public List<GiftItem> GiftItems { get; set; }
+        public List<SharedLists> SharedLists { get; set; }
     }
 }

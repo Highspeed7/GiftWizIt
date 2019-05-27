@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MsalGuard } from '@azure/msal-angular';
 import { ListActionModule } from '../list-action/list-action.module';
+import { ContactService } from '../contacts/contact.service';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,6 @@ import { ListActionModule } from '../list-action/list-action.module';
       }
     ])
   ],
-  providers: [GiftListService]
+  providers: [GiftListService, ContactService]
 })
 export class GiftListsModule { }

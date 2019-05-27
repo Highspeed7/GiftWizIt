@@ -4,14 +4,16 @@ using GiftWizItApi.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GiftWizItApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190527185632_AddSharedListsToDatabase")]
+    partial class AddSharedListsToDatabase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -192,10 +194,10 @@ namespace GiftWizItApi.Migrations
                     b.Property<int>("ContactId")
                         .HasColumnName("contact_id");
 
-                    b.Property<bool>("EmailSent")
+                    b.Property<string>("EmailSent")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("email_sent")
-                        .HasDefaultValue(false);
+                        .HasDefaultValue("False");
 
                     b.Property<string>("Password")
                         .IsRequired()

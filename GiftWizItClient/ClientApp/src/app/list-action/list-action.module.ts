@@ -8,6 +8,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AddGiftListComponent } from './add-gift-list/add-gift-list.component';
 import { AddContactComponent } from './add-contact/add-contact.component';
+import { ShareGiftListComponent } from './share-gift-list/share-gift-list.component';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 @NgModule({
   declarations: [
@@ -16,13 +18,15 @@ import { AddContactComponent } from './add-contact/add-contact.component';
     MoveToGiftListComponent,
     DeleteWlItemComponent,
     AddGiftListComponent,
-    AddContactComponent
+    AddContactComponent,
+    ShareGiftListComponent
   ],
   imports: [
     NgbModule.forRoot(),
     CommonModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgMultiSelectDropDownModule.forRoot()
   ],
   exports: [
     ListActionComponent,
@@ -30,7 +34,8 @@ import { AddContactComponent } from './add-contact/add-contact.component';
     MoveToGiftListComponent,
     DeleteWlItemComponent,
     AddGiftListComponent,
-    AddContactComponent
+    AddContactComponent,
+    ShareGiftListComponent
   ]
 })
 export class ListActionModule { }
