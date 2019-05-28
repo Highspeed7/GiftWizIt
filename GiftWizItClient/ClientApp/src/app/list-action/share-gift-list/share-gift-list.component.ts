@@ -13,7 +13,9 @@ export class ShareGiftListComponent implements OnInit, OnChanges {
   public contacts: Contact[];
 
   // Set to an appropriate model
-  public selectedContacts: any[];
+  public selectedContacts: any[] = [];
+
+  public removedItemIndex: any;
 
   public dropdownList = [];
 
@@ -65,5 +67,33 @@ export class ShareGiftListComponent implements OnInit, OnChanges {
   public onItemSelect(item: any) {
     this.selectedContacts.push(item);
     console.log(this.selectedContacts);
+  }
+
+  public onItemDeselect(item: any) {
+    this.getSelectedItemIndex(item.contactId);
+
+    // Delete the deselected contact.
+    delete this.selectedContacts[this.removedItemIndex];
+
+    // Clean the selected contacts array.
+    this.selectedContacts = this.selectedContacts.filter(function () { return true });
+  }
+
+  public onItemDeselectAll() {
+    this.selectedContacts = [];
+  }
+
+  public onItemSelectAll(items: any[]) {
+    this.selectedContacts = items;
+    console.log(this.selectedContacts);
+  }
+
+  private getSelectedItemIndex(contactId) {
+    this.selectedContacts.find((c, i) => {
+      if (c.contactId == contactId) {
+        this.removedItemIndex = i;
+        return c;
+      }
+    });
   }
 }

@@ -6,7 +6,9 @@
     name="contact-list"
     [settings]="dropdownSettings"
     (onSelect)="onItemSelect($event)"
-    (onSelectAll)="onSelectAll($event)"
+    (onSelectAll)="onItemSelectAll($event)"
+    (onDeSelect)="onItemDeselect($event)"
+    (onDeSelectAll)="onItemDeselectAll($event)"
   >
   </ng-multiselect-dropdown>
   <button class="btn btn-primary inline" (click)="shareWithContactClicked()">Share</button>

@@ -168,7 +168,7 @@ div.side-ribbon ul > li:hover {
   display: inline !important;
 }
 
-/*Dropdown styles*/
+/*************Dropdown styles************************/
 .multiselect-dropdown .dropdown-btn {
   border: 1px solid black !important;
 }
@@ -176,6 +176,7 @@ div.side-ribbon ul > li:hover {
 .multiselect-dropdown .dropdown-btn .dropdown-down {
   border-top: 10px solid black !important;
 }
+/****************************************************/
 
 .multiselect-dropdown .dropdown-btn .dropdown-up {
   border-bottom: 10px solid black !important;

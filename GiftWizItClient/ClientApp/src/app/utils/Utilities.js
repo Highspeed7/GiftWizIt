@@ -6,6 +6,11 @@ var Utilities = /** @class */ (function () {
     Utilities.prototype.isEmpty = function (obj) {
         return Object.keys(obj).length === 0 && obj.constructor === Object;
     };
+    Utilities.prototype.arrayRemove = function (arr, value) {
+        return arr.filter(function (elem) {
+            return elem != value;
+        });
+    };
     return Utilities;
 }());
 exports.Utilities = Utilities;
