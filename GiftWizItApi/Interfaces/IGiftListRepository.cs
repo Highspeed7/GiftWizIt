@@ -11,6 +11,7 @@ namespace GiftWizItApi.Interfaces
     {
         GiftLists Add(GiftListDto glist);
         Task<IEnumerable<GiftLists>> GetUserLists(string userId);
+        Task<GiftLists> GetUserGiftListByIdAsync(string userId, int listId);
         Task DeleteGiftList(int listId);
     }
 }

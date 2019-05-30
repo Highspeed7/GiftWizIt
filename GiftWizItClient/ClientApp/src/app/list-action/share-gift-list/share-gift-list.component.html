@@ -3,7 +3,7 @@
     <p>You can share one list at a time with multiple contacts. Please select them below...</p>
   </div>
 </div>
-<form standalone="true">
+<form #shareForm="ngForm">
   <div class="form-group">
     <label>Select a gift list:</label>
     <select [(ngModel)]="selectedList" class="form-control" name="gift-lists">

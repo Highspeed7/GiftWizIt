@@ -26,18 +26,21 @@ namespace GiftWizItApi.Controllers
         private readonly IMapper mapper;
         private readonly IHostingEnvironment env;
         private readonly IEmailService emailSender;
+        private readonly IGiftWizItWebSettings siteSettings;
         private ContactShareMailTemplate contactShareMailTemplate;
 
         public GiftListsController(
             IUnitOfWork unitOfWork, 
             IMapper mapper, 
             IHostingEnvironment env,
-            IEmailService emailSender)
+            IEmailService emailSender,
+            IGiftWizItWebSettings siteSettings)
         {
             _unitOfWork = unitOfWork;
             this.mapper = mapper;
             this.env = env;
             this.emailSender = emailSender;
+            this.siteSettings = siteSettings;
         }
 
         [Route("api/GiftLists/")]
@@ -150,85 +153,119 @@ namespace GiftWizItApi.Controllers
             // Get the userid
             var userId = User.Claims.First(e => e.Type == "http://schemas.microsoft.com/identity/claims/objectidentifier").Value;
 
+            // Get the user contacts for validation
             var contacts = await _unitOfWork.ContactUsers.GetAllUserContacts(userId);
 
-            List<EmailAddress> emailsToSend = new List<EmailAddress>();
+            // Get the shared gift list
+            // var giftList = await _unitOfWork.GiftLists.GetUserGiftListByIdAsync(userId, listShare.G_List_Id);
 
+            // Queue for added lists
             Queue<SharedLists> addedLists = new Queue<SharedLists>();
 
-            foreach (ContactDTO contact in listShare.Contacts)
-            {
-                SharedLists sharedList = new SharedLists();
-                var dbContact = contacts.Where(c => c.ContactId == contact.ContactId).FirstOrDefault();
-
-                // Validate the provided contact is actually a contact of the user.
-                if (dbContact == null)
-                {
-                    return StatusCode((int)HttpStatusCode.BadRequest, "Invalid Contact");
-                }
-                else
-                {
-                    sharedList.GiftListId = listShare.G_List_Id;
-                    sharedList.Password = listShare.Password;
-                    sharedList.UserId = userId;
-                    sharedList.ContactId = dbContact.Contact.ContactId;
-                }
-                // Queue the added lists to update their flags once email is sent.
-                var addedList = _unitOfWork.SharedLists.AddSharedList(sharedList);
-                addedLists.Enqueue(addedList);
-
-                // Add contact's email to the email list.
-                emailsToSend.Add(new EmailAddress()
-                {
-                    Address = dbContact.Contact.Email,
-                    Name = dbContact.Contact.Name
-                });
-            }
             try
             {
+                // For each contact in the provided contacts
+                foreach (ContactDTO contact in listShare.Contacts)
+                {
+                    SharedLists sharedList = new SharedLists();
+                    var dbContact = contacts.Where(c => c.ContactId == contact.ContactId).FirstOrDefault();
+
+                    // Validate the provided contact is actually a contact of the user.
+                    // If the contact is invalid
+                    if (dbContact == null)
+                    {
+                        //Return Bad Request; Invalid Contact
+                        return StatusCode((int)HttpStatusCode.BadRequest, "Invalid Contact");
+                    }else
+                    {
+                        // Create a shared list object for insertion into the database
+                        sharedList.GiftListId = listShare.G_List_Id;
+                        sharedList.Password = listShare.Password;
+                        sharedList.UserId = userId;
+                        sharedList.ContactId = dbContact.Contact.ContactId;
+
+                        // Queue the added lists to update their flags once email is sent.
+                        var addedList = _unitOfWork.SharedLists.AddSharedList(sharedList);
+                        addedLists.Enqueue(addedList);
+                    }
+                // END FOREACH
+                }
+                // COMPLETE UNIT OF WORK
                 await _unitOfWork.CompleteAsync();
 
-                foreach(var recpnt in emailsToSend)
+                // For each of the AddedLists
+                foreach(SharedLists list in addedLists)
                 {
-                    // TODO: Move to it's own function.
-                    // Set the template values for this contact
+                    // Instantiate email template and populate it's properties
                     contactShareMailTemplate = new ContactShareMailTemplate()
                     {
                         contactEmail = new EmailAddress()
                         {
-                            Name = recpnt.Name,
-                            Address = recpnt.Address
-                        }
+                            Name = list.Contact.Name,
+                            Address = list.Contact.Email
+                        },
+                        fromUser = User.Claims.First(e => e.Type == "name").Value,
+                        giftListName = list.GiftList.Name,
+                        giftListPassword = list.Password
                     };
-                    contactShareMailTemplate.fromUser = User.Claims.First(e => e.Type == "name").Value;
 
-                    /* TODO: If the contact greet email has not been verified; don't send this one. 
-                    * Queue the greet email and this one. */
-                    await SendShareEmail(recpnt);
-                }
+                    if(env.IsDevelopment())
+                    {
+                        contactShareMailTemplate.giftListLink = $"{siteSettings.LocalBaseUrl}?giftId={list.GiftListId}";
+                        contactShareMailTemplate.baseSiteLink = $"{siteSettings.LocalBaseUrl}";
+                    }
+                    else
+                    {
+                        if(env.IsProduction() || env.IsStaging())
+                        {
+                            contactShareMailTemplate.giftListLink = $"{siteSettings.ProdBaseUrl}?giftId={list.GiftListId}";
+                            contactShareMailTemplate.baseSiteLink = $"{siteSettings.ProdBaseUrl}";
+                        }
+                    }
 
-                // Now that emails are sent
-                // Set the emailSent flags of each shared list to true
-                foreach(SharedLists list in addedLists)
-                {
-                    list.EmailSent = true;
+                    // TODO: If the contact greet email has not been verified; don't send this one. Queue the greet email and this one.
+                    try
+                    {
+                        // Send the email
+                        await SendShareEmail(contactShareMailTemplate.contactEmail);
+                        // Update the list's email sent flag to true
+                        list.EmailSent = true;
+                    }
+                    catch (Exception ex)
+                    {
+                        // TODO: Implement logging and better error handling
+                        // Return mixed success call 'One or more emails failed'
+                        return StatusCode((int)HttpStatusCode.MultiStatus, "One or more emails failed");
+                    }
+                // END FOREACH
                 }
+                // COMPLETE UNIT OF WORK; UPDATING EMAIL FLAGS
                 await _unitOfWork.CompleteAsync();
             }
             catch (Exception ex)
             {
-                // TODO: Implement better error handling
                 return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
             }
-
             return StatusCode((int)HttpStatusCode.OK);
         }
 
         private string SetEmailTemplateParams(BodyBuilder builder)
         {
+            /*
+             {0}: Contact name
+             {1}: From User
+             {2}: Name of Gift List
+             {3}: Link to Gift List
+             {4}: Main Website Link
+             {5}: GiftList Password
+             */
             string messageBody = string.Format(builder.HtmlBody,
                 contactShareMailTemplate.contactEmail.Name,
-                contactShareMailTemplate.fromUser
+                contactShareMailTemplate.fromUser,
+                contactShareMailTemplate.giftListName,
+                contactShareMailTemplate.giftListLink,
+                contactShareMailTemplate.baseSiteLink,
+                contactShareMailTemplate.giftListPassword
             );
 
             return messageBody;

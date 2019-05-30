@@ -18,6 +18,10 @@ namespace GiftWizItApi.Implementations
         public SharedLists AddSharedList(SharedLists sharedList)
         {
             base.Add(sharedList);
+
+            // I think this will return the giftlist associated with the share.
+            Context.Entry(sharedList).Reference(sl => sl.GiftList).Load();
+
             return sharedList;
         }
 

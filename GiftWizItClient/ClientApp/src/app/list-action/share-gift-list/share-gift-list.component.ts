@@ -1,9 +1,10 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import { Contact } from 'src/app/contacts/models/contact';
 import { ContactService } from 'src/app/contacts/contact.service';
 import { GiftList } from 'src/app/gift-list/models/gift-list';
 import { ListShare } from './models/list-share';
 import { GiftListService } from 'src/app/gift-list/services/gift-list.service';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'gw-share-gift-list',
@@ -11,7 +12,7 @@ import { GiftListService } from 'src/app/gift-list/services/gift-list.service';
   styleUrls: ['./share-gift-list.component.css']
 })
 export class ShareGiftListComponent implements OnInit, OnChanges {
-
+  @ViewChild('shareForm') shareForm: NgForm;
   @Input()
   public contacts: Contact[];
 
@@ -37,6 +38,7 @@ export class ShareGiftListComponent implements OnInit, OnChanges {
   ) { }
 
   ngOnInit() {
+    /* TODO: Make a change to where contacts don't appear if they've already had a given list shared with them. */
     // Get the contacts for the list
     console.log(this.contacts);
       // Then set the dropdown configuration.
@@ -64,7 +66,9 @@ export class ShareGiftListComponent implements OnInit, OnChanges {
     console.log(listToShare);
 
     // Call api to share the list
-    await this.gftSvc.shareList(listToShare);
+    await this.gftSvc.shareList(listToShare).then((res) => {
+      this.shareForm.reset();
+    });
   }
 
   public onItemSelect(item: any) {

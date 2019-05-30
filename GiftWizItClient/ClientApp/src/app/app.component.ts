@@ -18,7 +18,8 @@ export class AppComponent implements OnInit, OnDestroy {
   public user: any;
   private appInfo: AppInfo = new AppInfo();
   private window: any;
-  private bcsSub: Subscription
+  private bcsLoginSuccessSub: Subscription;
+  private bcsLoginFailSub: Subscription;
   // TODO: Move to a service
   private isAuthenticated: boolean = false;
 
@@ -40,7 +41,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.displayName = this.user.name;
       this.isAuthenticated = true;
     }
-    this.bcsSub = this.bcs.subscribe("msal:loginSuccess", (msg) => {
+    this.bcsLoginSuccessSub = this.bcs.subscribe("msal:loginSuccess", (msg) => {
       this.user = this.msal.getUser();
       this.isAuthenticated = true;
       this.displayName = this.user.name;
@@ -49,6 +50,15 @@ export class AppComponent implements OnInit, OnDestroy {
         this.appInfo.userInfo['isRegistered'] = true;
       });
     });
+
+    this.bcsLoginFailSub = this.bcs.subscribe("msal:loginFailure", (msg) => {
+      console.log(msg);
+      switch (msg.errorDesc) {
+        case "interaction_required":
+          this.authSvc.getToken();
+          break;
+      }
+    });
   }
 
   public onLogout() {
@@ -56,6 +66,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy() {
-    this.bcsSub.unsubscribe();
+    this.bcsLoginSuccessSub.unsubscribe();
+    this.bcsLoginFailSub.unsubscribe();
   }
 }
