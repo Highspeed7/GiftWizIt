@@ -2,7 +2,7 @@
 
 namespace GiftWizItApi.EmailTemplateModels
 {
-    public class ContactMailTemplate
+    public class ContactGreetMailTemplate
     {
         public EmailAddress contactEmail { get; set; }
         public string fromUser { get; set; }

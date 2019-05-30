@@ -1,6 +1,9 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Contact } from 'src/app/contacts/models/contact';
 import { ContactService } from 'src/app/contacts/contact.service';
+import { GiftList } from 'src/app/gift-list/models/gift-list';
+import { ListShare } from './models/list-share';
+import { GiftListService } from 'src/app/gift-list/services/gift-list.service';
 
 @Component({
   selector: 'gw-share-gift-list',
@@ -12,8 +15,15 @@ export class ShareGiftListComponent implements OnInit, OnChanges {
   @Input()
   public contacts: Contact[];
 
+  @Input()
+  public giftLists: GiftList[];
+
   // Set to an appropriate model
   public selectedContacts: any[] = [];
+
+  public selectedList: number;
+
+  public sharedListPassword: string;
 
   public removedItemIndex: any;
 
@@ -21,7 +31,10 @@ export class ShareGiftListComponent implements OnInit, OnChanges {
 
   public dropdownSettings = {};
 
-  constructor(private cntctSvc: ContactService) { }
+  constructor(
+    private cntctSvc: ContactService,
+    private gftSvc: GiftListService
+  ) { }
 
   ngOnInit() {
     // Get the contacts for the list
@@ -42,26 +55,16 @@ export class ShareGiftListComponent implements OnInit, OnChanges {
     }
   }
 
-  public shareWithContactClicked() {
-    // console.log(selectedContacts);
-  }
+  public async shareWithContactClicked() {
+    // Build the object to send to api
+    var listToShare = new ListShare();
+    listToShare.g_list_id = this.selectedList;
+    listToShare.password = this.sharedListPassword;
+    listToShare.contacts = this.selectedContacts;
+    console.log(listToShare);
 
-  private setDropdownSettings() {
-    for (let c of this.contacts) {
-      this.dropdownList.push({
-        contactId: c.contactId,
-        name: c.name
-      });
-    }
-    this.dropdownSettings = {
-      singleSelection: false,
-      idField: 'contactId',
-      textField: 'name',
-      selectAllText: 'Select All',
-      unSelectAllText: 'UnSelect All',
-      itemsShowLimit: 3,
-      allowSearchFilter: true
-    };
+    // Call api to share the list
+    await this.gftSvc.shareList(listToShare);
   }
 
   public onItemSelect(item: any) {
@@ -86,6 +89,24 @@ export class ShareGiftListComponent implements OnInit, OnChanges {
   public onItemSelectAll(items: any[]) {
     this.selectedContacts = items;
     console.log(this.selectedContacts);
+  }
+
+  private setDropdownSettings() {
+    for (let c of this.contacts) {
+      this.dropdownList.push({
+        contactId: c.contactId,
+        name: c.name
+      });
+    }
+    this.dropdownSettings = {
+      singleSelection: false,
+      idField: 'contactId',
+      textField: 'name',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 3,
+      allowSearchFilter: true
+    };
   }
 
   private getSelectedItemIndex(contactId) {

@@ -16,6 +16,7 @@ namespace GiftWizItApi.Interfaces
         IPartnersRepository Partners { get; }
         IContactRepository Contacts { get; }
         IContactUsersRepository ContactUsers { get; }
+        ISharedListsRepository SharedLists { get; }
         Task<int> CompleteAsync();
     }
 }

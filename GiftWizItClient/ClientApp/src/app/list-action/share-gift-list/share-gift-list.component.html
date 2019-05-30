@@ -1,15 +1,30 @@
+<div class="row">
+  <div class="col-12">
+    <p>You can share one list at a time with multiple contacts. Please select them below...</p>
+  </div>
+</div>
 <form standalone="true">
-  <ng-multiselect-dropdown
-    [placeholder]="'Select one or more contacts'"
-    [data]="contacts"
-    [(ngModel)]="selectedItems"
-    name="contact-list"
-    [settings]="dropdownSettings"
-    (onSelect)="onItemSelect($event)"
-    (onSelectAll)="onItemSelectAll($event)"
-    (onDeSelect)="onItemDeselect($event)"
-    (onDeSelectAll)="onItemDeselectAll($event)"
-  >
-  </ng-multiselect-dropdown>
+  <div class="form-group">
+    <label>Select a gift list:</label>
+    <select [(ngModel)]="selectedList" class="form-control" name="gift-lists">
+      <option *ngFor="let list of giftLists" [value]="list.id">{{list.name}}</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <ng-multiselect-dropdown [placeholder]="'Select one or more contacts'"
+                             [data]="contacts"
+                             [(ngModel)]="selectedItems"
+                             name="contact-list"
+                             [settings]="dropdownSettings"
+                             (onSelect)="onItemSelect($event)"
+                             (onSelectAll)="onItemSelectAll($event)"
+                             (onDeSelect)="onItemDeselect($event)"
+                             (onDeSelectAll)="onItemDeselectAll($event)">
+    </ng-multiselect-dropdown>
+  </div>
+  <div class="form-group">
+    <label for="list-pass">Password:&nbsp;</label>
+    <input class="form-control" id="list-pass" type="password" name="list-pass" title="password for the list" [(ngModel)]="sharedListPassword" />
+  </div>
   <button class="btn btn-primary inline" (click)="shareWithContactClicked()">Share</button>
 </form>

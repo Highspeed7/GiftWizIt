@@ -4,14 +4,16 @@ using GiftWizItApi.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GiftWizItApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190530074223_RemovedSharedListsCompositeKey")]
+    partial class RemovedSharedListsCompositeKey
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -183,16 +185,20 @@ namespace GiftWizItApi.Migrations
 
             modelBuilder.Entity("GiftWizItApi.Models.SharedLists", b =>
                 {
+                    b.Property<int>("ShareId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
                     b.Property<int>("ContactId")
                         .HasColumnName("contact_id");
-
-                    b.Property<int>("GiftListId")
-                        .HasColumnName("g_list_id");
 
                     b.Property<bool>("EmailSent")
                         .ValueGeneratedOnAdd()
                         .HasColumnName("email_sent")
                         .HasDefaultValue(false);
+
+                    b.Property<int>("GiftListId")
+                        .HasColumnName("g_list_id");
 
                     b.Property<string>("Password")
                         .IsRequired()
@@ -201,13 +207,15 @@ namespace GiftWizItApi.Migrations
                     b.Property<string>("UserId")
                         .HasColumnName("user_id");
 
-                    b.HasKey("ContactId", "GiftListId");
+                    b.HasKey("ShareId");
+
+                    b.HasIndex("ContactId");
 
                     b.HasIndex("GiftListId");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Shared_Lists");
+                    b.ToTable("SharedLists");
                 });
 
             modelBuilder.Entity("GiftWizItApi.Models.Users", b =>

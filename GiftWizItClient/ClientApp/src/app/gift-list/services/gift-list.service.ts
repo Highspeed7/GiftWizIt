@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { AccountsService } from 'src/app/accounts.service';
 import { Subscription } from 'rxjs';
 import { GiftItem } from 'src/app/wish-list/models/gift-item';
+import { ListShare } from 'src/app/list-action/share-gift-list/models/list-share';
 
 @Injectable({
   providedIn: 'root'
@@ -72,6 +73,13 @@ export class GiftListService implements OnDestroy {
     } catch (e) {
       throw e;
     }
+  }
+
+  public async shareList(listToShare: ListShare) {
+    await this.authSvc.getToken().then((token) => {
+      this.accessToken = token;
+    });
+    return this.http.post(`${this.apiUrl}/ShareGiftList`, listToShare, { headers: { 'Authorization': `bearer ${this.accessToken}` } }).toPromise();
   }
 
   ngOnDestroy() {

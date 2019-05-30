@@ -1,4 +1,5 @@
-﻿using GiftWizItApi.Interfaces;
+﻿using GiftWizItApi.Constants;
+using GiftWizItApi.Interfaces;
 using GiftWizItApi.Models;
 using MailKit.Net.Smtp;
 using Microsoft.AspNetCore.Hosting;
@@ -57,7 +58,29 @@ namespace GiftWizItApi.Services
             }
         }
 
-        public void DkimSign(MimeMessage message)
+        public string getContentBody<BodyBuilder>(string template, Func<MimeKit.BodyBuilder, string> getTemplateParams)
+        {
+            var pathToTemplate = env.ContentRootPath
+                + Path.DirectorySeparatorChar.ToString()
+                + EmailTemplateConstants.TemplateParentDirectory
+                + Path.DirectorySeparatorChar.ToString()
+                + template;
+
+            var builder = new MimeKit.BodyBuilder();
+
+            using (StreamReader SourceReader = System.IO.File.OpenText(pathToTemplate))
+            {
+                builder.HtmlBody = SourceReader.ReadToEnd();
+            }
+
+            // TODO: Supply template args
+            // TODO: Execute a delegate to get appropriate template values.
+            string messageBody = getTemplateParams(builder);
+
+            return messageBody;
+        }
+
+        private void DkimSign(MimeMessage message)
         {
             var headers = new HeaderId[] { HeaderId.From, HeaderId.Subject, HeaderId.Date };
             var headerAlgorithm = DkimCanonicalizationAlgorithm.Simple;

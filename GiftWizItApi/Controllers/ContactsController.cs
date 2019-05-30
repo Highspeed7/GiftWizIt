@@ -30,7 +30,7 @@ namespace GiftWizItApi.Controllers
         private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;
         private readonly IHostingEnvironment env;
-        private ContactMailTemplate contactMailTemplate;
+        private ContactGreetMailTemplate contactMailTemplate;
 
         public ContactsController(
             IEmailService emailer, 
@@ -63,6 +63,7 @@ namespace GiftWizItApi.Controllers
         public async Task<IActionResult> AddContact(AddContactDTO contact)
         {
             var userId = User.Claims.First(e => e.Type == "http://schemas.microsoft.com/identity/claims/objectidentifier").Value;
+
             ContactUsers insertedContact;
 
             // Verify that the contact hasn't already been added
@@ -86,8 +87,9 @@ namespace GiftWizItApi.Controllers
 
             try
             {
+                // TODO: Move to function
                 // Construct and send the email
-                contactMailTemplate = new ContactMailTemplate()
+                contactMailTemplate = new ContactGreetMailTemplate()
                 {
                     contactEmail = new EmailAddress()
                     {
@@ -129,43 +131,8 @@ namespace GiftWizItApi.Controllers
             }
         }
 
-        private async Task SendGreetEmail()
+        private string SetEmailTemplateParams(BodyBuilder builder)
         {
-            var toAddresses = new List<EmailAddress>();
-            toAddresses.Add(contactMailTemplate.contactEmail);
-
-            var fromAddresses = new List<EmailAddress>();
-            fromAddresses.Add(new EmailAddress()
-            {
-                Name = EmailTemplateConstants.FromName,
-                Address = EmailTemplateConstants.FromAddress
-            });
-
-            var email = new EmailMessage()
-            {
-                ToAddresses = toAddresses,
-                FromAddresses = fromAddresses,
-                Content = getContentBody(EmailTemplateConstants.ContactGreetTemplate),
-                Subject = EmailTemplateConstants.ContactGreetSubject
-            };
-            await emailer.Send(email);
-        }
-
-        private string getContentBody(string template)
-        {
-            var pathToTemplate = env.ContentRootPath
-                + Path.DirectorySeparatorChar.ToString()
-                + EmailTemplateConstants.TemplateParentDirectory
-                + Path.DirectorySeparatorChar.ToString()
-                + template;
-
-            var builder = new BodyBuilder();
-
-            using (StreamReader SourceReader = System.IO.File.OpenText(pathToTemplate))
-            {
-                builder.HtmlBody = SourceReader.ReadToEnd();
-            }
-
             string messageBody = string.Format(builder.HtmlBody,
                 contactMailTemplate.contactEmail.Name,
                 contactMailTemplate.fromUser,
@@ -173,6 +140,30 @@ namespace GiftWizItApi.Controllers
             );
 
             return messageBody;
+        }
+
+        private async Task SendGreetEmail()
+        {
+            var toAddresses = new List<EmailAddress>();
+            toAddresses.Add(contactMailTemplate.contactEmail);
+
+            var fromAddresses = new List<EmailAddress>
+            {
+                new EmailAddress()
+                {
+                    Name = EmailTemplateConstants.FromName,
+                    Address = EmailTemplateConstants.FromAddress
+                }
+            };
+
+            var email = new EmailMessage()
+            {
+                ToAddresses = toAddresses,
+                FromAddresses = fromAddresses,
+                Content = emailer.getContentBody<BodyBuilder>(EmailTemplateConstants.ContactGreetTemplate, SetEmailTemplateParams),
+                Subject = EmailTemplateConstants.ContactGreetSubject
+            };
+            await emailer.Send(email);
         }
     }
 }

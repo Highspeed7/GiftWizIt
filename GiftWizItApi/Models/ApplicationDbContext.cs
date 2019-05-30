@@ -218,7 +218,7 @@ namespace GiftWizItApi.Models
             // Shared-Lists linking table configuration
             modelBuilder.Entity<SharedLists>()
                 .ToTable("Shared_Lists")
-                .HasKey(sl => new { sl.UserId, sl.GiftListId });
+                .HasKey(sl => new { sl.ContactId, sl.GiftListId });
             modelBuilder.Entity<SharedLists>()
                 .Property(sl => sl.Password)
                 .HasColumnName("password")
