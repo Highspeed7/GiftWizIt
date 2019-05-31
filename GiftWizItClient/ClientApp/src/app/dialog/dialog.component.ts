@@ -1,39 +1,37 @@
-import { Component, AfterViewInit, OnDestroy, Type, ComponentRef, ViewChild, ComponentFactoryResolver, ChangeDetectorRef } from '@angular/core';
+import { Component, Type, ComponentFactoryResolver, ViewChild, OnDestroy, ComponentRef, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { InsertionDirective } from './insertion.directive';
+import { Subject } from 'rxjs';
+import { DialogRef } from './dialog-ref';
 
 @Component({
-  selector: 'gw-dialog',
+  selector: 'app-dialog',
   templateUrl: './dialog.component.html',
   styleUrls: ['./dialog.component.css']
 })
 export class DialogComponent implements AfterViewInit, OnDestroy {
-  componentRef: ComponentRef<any>
-  childComponentType: Type<any>
+  componentRef: ComponentRef<any>;
 
   @ViewChild(InsertionDirective)
-  insertionPoint: InsertionDirective
+  insertionPoint: InsertionDirective;
 
-  constructor(
-    private componentFactoryResolver: ComponentFactoryResolver,
-    private cd: ChangeDetectorRef
-  ) { }
+  private readonly _onClose = new Subject<any>();
+  public onClose = this._onClose.asObservable();
 
-  ngOnDestroy(): void {
-    if (this.componentRef) {
-      this.componentRef.destroy();
-    }
-  }
-  ngAfterViewInit(): void {
+  childComponentType: Type<any>;
+
+  constructor(private componentFactoryResolver: ComponentFactoryResolver, private cd: ChangeDetectorRef, private dialogRef: DialogRef) { }
+
+  ngAfterViewInit() {
     this.loadChildComponent(this.childComponentType);
     this.cd.detectChanges();
   }
 
   onOverlayClicked(evt: MouseEvent) {
-    // close the dialog
+    this.dialogRef.close();
   }
 
   onDialogClicked(evt: MouseEvent) {
-    evt.stopPropagation()
+    evt.stopPropagation();
   }
 
   loadChildComponent(componentType: Type<any>) {
@@ -43,5 +41,15 @@ export class DialogComponent implements AfterViewInit, OnDestroy {
     viewContainerRef.clear();
 
     this.componentRef = viewContainerRef.createComponent(componentFactory);
+  }
+
+  ngOnDestroy() {
+    if (this.componentRef) {
+      this.componentRef.destroy();
+    }
+  }
+
+  close() {
+    this._onClose.next();
   }
 }

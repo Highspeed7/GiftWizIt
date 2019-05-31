@@ -24,7 +24,7 @@ export class SharedGiftListComponent implements OnInit {
     private dialog: DialogService
   ) {
     this.utilities = new Utilities();
-    this.dialog.open(SharedListAccessModalComponent);
+    this.dialog.open(SharedListAccessModalComponent, null);
   }
 
   ngOnInit() {

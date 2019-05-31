@@ -29,6 +29,9 @@
     <None Remove="ClientApp\src\app\configs\authConfig.ts" />
     <None Remove="ClientApp\src\app\configs\protectedResource.ts" />
     <None Remove="ClientApp\src\app\contacts\models\contact.ts" />
+    <None Remove="ClientApp\src\app\dialog\dialog-config.ts" />
+    <None Remove="ClientApp\src\app\dialog\dialog-injector.ts" />
+    <None Remove="ClientApp\src\app\dialog\dialog-ref.ts" />
     <None Remove="ClientApp\src\app\gift-list\models\gift-list.ts" />
     <None Remove="ClientApp\src\app\list-action\models\add-contact-model.ts" />
     <None Remove="ClientApp\src\app\list-action\share-gift-list\models\list-share.ts" />
@@ -54,6 +57,9 @@
     <TypeScriptCompile Include="ClientApp\src\app\configs\authConfig.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\configs\protectedResource.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\contacts\models\contact.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\dialog\dialog-config.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\dialog\dialog-injector.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\dialog\dialog-ref.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\gift-list\models\gift-list.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\list-action\models\add-contact-model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\list-action\share-gift-list\models\list-share.ts" />

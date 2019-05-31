@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { DialogConfig } from 'src/app/dialog/dialog-config';
+import { DialogRef } from 'src/app/dialog/dialog-ref';
 
 @Component({
   selector: 'gw-shared-list-access-modal',
@@ -9,9 +11,12 @@ export class SharedListAccessModalComponent implements OnInit {
 
   public gListPass: string;
 
-  constructor() { }
+  constructor(public dialog: DialogRef) { }
 
   ngOnInit() {
   }
 
+  public onClose() {
+    this.dialog.close();
+  }
 }
