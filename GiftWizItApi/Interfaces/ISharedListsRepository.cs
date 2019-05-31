@@ -10,5 +10,6 @@ namespace GiftWizItApi.Interfaces
     public interface ISharedListsRepository: IRepository<SharedLists>
     {
         SharedLists AddSharedList(SharedLists sharedList);
+        Task<SharedLists> GetSharedList(int giftListId, string giftListPass);
     }
 }

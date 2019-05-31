@@ -107,14 +107,14 @@ namespace GiftWizItApi.Controllers
 
         [Route("api/MoveGiftItem")]
         [HttpPost]
-        public async Task<ActionResult> MoveItem(GiftItemDTO[] giftItems)
+        public async Task<ActionResult> MoveItem(GiftItemMoveDTO[] giftItems)
         {
             var userId = User.Claims.First(e => e.Type == "http://schemas.microsoft.com/identity/claims/objectidentifier").Value;
 
             // Validate the provided giftlist
             var giftLists = await _unitOfWork.GiftLists.GetUserLists(userId);
 
-            foreach (GiftItemDTO item in giftItems)
+            foreach (GiftItemMoveDTO item in giftItems)
             {
                 // Validate the gift list destination is valid
                 var validDestGiftList = giftLists.FirstOrDefault(gl => gl.Id == item.To_Glist_Id);
@@ -211,7 +211,7 @@ namespace GiftWizItApi.Controllers
 
                     if(env.IsDevelopment())
                     {
-                        contactShareMailTemplate.giftListLink = $"{siteSettings.LocalBaseUrl}?giftId={list.GiftListId}";
+                        contactShareMailTemplate.giftListLink = $"{siteSettings.LocalBaseUrl}/shared-gift-list?gListId={list.GiftListId}&emailId={list.Contact.VerifyGuid}";
                         contactShareMailTemplate.baseSiteLink = $"{siteSettings.LocalBaseUrl}";
                     }
                     else

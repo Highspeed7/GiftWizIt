@@ -10,7 +10,7 @@ import { Utilities } from '../utils/Utilities';
 })
 export class ContactGetStartedComponent implements OnInit {
 
-  private utilities: Utilities
+  private utilities: Utilities;
 
   constructor(
     private route: ActivatedRoute,

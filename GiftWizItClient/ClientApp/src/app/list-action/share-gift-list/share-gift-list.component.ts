@@ -68,6 +68,7 @@ export class ShareGiftListComponent implements OnInit, OnChanges {
     // Call api to share the list
     await this.gftSvc.shareList(listToShare).then((res) => {
       this.shareForm.reset();
+      this.selectedContacts = [];
     });
   }
 

@@ -82,7 +82,7 @@ namespace GiftWizItApi.Controllers
 
         [Route("api/MoveItems")]
         [HttpPost]
-        public async Task<ActionResult> ItemToGiftList(GiftItemDTO[] items)
+        public async Task<ActionResult> ItemToGiftList(GiftItemMoveDTO[] items)
         {
             // Validate user is allowed to add item to giftlist and that Gift List is valid
             var userId = User.Claims.First(e => e.Type == "http://schemas.microsoft.com/identity/claims/objectidentifier").Value;

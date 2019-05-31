@@ -19,6 +19,9 @@ import { WishListModule } from './wish-list/wish-list.module';
 import { ContactsModule } from './contacts/contacts.module';
 import { ContactGetStartedComponent } from './contact-get-started/contact-get-started.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { SharedGiftListModule } from './shared-gift-list/shared-gift-list.module';
+import { DialogModule } from './dialog/dialog.module';
+import { SharedListAccessModalComponent } from './shared-gift-list/shared-list-access-modal/shared-list-access-modal.component';
 
 @NgModule({
   declarations: [
@@ -32,11 +35,13 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
     HttpModule,
     ReactiveFormsModule,
     CommonModule,
+    DialogModule,
     NgMultiSelectDropDownModule.forRoot(),
     AuthenticationModule,
     GiftListsModule,
     WishListModule,
     ContactsModule,
+    SharedGiftListModule,
     RouterModule.forRoot([
       {
         path: "login",
@@ -49,6 +54,7 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
     ])
   ],
   providers: [AccountsService, MsalService, AuthService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [SharedListAccessModalComponent]
 })
 export class AppModule { }

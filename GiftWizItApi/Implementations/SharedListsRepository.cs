@@ -2,6 +2,7 @@
 using GiftWizItApi.Controllers.dtos;
 using GiftWizItApi.Interfaces;
 using GiftWizItApi.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,18 +26,15 @@ namespace GiftWizItApi.Implementations
             return sharedList;
         }
 
-        //public SharedLists AddSharedList(GListShareDTO sharedList)
-        //{
-        //    //SharedLists listToShare = new SharedLists();
-        //    //foreach(ContactDTO contact in sharedList.Contacts)
-        //    //{
-        //    //    listToShare.GiftListId = sharedList.G_List_Id;
-        //    //    listToShare.Password = sharedList.Password;
-        //    //    listToShare.Contact = mapper.Map<Contacts>(contact);
-
-        //    //    base.Add(listToShare);
-        //    //}
-        //    //return listToShare;
-        //}
+        public async Task<SharedLists> GetSharedList(int giftListId, string giftListPass)
+        {
+            return await Context.SharedLists
+                .Include(sl => sl.GiftList)
+                .ThenInclude(gl => gl.GiftItems)
+                .ThenInclude(gi => gi.Item)
+                .ThenInclude(i => i.LinkItemPartners)
+                .Where(sl => sl.Password == giftListPass && sl.GiftListId == giftListId)
+                .FirstOrDefaultAsync();
+        }
     }
 }

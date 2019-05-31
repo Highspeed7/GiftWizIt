@@ -13,10 +13,15 @@ namespace GiftWizItApi.Mapping
                 .ForSourceMember(source => source.Domain, opt => opt.DoNotValidate());
             CreateMap<WishListRaw, WishListDto>();
             CreateMap<CombGiftItems, QueryGiftItemDTO>();
-            CreateMap<GiftItemDTO, GiftItem>()
+            CreateMap<GiftItemMoveDTO, GiftItem>()
                 .ForMember(d => d.GListId, opt => opt.MapFrom(s => s.To_Glist_Id));
             CreateMap<ContactDTO, Contacts>();
             CreateMap<ContactUsersDTO, ContactUsers>();
+            CreateMap<SharedListDTO, SharedLists>();
+            CreateMap<LnksItmsPtnrsDTO, LnksItmsPtnrs>();
+            CreateMap<GiftListDto, GiftLists>();
+            CreateMap<GiftItemDTO, GiftItem>();
+            CreateMap<ItemDbResource, Items>();
         }
     }
 }

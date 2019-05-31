@@ -11,5 +11,7 @@ namespace GiftWizItApi.Controllers.dtos
         public string Url { get; set; }
         public string Domain { get; set; }
         public string Image { get; set; }
+
+        public List<LnksItmsPtnrsDTO> LinkItemPartners { get; set; }
     }
 }
