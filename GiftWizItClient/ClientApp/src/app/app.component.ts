@@ -30,6 +30,10 @@ export class AppComponent implements OnInit, OnDestroy {
     private bcs: BroadcastService,
     private msal: MsalService) {
     this.window = this.windowRef.nativeWindow;
+    // Check for non-registered user experience
+    if (this.authSvc.getNonRegisteredUserX() != null) {
+      // Show the previously visited user card or link.
+    }
   }
 
   public login() {

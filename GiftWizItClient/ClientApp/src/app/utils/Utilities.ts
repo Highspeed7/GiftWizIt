@@ -8,4 +8,8 @@ export class Utilities {
       return elem != value;
     })
   }
+
+  public getCurrTimeInSeconds() {
+    return Math.round(Date.now() / 1000);
+  }
 }

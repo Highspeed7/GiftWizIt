@@ -28,6 +28,7 @@
   <ItemGroup>
     <None Remove="ClientApp\src\app\configs\authConfig.ts" />
     <None Remove="ClientApp\src\app\configs\protectedResource.ts" />
+    <None Remove="ClientApp\src\app\constants\appConstants.ts" />
     <None Remove="ClientApp\src\app\contacts\models\contact.ts" />
     <None Remove="ClientApp\src\app\dialog\dialog-config.ts" />
     <None Remove="ClientApp\src\app\dialog\dialog-injector.ts" />
@@ -36,6 +37,8 @@
     <None Remove="ClientApp\src\app\list-action\models\add-contact-model.ts" />
     <None Remove="ClientApp\src\app\list-action\share-gift-list\models\list-share.ts" />
     <None Remove="ClientApp\src\app\models\appInfo.ts" />
+    <None Remove="ClientApp\src\app\models\guestInfo.ts" />
+    <None Remove="ClientApp\src\app\shared-gift-list\models\shared-list.ts" />
     <None Remove="ClientApp\src\app\utils\Utilities.ts" />
     <None Remove="ClientApp\src\app\wish-list\models\gift-item.ts" />
     <None Remove="ClientApp\src\app\wish-list\models\wish-list.ts" />
@@ -56,6 +59,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\src\app\configs\authConfig.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\configs\protectedResource.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\constants\appConstants.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\contacts\models\contact.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\dialog\dialog-config.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\dialog\dialog-injector.ts" />
@@ -64,6 +68,8 @@
     <TypeScriptCompile Include="ClientApp\src\app\list-action\models\add-contact-model.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\list-action\share-gift-list\models\list-share.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\appInfo.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\models\guestInfo.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\shared-gift-list\models\shared-list.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\utils\Utilities.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\wish-list\models\gift-item.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\wish-list\models\wish-list.ts" />

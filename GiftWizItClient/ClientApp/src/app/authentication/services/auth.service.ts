@@ -7,6 +7,8 @@ import { HttpClient } from '@angular/common/http';
 import * as authConfig from '../../configs/authConfig';
 import { AppInfo } from 'src/app/models/appInfo';
 import { Subscription } from 'rxjs';
+import { GWAppConstants } from 'src/app/constants/appConstants';
+import { GuestInfo } from 'src/app/models/guestInfo';
 
 @Injectable({
   providedIn: 'root'
@@ -58,27 +60,14 @@ export class AuthService implements OnDestroy {
     return this.http.post("https://localhost:44327/api/Users", null, { headers: { 'Authorization': `bearer ${access_token}` } }).toPromise();
   }
 
-  //public login() {
-  //  var cacheRes = this.msal.getCachedTokenInternal(authConfig.config.b2cScopes);
-  //  if (!cacheRes) {
-  //    this.msal.loginPopup(authConfig.config.b2cScopes).then((r) => {
-  //      this.msal.acquireTokenSilent(authConfig.config.b2cScopes).then((res) => {
-  //        console.log("token response: " + res);
-  //        var user: any = this.msal.getUser();
-  //        // Register the user in database.
-  //        // TODO: Move to server
-  //        this.http.post("https://localhost:44327/api/Users", { userId: `${user.idToken.oid}` }, { headers: { 'Authorization': `bearer ${res}` } })
-  //          .subscribe((response) => {
-  //            this.acntSvc.loggedInSrc.next(true);
-  //            this.router.navigate([this.redirectUrl]);
-  //          });
-  //      });
-  //    });
-  //  } else {
-  //    this.acntSvc.loggedInSrc.next(true);
-  //    this.router.navigate([this.redirectUrl]);
-  //  }
-  //}
+  public getNonRegisteredUserX(): GuestInfo | null {
+    // Check for guest info object in LS
+    var guestInfoObj: GuestInfo = this.window.localStorage.getItem(GWAppConstants.strGuestInfo);
+    if (guestInfoObj != null) {
+      return guestInfoObj;
+    }
+    return null;
+  }
 
   public logout() {
     this.msal.logout();

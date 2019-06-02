@@ -26,15 +26,22 @@ namespace GiftWizItApi.Controllers
 
         [Route("api/SharedList")]
         [HttpPost]
-        public async Task<SharedListDTO> GetSharedList(SharedListResource sharedList)
+        public async Task<ActionResult> GetSharedList(SharedListResource sharedList)
         {
             var result = await unitOfWork.SharedLists.GetSharedList(sharedList.GListId, sharedList.GListPass);
-            SharedListDTO sharedListResource = new SharedListDTO()
-            {
-                GiftList = mapper.Map<GiftListDto>(result.GiftList)
-            };
 
-            return sharedListResource;
+            if(result == null)
+            {
+                return StatusCode((int)HttpStatusCode.NoContent);
+            }else
+            {
+                SharedListDTO sharedListResource = new SharedListDTO()
+                {
+                    GiftList = mapper.Map<GiftListDto>(result.GiftList)
+                };
+
+                return StatusCode((int)HttpStatusCode.OK, sharedListResource);
+            }
         }
     }
 }

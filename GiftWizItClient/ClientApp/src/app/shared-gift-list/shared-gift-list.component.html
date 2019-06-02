@@ -1,8 +1,32 @@
-<div class="row">
+<div class="row" *ngIf="prevViewedLists.length > 0">
   <div class="content col-md">
     <div class="card">
-      Shared list page works!
+      <ul>
+        <li *ngFor="let list of prevViewedLists">{{list.name}}</li>
+      </ul>
     </div>
   </div>
 </div>
-  
+<div class="row">
+  <div class="content col-md">
+    <div class="card">
+      <div class="row">
+        <div class="col-sm-12">
+            <h3>{{sharedList.giftList?.name}}</h3>
+            <ul>
+              <li *ngFor="let item of sharedList.giftList?.giftItems">
+                <div class="row">
+                  <div class="col-sm-2">
+                    <img src="{{item.item.image}}" alt="Alternate Text" style="width:25%;" />
+                  </div>
+                  <div class="col-sm">
+                    <a href="{{item.item.linkItemPartners[0].affliateLink}}" target="_blank">{{item.item.name}}</a>
+                  </div>
+                </div>
+              </li>
+            </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -11,6 +11,9 @@ var Utilities = /** @class */ (function () {
             return elem != value;
         });
     };
+    Utilities.prototype.getCurrTimeInSeconds = function () {
+        return Math.round(Date.now() / 1000);
+    };
     return Utilities;
 }());
 exports.Utilities = Utilities;

@@ -121,7 +121,7 @@ namespace GiftWizItApi.Controllers
 
         [Route("api/Contacts/EmailVerify")]
         [HttpPost]
-        public async Task VerifyEmail(string emailId)
+        public async Task<ContactDTO> VerifyEmail(string emailId)
         {
             Contacts contact = await unitOfWork.Contacts.GetContactByEmailGuid(emailId);
             if(contact != null)
@@ -129,6 +129,7 @@ namespace GiftWizItApi.Controllers
                 contact.Verified = true;
                 await unitOfWork.CompleteAsync();
             }
+            return mapper.Map<ContactDTO>(contact);
         }
 
         private string SetEmailTemplateParams(BodyBuilder builder)

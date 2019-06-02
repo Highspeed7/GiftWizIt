@@ -11,12 +11,17 @@ export class SharedListAccessModalComponent implements OnInit {
 
   public gListPass: string;
 
-  constructor(public dialog: DialogRef) { }
+  constructor(public config: DialogConfig, public dialog: DialogRef) { }
 
   ngOnInit() {
+    console.log("Initiated");
   }
 
   public onClose() {
-    this.dialog.close();
+    this.dialog.close(null);
+  }
+
+  public onFormSubmit() {
+    this.dialog.close(this.gListPass);
   }
 }
