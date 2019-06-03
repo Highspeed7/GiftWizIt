@@ -63,7 +63,7 @@ namespace GiftWizItApi
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped<IGiftListRepository, GiftListRepository>();
             services.AddScoped<IWishListRepository, WishListRepository>();
-            services.AddScoped<IItemRepository, ItemRepository>();
+            services.AddScoped<IItemsRepository, ItemsRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
         }
 

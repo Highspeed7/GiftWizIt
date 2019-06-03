@@ -9,7 +9,7 @@ import { SharedGiftListService } from './services/shared-gift-list.service';
 import { SharedList } from './models/shared-list';
 import { WindowRefService } from '../window-ref.service';
 import { AuthService } from '../authentication/services/auth.service';
-import { GuestInfo } from '../models/guestInfo';
+import { GuestInfo, GuestList } from '../models/guestInfo';
 
 @Component({
   selector: 'gw-shared-gift-list',
@@ -18,7 +18,7 @@ import { GuestInfo } from '../models/guestInfo';
 })
 export class SharedGiftListComponent implements OnInit {
 
-  public sharedList: SharedList = new SharedList();
+  public sharedList: SharedList = null;
   public prevViewedLists: any[] = [];
   private utilities: Utilities;
   private giftListId: string;
@@ -38,25 +38,49 @@ export class SharedGiftListComponent implements OnInit {
   ) {
     this.window = this.windowRef.nativeWindow;
     this.utilities = new Utilities();
-    // Check for guest user experience
-    this.guestUserInfo = this.authSvc.getNonRegisteredUserX();
-    if (this.guestUserInfo != null) {
-      this.prevViewedLists = this.guestUserInfo.lists;
-    } else {
-      this.runAccessDialog();
-    }
+   
 
-    this.route.queryParams.subscribe((params) => {
+    this.route.queryParams.subscribe(async (params) => {
       if (!this.utilities.isEmpty(params)) {
         if (params["gListId"] != null) {
           this.giftListId = params["gListId"];
+         
         }
         if (params["emailId"] != null) {
           this.emailId = params["emailId"];
+
+          // Check for guest user experience
+          this.guestUserInfo = this.authSvc.getNonRegisteredUserX();
+          if (this.guestUserInfo != null) {
+            this.prevViewedLists = this.guestUserInfo.lists;
+          } else {
+            await this.listSvc.buildNonRegisteredUserX(this.emailId, this.giftListId);
+          }
+
+          // We need to check if the list exists in the user context
+          if (this.prevViewedLists.length > 0) {
+            if (!this.listSvc.checkStoredLists(this.prevViewedLists, this.giftListId)) {
+              this.runAccessDialog();
+            }
+          } else {
+            this.runAccessDialog();
+          }
         }
       }
     });
   }
+
+  public prevListSelected(list: GuestList) {
+    this.listSvc.getSharedList(list.giftListId, list.giftListPass).then(async (list: SharedList) => {
+      if (list != null) {
+        this.sharedList = list;
+      }
+    });
+  }
+
+  //public viewAnotherList() {
+  //  this.runAccessDialog();
+  //}
 
   private async runAccessDialog() {
     this.dialogRef = this.dialog.open(SharedListAccessModalComponent, {
@@ -67,14 +91,18 @@ export class SharedGiftListComponent implements OnInit {
 
     this.dialogRef.afterClosed.subscribe(result => {
       if (result == null) {
-        this.router.navigate(["/"]);
+        if (this.prevViewedLists.length == 0) {
+          this.router.navigate(["/"]);
+        }
       } else {
         // Make api call
         this.listSvc.getSharedList(this.giftListId, result).then(async (list: SharedList) => {
           if (list != null) {
             this.sharedList = list;
-            await this.listSvc.buildNonRegisteredUserX(this.emailId, this.giftListId, list.giftList.name, result);
-            console.log("Testing build of non registered user");
+            // TODO: IMPORTANT - Make it so when the list is expired the entire guest info is cleared.
+            if (!this.listSvc.checkStoredLists(this.prevViewedLists, this.giftListId)) {
+              await this.listSvc.storeListToUserX(list, result);
+            }
           } else {
             this.runAccessDialog();
           }

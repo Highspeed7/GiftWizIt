@@ -62,7 +62,7 @@ export class AuthService implements OnDestroy {
 
   public getNonRegisteredUserX(): GuestInfo | null {
     // Check for guest info object in LS
-    var guestInfoObj: GuestInfo = this.window.localStorage.getItem(GWAppConstants.strGuestInfo);
+    var guestInfoObj: GuestInfo = JSON.parse(this.window.localStorage.getItem(GWAppConstants.strGuestInfo));
     if (guestInfoObj != null) {
       return guestInfoObj;
     }

@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace GiftWizItApi.Interfaces
 {
-    public interface IItemRepository : IRepository<Items>
+    public interface IItemsRepository : IRepository<Items>
     {
         void Add(string userId);
+        Task<Items> GetById(int itemId);
     }
 }

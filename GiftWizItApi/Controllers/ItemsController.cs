@@ -60,6 +60,14 @@ namespace GiftWizItApi.Controllers
                 mapper.Map(item, newItem);
                 // Convert to Items Object
                 // TODO: Check to make sure item doesn't already exist in item's table.
+                // Check for an existing item by domain
+                var isValidItemToAdd = await validateProvidedItem(item.Url, userId);
+
+                if (!isValidItemToAdd)
+                {
+                    return StatusCode((int)HttpStatusCode.BadRequest, "The added item already exists for the user");
+                }
+
                 insertedWishitem = _unitOfWork.WishItems.Add(userId, listName, newItem, existingWishList);
                 var result = await _unitOfWork.CompleteAsync();
                 if (result > 0)
@@ -127,6 +135,15 @@ namespace GiftWizItApi.Controllers
 
             }
             return StatusCode((int)HttpStatusCode.OK);
+        }
+
+        private async Task<Boolean> validateProvidedItem(string itemUrl, string userId)
+        {
+            IEnumerable<WishItem> result = await _unitOfWork.WishItems.GetWishItemByUrl(itemUrl, userId);
+
+            var items = result.Where(r => r.Item.LinkItemPartners.Where(lip => lip.AffliateLink == itemUrl).Count() > 0 && r.Deleted == false);
+
+            return (items.Count() == 0);
         }
     }
 }

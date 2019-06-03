@@ -1,13 +1,15 @@
 <div class="row" *ngIf="prevViewedLists.length > 0">
   <div class="content col-md">
     <div class="card">
+      <h3>Lists you have previously viewed...</h3>
       <ul>
-        <li *ngFor="let list of prevViewedLists">{{list.name}}</li>
+        <li *ngFor="let list of prevViewedLists" (click)="prevListSelected(list)">{{list.giftListName}}</li>
+        <!--<li (click)="viewAnotherList()" style="color: blue;">View a different list</li>-->
       </ul>
     </div>
   </div>
 </div>
-<div class="row">
+<div class="row" *ngIf="sharedList != null">
   <div class="content col-md">
     <div class="card">
       <div class="row">

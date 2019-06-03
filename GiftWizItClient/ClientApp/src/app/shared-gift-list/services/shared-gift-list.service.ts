@@ -7,6 +7,7 @@ import { GuestInfo, GuestList } from 'src/app/models/guestInfo';
 import { Contact } from 'src/app/contacts/models/contact';
 import { Utilities } from 'src/app/utils/Utilities';
 import { GWAppConstants } from 'src/app/constants/appConstants';
+import { SharedList } from '../models/shared-list';
 
 @Injectable({
   providedIn: 'root'
@@ -32,7 +33,7 @@ export class SharedGiftListService {
     return this.http.post(`${this.apiUrl}/SharedList`, { gListId: giftListId, gListPass: giftListPassword }).toPromise()
   }
 
-  public async buildNonRegisteredUserX(emailId: string, giftListId: string, giftListName: string, giftListPass: string) {
+  public async buildNonRegisteredUserX(emailId: string, giftListId: string) {
     // TODO: This does a database, write... we want to do a read instead.
     await this.http.post(`${this.apiUrl}/Contacts/EmailVerify?emailId=${emailId}`, null)
       .toPromise()
@@ -40,16 +41,36 @@ export class SharedGiftListService {
         this.guestInfo = new GuestInfo();
         this.guestInfo.name = contact.name;
         this.guestInfo.email = contact.email;
-        var list = new GuestList();
-        list.giftListId = parseInt(giftListId);
-        list.giftListName = giftListName;
-        list.giftListPass = giftListPass;
-        list.storedTime = this.utils.getCurrTimeInSeconds();
-        list.dataExpireTime = list.storedTime + GWAppConstants.strGuestListExpiryTimeSecs;
-        this.guestInfo.lists.push(list);
+        
         // Store the guestInfo in localstorage
         this.window.localStorage.setItem(GWAppConstants.strGuestInfo, JSON.stringify(this.guestInfo));
       });
     return;
+  }
+
+  public storeListToUserX(list: SharedList, listPass: string) {
+    var currTimeSeconds = this.utils.getCurrTimeInSeconds();
+    this.guestInfo = JSON.parse(this.window.localStorage.getItem(GWAppConstants.strGuestInfo));
+    this.guestInfo.lists.push({
+      giftListName: list.giftList.name,
+      giftListId: list.giftList.id,
+      giftListPass: listPass,
+      storedTime: currTimeSeconds,
+      dataExpireTime: currTimeSeconds + GWAppConstants.strGuestListExpiryTimeSecs
+    });
+    // Put the object back
+    this.window.localStorage.setItem(GWAppConstants.strGuestInfo, JSON.stringify(this.guestInfo));
+  }
+
+  public checkStoredLists(prevLists: GuestList[], giftListId: string) {
+    if (prevLists != null) {
+      var listFound = prevLists.filter((list: GuestList) => {
+        return list.giftListId == parseInt(giftListId);
+      })
+      if (listFound.length == 0) {
+        return false;
+      }
+      return true;
+    }
   }
 }
