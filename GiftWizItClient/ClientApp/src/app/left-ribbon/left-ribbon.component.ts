@@ -12,10 +12,10 @@ export class LeftRibbonComponent implements OnInit {
   ngOnInit() {
   }
 
-  public ribbonItemClicked(e: Event) {
-    e.stopPropagation();
-    let event = new MouseEvent("click");
-    var element: Element = e.srcElement;
-    element.firstChild.dispatchEvent(event);
+  public ribbonItemClicked(e: any) {
+    e.preventDefault();
+    let element: HTMLElement = e.currentTarget;
+    let anchor: any = element.firstElementChild;
+    anchor.click();
   }
 }

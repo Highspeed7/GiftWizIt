@@ -2,9 +2,9 @@
     <div class="row">
         <div class="col-12 side-ribbon-content">
           <ul>
-            <li style="transform: rotate(-15deg);" (click)="ribbonItemClicked($event)" routerLinkActive="active"><a [routerLink]="['wish-list']" href="">My Wish List</a></li>
-            <li style="transform: rotate(5deg);" (click)="ribbonItemClicked($event)" routerLinkActive="active"><a [routerLink]="['gift-lists']">My Gift Lists</a></li>
-            <li style="transform: rotate(-10deg);" (click)="ribbonItemClicked($event)" routerLinkActive="active"><a href="">My Shared Gift Lists</a></li>
+            <li style="transform: rotate(-15deg);" routerLinkActive="active" (click)="ribbonItemClicked($event)"><a [routerLink]="['wish-list']">My Wish List</a></li>
+            <li style="transform: rotate(5deg);" routerLinkActive="active" (click)="ribbonItemClicked($event)"><a [routerLink]="['gift-lists']">My Gift Lists</a></li>
+            <li style="transform: rotate(-10deg);" routerLinkActive="active" (click)="ribbonItemClicked($event)"><a>My Shared Gift Lists</a></li>
             <li (click)="ribbonItemClicked($event)" routerLinkActive="active"><a [routerLink]="['contacts']">My Contacts</a></li>
           </ul>
         </div>
