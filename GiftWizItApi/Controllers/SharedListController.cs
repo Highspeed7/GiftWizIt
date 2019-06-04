@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using AutoMapper;
 using GiftWizItApi.Controllers.dtos;
 using GiftWizItApi.Interfaces;
+using GiftWizItApi.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GiftWizItApi.Controllers
@@ -22,6 +24,20 @@ namespace GiftWizItApi.Controllers
         {
             this.unitOfWork = unitOfWork;
             this.mapper = mapper;
+        }
+
+        [Authorize]
+        [Route("api/SharedList/Contacts")]
+        [HttpGet]
+        public async Task<ActionResult> GetSharedListContacts()
+        {
+            var userId = User.Claims.First(e => e.Type == "http://schemas.microsoft.com/identity/claims/objectidentifier").Value;
+
+            var result = await unitOfWork.SharedLists.GetAllUserSharedLists(userId);
+
+            List<SharedListDTO> sharedList = mapper.Map<IEnumerable<SharedListDTO>>(result).ToList();
+
+            return StatusCode((int)HttpStatusCode.OK, sharedList);
         }
 
         [Route("api/SharedList")]

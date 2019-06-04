@@ -11,5 +11,6 @@ namespace GiftWizItApi.Controllers.dtos
         public string UserId { get; set; }
 
         public GiftListDto GiftList { get; set; }
+        public ContactDTO Contact { get; set; }
     }
 }

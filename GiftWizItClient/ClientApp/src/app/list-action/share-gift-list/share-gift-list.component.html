@@ -6,13 +6,14 @@
 <form #shareForm="ngForm">
   <div class="form-group">
     <label>Select a gift list:</label>
-    <select [(ngModel)]="selectedList" class="form-control" name="gift-lists">
+    <select [(ngModel)]="selectedList" class="form-control" name="gift-lists" (change)="listChanged()">
       <option *ngFor="let list of giftLists" [value]="list.id">{{list.name}}</option>
     </select>
   </div>
   <div class="form-group">
     <ng-multiselect-dropdown [placeholder]="'Select one or more contacts'"
-                             [data]="contacts"
+                             [disabled]="!contactsLoaded"
+                             [data]="dropdownList"
                              [(ngModel)]="selectedItems"
                              name="contact-list"
                              [settings]="dropdownSettings"

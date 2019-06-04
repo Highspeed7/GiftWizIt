@@ -87,6 +87,7 @@ export class WishListComponent implements OnInit {
     this.wshItmSvc.moveItems(this.itemsToMove).then((res) => {
       this.wshSvc.getLists().then((data) => {
         this.wishList = data;
+        this.moveActionActive = false;
       });
     });
   }

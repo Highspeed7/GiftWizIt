@@ -7,8 +7,16 @@
     </div>
     <gw-list-action>
       <div actions>
-        <gw-list-action-item icon="fas fa-dolly" title="Move" [isActive]="moveActionActive" (onActionClicked)="actionClicked($event)"></gw-list-action-item>
-        <gw-list-action-item icon="fas fa-trash" title="Delete" [isActive]="trashActionActive" (onActionClicked)="actionClicked($event)"></gw-list-action-item>
+        <gw-list-action-item icon="fas fa-dolly"
+                             title="Move"
+                             [isActive]="moveActionActive"
+                             (onActionClicked)="actionClicked($event)"
+                             *ngIf="wishList?.length > 0"></gw-list-action-item>
+        <gw-list-action-item icon="fas fa-trash"
+                             title="Delete"
+                             [isActive]="trashActionActive"
+                             (onActionClicked)="actionClicked($event)"
+                             *ngIf="wishList?.length > 0"></gw-list-action-item>
       </div>
       <div actionDisplay>
         <gw-move-to-gift-list *ngIf="moveActionActive == true" [giftLists]="giftLists" (onMoveClicked)="itemMoveClicked($event)"></gw-move-to-gift-list>

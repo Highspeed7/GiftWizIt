@@ -21,6 +21,7 @@ export class GiftListComponent implements OnInit {
   public moveActionActive = false;
   public shareActionActive = false;
   public itemsToMove: GiftItem[];
+  public contactsLoaded = false;
 
   constructor(
     private glService: GiftListService,
@@ -99,7 +100,8 @@ export class GiftListComponent implements OnInit {
     }
 
     // Flatten checkedItems array to remove empty slots
-    checkedItems = checkedItems.flat();
+    // NOTE: As of 6/3 Edge does not support method flat();
+    checkedItems = checkedItems.reduce((acc, val) => acc.concat(val), []);
 
     console.log(`Moving ${checkedItems} to ${eventItem}`);
 

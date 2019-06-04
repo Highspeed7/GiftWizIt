@@ -11,7 +11,9 @@
       <div actionDisplay>
         <gw-add-gift-list *ngIf="addActionActive" (onListAdded)="onListAdded($event)"></gw-add-gift-list>
         <gw-move-to-gift-list *ngIf="moveActionActive" [giftLists]="giftLists" (onMoveClicked)="itemMoveClicked($event)"></gw-move-to-gift-list>
-        <gw-share-gift-list *ngIf="shareActionActive" [giftLists]="giftLists" [contacts]="contacts"></gw-share-gift-list>
+        <gw-share-gift-list *ngIf="shareActionActive"
+                            [giftLists]="giftLists"
+                            [contacts]="contacts"></gw-share-gift-list>
       </div>
     </gw-list-action>
     <div class="card" *ngFor="let list of giftLists">

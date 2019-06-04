@@ -1,5 +1,6 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { GiftList } from 'src/app/gift-list/models/gift-list';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'gw-move-to-gift-list',
@@ -7,6 +8,8 @@ import { GiftList } from 'src/app/gift-list/models/gift-list';
   styleUrls: ['./move-to-gift-list.component.css']
 })
 export class MoveToGiftListComponent implements OnInit {
+  @ViewChild('moveForm') moveForm: NgForm;
+
   @Output()
   onMoveClicked: EventEmitter<any> = new EventEmitter<any>();
 
@@ -22,5 +25,6 @@ export class MoveToGiftListComponent implements OnInit {
 
   public moveItemsClicked() {
     this.onMoveClicked.emit(this.selectedGiftList);
+    this.moveForm.reset();
   }
 }

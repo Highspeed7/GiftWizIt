@@ -5,6 +5,8 @@ import { GiftList } from 'src/app/gift-list/models/gift-list';
 import { ListShare } from './models/list-share';
 import { GiftListService } from 'src/app/gift-list/services/gift-list.service';
 import { NgForm } from '@angular/forms';
+import { SharedList } from 'src/app/shared-gift-list/models/shared-list';
+import { ShareGiftListService } from './services/share-gift-list.service';
 
 @Component({
   selector: 'gw-share-gift-list',
@@ -19,6 +21,10 @@ export class ShareGiftListComponent implements OnInit, OnChanges {
   @Input()
   public giftLists: GiftList[];
 
+  public contactShares: any[] = null;
+
+  public filteredListContacts: any[] = [];
+
   // Set to an appropriate model
   public selectedContacts: any[] = [];
 
@@ -32,16 +38,18 @@ export class ShareGiftListComponent implements OnInit, OnChanges {
 
   public dropdownSettings = {};
 
+  public contactsLoaded = false;
+
   constructor(
     private cntctSvc: ContactService,
-    private gftSvc: GiftListService
+    private gftSvc: GiftListService,
+    private shareSvc: ShareGiftListService
   ) { }
 
   ngOnInit() {
     /* TODO: Make a change to where contacts don't appear if they've already had a given list shared with them. */
-    // Get the contacts for the list
-    console.log(this.contacts);
-      // Then set the dropdown configuration.
+    // Then set the dropdown configuration.
+    this.setDropdownSettings();
   }
 
   /* If for whatever reason, the contacts are not loaded
@@ -50,7 +58,8 @@ export class ShareGiftListComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     // Detect when contacts are loaded
     if (changes.contacts) {
-      console.log(changes.contacts);
+      // Filter the contacts again
+      // this.filterContacts();
       // When contacts are changed...
       // Set the dropdown configuration
       this.setDropdownSettings();
@@ -93,16 +102,50 @@ export class ShareGiftListComponent implements OnInit, OnChanges {
 
   public onItemSelectAll(items: any[]) {
     this.selectedContacts = items;
-    console.log(this.selectedContacts);
+  }
+
+  public listChanged() {
+    this.contactsLoaded = false;
+    // Load contacts for the
+    this.shareSvc.getGiftListSharedContacts().then((data: any[]) => {
+      this.contactShares = data;
+      this.filterContacts();
+      this.setDropdownSettings();
+      this.contactsLoaded = true;
+    });
+  }
+
+  private filterContacts() {
+    // Filter the contactShares array on gift list id
+    var listContacts = this.contactShares.filter((contact) => {
+      if (contact.giftListId == this.selectedList) {
+        return contact;
+      }
+    })
+
+    // Make a copy
+    this.filteredListContacts = this.contacts.slice(0);
+
+    if (listContacts.length > 0) {
+      for (var i = 0; i < this.filteredListContacts.length; i++) {
+        listContacts.forEach((listContact) => {
+          if (listContact.contact.email == this.filteredListContacts[i].email) {
+            this.filteredListContacts.splice(i, 1);
+          }
+        });
+      }
+    }
   }
 
   private setDropdownSettings() {
-    for (let c of this.contacts) {
+    this.dropdownList = [];
+    for (let c of this.filteredListContacts) {
       this.dropdownList.push({
         contactId: c.contactId,
         name: c.name
       });
     }
+    
     this.dropdownSettings = {
       singleSelection: false,
       idField: 'contactId',

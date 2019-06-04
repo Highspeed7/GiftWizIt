@@ -10,6 +10,7 @@ import { AddGiftListComponent } from './add-gift-list/add-gift-list.component';
 import { AddContactComponent } from './add-contact/add-contact.component';
 import { ShareGiftListComponent } from './share-gift-list/share-gift-list.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { SharedGiftListService } from '../shared-gift-list/services/shared-gift-list.service';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,9 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
     AddGiftListComponent,
     AddContactComponent,
     ShareGiftListComponent
+  ],
+  providers: [
+    SharedGiftListService
   ]
 })
 export class ListActionModule { }

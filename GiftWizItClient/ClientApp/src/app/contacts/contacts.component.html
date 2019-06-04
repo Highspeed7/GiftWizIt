@@ -11,12 +11,22 @@
         <gw-list-action-item icon="fas fa-trash" title="Trash" [isActive]="trashActionActive" (onActionClicked)="actionClicked($event)"></gw-list-action-item>
       </div>
       <div actionDisplay>
-        <gw-add-contact *ngIf="addActionActive" (onContactAdded)="contactAdded($event)"></gw-add-contact>
+        <gw-add-contact *ngIf="addActionActive" [contacts]="contacts" (onContactAdded)="contactAdded($event)"></gw-add-contact>
       </div>
     </gw-list-action>
-    <div class="row" *ngFor="let contact of contacts">
+    <div class="row">
       <div class="col-md">
-        {{contact.contact.name}}
+        <div class="card" *ngFor="let contact of contacts">
+          <div class="row">
+            <div class="col-sm-1 contact-checkbox" *ngIf="showCheckboxes">
+              <input type="checkbox" />
+            </div>
+            <div class="col-sm">
+              Name: {{contact.contact.name}}<br />
+              Email: {{contact.contact.email}}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

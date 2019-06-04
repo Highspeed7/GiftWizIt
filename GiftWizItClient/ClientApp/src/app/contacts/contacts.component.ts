@@ -12,6 +12,7 @@ export class ContactsComponent implements OnInit {
 
   public addActionActive: boolean = false;
   public trashActionActive: boolean = false;
+  public showCheckboxes: boolean = false;
 
   public contacts: Contact[];
 
@@ -26,11 +27,13 @@ export class ContactsComponent implements OnInit {
   public actionClicked(actionInfo) {
     switch (actionInfo.action) {
       case "Add": {
+        this.showCheckboxes = false;
         this.addActionActive = true;
         this.trashActionActive = false;
         break;
       }
       case "Trash": {
+        this.showCheckboxes = true;
         this.trashActionActive = true;
         this.addActionActive = false;
         break;
