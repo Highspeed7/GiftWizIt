@@ -7,6 +7,7 @@ import { GiftItem } from './models/gift-item';
 import { WishItemService } from './services/wish-item.service';
 import { AuthService } from '../authentication/services/auth.service';
 import { AccountsService } from '../accounts.service';
+import { Item } from './models/item';
 
 @Component({
   selector: 'app-wish-list',
@@ -16,9 +17,10 @@ import { AccountsService } from '../accounts.service';
 export class WishListComponent implements OnInit {
 
   public showCheckboxes: boolean = false;
-  public wishList: WishList[];
+  public wishList: WishList[] = [];
   public giftLists: GiftList[];
   public itemsToMove: GiftItem[];
+  public itemsToDelete: Item[];
 
   public moveActionActive: boolean = false;
   public trashActionActive: boolean = false;
@@ -73,9 +75,7 @@ export class WishListComponent implements OnInit {
   }
 
   public itemMoveClicked(eventItem) {
-    var checkedItems = this.wishList.filter((item) => {
-      return item.checked === true;
-    });
+    var checkedItems = this.getCheckedItems();
 
     this.itemsToMove = checkedItems.map((item: WishList) => {
       var giftItem: GiftItem = new GiftItem();
@@ -89,6 +89,44 @@ export class WishListComponent implements OnInit {
         this.wishList = data;
         this.moveActionActive = false;
       });
+    });
+  }
+
+  public deleteConfirmed() {
+    if (this.getCheckedItems().length > 0) {
+      this.itemsDeleted();
+    }
+    else {
+      // TODO: Implement proper notification
+      alert("You did not select an item. Please try again.");
+    }
+  }
+
+  public deleteCancelled() {
+    this.trashActionActive = false;
+    this.showCheckboxes = false;
+  }
+
+  public itemsDeleted() {
+    var checkedItems = this.getCheckedItems();
+
+    this.itemsToDelete = checkedItems.map((checkedItem) => {
+      var item: Item = new Item();
+      item.item_Id = checkedItem.item_Id;
+      return item;
+    });
+
+    this.wshItmSvc.deleteItems(this.itemsToDelete).then(() => {
+      this.wshSvc.getLists().then((data) => {
+        this.wishList = data;
+        this.trashActionActive = false;
+      });
+    });
+  }
+
+  private getCheckedItems() {
+    return this.wishList.filter((item) => {
+      return item.checked === true;
     });
   }
 }

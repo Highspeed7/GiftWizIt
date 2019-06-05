@@ -41,6 +41,7 @@
     <None Remove="ClientApp\src\app\shared-gift-list\models\shared-list.ts" />
     <None Remove="ClientApp\src\app\utils\Utilities.ts" />
     <None Remove="ClientApp\src\app\wish-list\models\gift-item.ts" />
+    <None Remove="ClientApp\src\app\wish-list\models\item.ts" />
     <None Remove="ClientApp\src\app\wish-list\models\wish-list.ts" />
   </ItemGroup>
 
@@ -73,6 +74,7 @@
     <TypeScriptCompile Include="ClientApp\src\app\shared-gift-list\models\shared-list.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\utils\Utilities.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\wish-list\models\gift-item.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\wish-list\models\item.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\wish-list\models\wish-list.ts" />
   </ItemGroup>
 
