@@ -40,6 +40,8 @@ export class ShareGiftListComponent implements OnInit, OnChanges {
 
   public contactsLoaded = false;
 
+  public showPassField = true;
+
   constructor(
     private cntctSvc: ContactService,
     private gftSvc: GiftListService,
@@ -77,6 +79,7 @@ export class ShareGiftListComponent implements OnInit, OnChanges {
     // Call api to share the list
     await this.gftSvc.shareList(listToShare).then((res) => {
       this.shareForm.reset();
+      this.dropdownList = [];
       this.selectedContacts = [];
     });
   }
@@ -110,9 +113,26 @@ export class ShareGiftListComponent implements OnInit, OnChanges {
     this.shareSvc.getGiftListSharedContacts().then((data: any[]) => {
       this.contactShares = data;
       this.filterContacts();
+      this.setAnyListPassword();
       this.setDropdownSettings();
       this.contactsLoaded = true;
     });
+  }
+
+  private setAnyListPassword() {
+    var listContacts = this.contactShares.filter((contact) => {
+      if (contact.giftListId == this.selectedList) {
+        return contact;
+      }
+    })
+
+    if (listContacts.length > 0) {
+      if (listContacts[0].password != null) {
+        this.showPassField = false;
+        // Set the password model
+        this.sharedListPassword = listContacts[0].password;
+      }
+    }
   }
 
   private filterContacts() {

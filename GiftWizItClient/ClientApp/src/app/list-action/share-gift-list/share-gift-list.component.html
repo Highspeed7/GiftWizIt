@@ -23,9 +23,14 @@
                              (onDeSelectAll)="onItemDeselectAll($event)">
     </ng-multiselect-dropdown>
   </div>
-  <div class="form-group">
+  <div class="form-group"  *ngIf="showPassField === true; else listPassField">
     <label for="list-pass">Password:&nbsp;</label>
     <input class="form-control" id="list-pass" type="password" name="list-pass" title="password for the list" [(ngModel)]="sharedListPassword" />
   </div>
+  <ng-template #listPassField>
+    <div class="form-group">
+      A password was previously entered for this list. Therefore the same password will be used.
+    </div>
+  </ng-template>
   <button class="btn btn-primary inline" (click)="shareWithContactClicked()">Share</button>
 </form>

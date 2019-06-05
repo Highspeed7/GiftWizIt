@@ -46,6 +46,10 @@ namespace GiftWizItApi.Controllers
         {
             var result = await unitOfWork.SharedLists.GetSharedList(sharedList.GListId, sharedList.GListPass);
 
+            // Validate the giftlistid
+
+            // Check to see if the list has already been shared and set the same password.
+
             if(result == null)
             {
                 return StatusCode((int)HttpStatusCode.NoContent);

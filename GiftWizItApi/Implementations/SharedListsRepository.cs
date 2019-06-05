@@ -39,7 +39,7 @@ namespace GiftWizItApi.Implementations
 
         public async Task<IEnumerable<SharedLists>> GetAllUserSharedLists(string userId)
         {
-            return await Context.SharedLists.Include(sl => sl.Contact).Where(sl => sl.UserId == userId).ToListAsync();
+            return await Context.SharedLists.Include(sl => sl.Contact).Include(sl => sl.GiftList).Where(sl => sl.UserId == userId).ToListAsync();
         }
     }
 }
