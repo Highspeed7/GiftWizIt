@@ -17,11 +17,13 @@ export class GiftListComponent implements OnInit {
   public giftLists: GiftList[]
   public contacts: any[]
   public trashActionActive = false;
+  public editActionActive = false;
   public addActionActive = false;
   public moveActionActive = false;
   public shareActionActive = false;
   public itemsToMove: GiftItem[];
   public contactsLoaded = false;
+  public expandedLists: any[] = [];
 
   constructor(
     private glService: GiftListService,
@@ -61,14 +63,17 @@ export class GiftListComponent implements OnInit {
         this.trashActionActive = false;
         this.moveActionActive = false;
         this.shareActionActive = false;
+        this.editActionActive = false;
         break;
       }
       // TODO: Make share only visible when a wishlist is selected.
       case "Share": {
+        this.showCheckboxes = false;
         this.addActionActive = false;
         this.trashActionActive = false;
         this.moveActionActive = false;
         this.shareActionActive = true;
+        this.editActionActive = false;
         break;
       }
       case "Move": {
@@ -77,16 +82,28 @@ export class GiftListComponent implements OnInit {
         this.trashActionActive = false;
         this.moveActionActive = true;
         this.shareActionActive = false;
+        this.editActionActive = false;
         break;
       }
       case "Delete": {
+        this.showCheckboxes = true;
         this.trashActionActive = true;
         this.addActionActive = false;
         this.moveActionActive = false;
         this.shareActionActive = false;
+        this.editActionActive = false;
         break;
       }
+      case "Edit": {
+        this.showCheckboxes = false;
+        this.editActionActive = true;
+        this.trashActionActive = false;
+        this.addActionActive = false;
+        this.moveActionActive = false;
+        this.shareActionActive = false;
+      }
     }
+    this.cd.detectChanges();
   }
 
   // TODO: Add a check for moves to same gift lists.
@@ -116,6 +133,7 @@ export class GiftListComponent implements OnInit {
     this.glService.moveItems(this.itemsToMove).then((res) => {
       this.glService.getLists().then((data) => {
         this.giftLists = data;
+        this.cd.detectChanges();
       })
     });
   }
@@ -149,12 +167,21 @@ export class GiftListComponent implements OnInit {
         list.giftItems = items;
       });
     }
+
     list.isExpanded = !list.isExpanded;
+
+    // Update the expanded list array for certain list-actions.
+    this.setExpandedListsArray();
+
     // Update the DOM
     this.cd.detectChanges();
   }
 
   public onListMoved(newList) {
     console.log(newList);
+  }
+
+  private setExpandedListsArray() {
+    this.expandedLists = this.giftLists.filter(list => list.isExpanded == true);
   }
 }

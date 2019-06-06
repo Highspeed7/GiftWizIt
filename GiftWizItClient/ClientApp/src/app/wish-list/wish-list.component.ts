@@ -119,6 +119,7 @@ export class WishListComponent implements OnInit {
     this.wshItmSvc.deleteItems(this.itemsToDelete).then(() => {
       this.wshSvc.getLists().then((data) => {
         this.wishList = data;
+        this.showCheckboxes = false;
         this.trashActionActive = false;
       });
     });

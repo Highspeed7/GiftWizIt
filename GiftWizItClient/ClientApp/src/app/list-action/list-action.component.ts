@@ -26,23 +26,6 @@ export class ListActionComponent implements OnInit {
   }
 
   public actionClicked(linkInfo: any) {
-    //switch (linkInfo.action) {
-    //  case "Move": {
-    //    this.trashActionActive = false;
-    //    this.moveActionActive = true;
-    //    break;
-    //  }
-    //  case "Delete": {
-    //    this.moveActionActive = false;
-    //    this.trashActionActive = true;
-    //    break;
-    //  }
-    //  case "Cancel": {
-    //    this.moveActionActive = false;
-    //    this.trashActionActive = false;
-    //    break;
-    //  }
-    //}
     this.onActionClicked.emit(linkInfo);
   }
 

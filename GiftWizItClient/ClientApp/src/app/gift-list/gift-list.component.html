@@ -2,18 +2,27 @@
   <div class="col-md content">
     <h2>Gift Lists</h2>
     <gw-list-action>
-      <div actions>
+      <div globalListActions>
         <gw-list-action-item icon="fas fa-plus" title="Add" [isActive]="addActionActive" (onActionClicked)="actionClicked($event)"></gw-list-action-item>
-        <gw-list-action-item icon="fas fa-share" title="Share" [isActive]="shareActionActive" (onActionClicked)="actionClicked($event)"></gw-list-action-item>
-        <gw-list-action-item icon="fas fa-dolly" title="Move" [isActive]="moveActionActive" (onActionClicked)="actionClicked($event)"></gw-list-action-item>
-        <gw-list-action-item icon="fas fa-trash" title="Delete" [isActive]="trashActionActive" (onActionClicked)="actionClicked($event)"></gw-list-action-item>
       </div>
       <div actionDisplay>
-        <gw-add-gift-list *ngIf="addActionActive" (onListAdded)="onListAdded($event)"></gw-add-gift-list>
+        <gw-add-gift-list *ngIf="addActionActive"
+                          (onListAdded)="onListAdded($event)"></gw-add-gift-list>
         <gw-move-to-gift-list *ngIf="moveActionActive" [giftLists]="giftLists" (onMoveClicked)="itemMoveClicked($event)"></gw-move-to-gift-list>
         <gw-share-gift-list *ngIf="shareActionActive"
                             [giftLists]="giftLists"
                             [contacts]="contacts"></gw-share-gift-list>
+      </div>
+      <div listActionLabel>
+        <span *ngIf="expandedLists.length == 1"
+              class="float-right"
+              style="font-weight: 500;">List Actions:</span>
+      </div>
+      <div listActions>
+        <gw-list-action-item *ngIf="expandedLists.length == 1" icon="fas fa-dolly" title="Move" [isActive]="moveActionActive" (onActionClicked)="actionClicked($event)"></gw-list-action-item>
+        <gw-list-action-item *ngIf="expandedLists.length == 1" icon="fas fa-share" title="Share" [isActive]="shareActionActive" (onActionClicked)="actionClicked($event)"></gw-list-action-item>
+        <gw-list-action-item *ngIf="expandedLists.length == 1" icon="fas fa-edit" title="Edit" [isActive]="editActionActive" (onActionClicked)="actionClicked($event)"></gw-list-action-item>
+        <gw-list-action-item *ngIf="expandedLists.length == 1" icon="fas fa-trash" title="Delete" [isActive]="trashActionActive" (onActionClicked)="actionClicked($event)"></gw-list-action-item>
       </div>
     </gw-list-action>
     <div class="card" *ngFor="let list of giftLists">
@@ -41,7 +50,7 @@
         <div class="col-12">
           <div class="row" *ngFor="let item of list?.giftItems">
             <div class="col-1 pl-4">
-              <input *ngIf="showCheckboxes == true" type="checkbox" [value]="item.item_Id" (click)="itemSelected(item)" />
+              <input *ngIf="showCheckboxes == true && expandedLists.length == 1" type="checkbox" [value]="item.item_Id" (click)="itemSelected(item)" />
             </div>
             <div class="col-1">
               <img [src]="item.image" alt="Alternate Text" class="gift-itm-img" />
