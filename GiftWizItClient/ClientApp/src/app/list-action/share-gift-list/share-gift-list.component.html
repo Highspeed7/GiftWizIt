@@ -1,18 +1,19 @@
 <div class="row">
   <div class="col-12">
+    <p>We've auto selected the list you have expanded; however, you can select any list you'd like to share.</p>
     <p>You can share one list at a time with multiple contacts. Please select them below...</p>
   </div>
 </div>
 <form #shareForm="ngForm">
   <div class="form-group">
     <label>Select a gift list:</label>
-    <select [(ngModel)]="selectedList" class="form-control" name="gift-lists" (change)="listChanged()">
+    <select #listSelect [(ngModel)]="selectedList" class="form-control" name="gift-lists" (change)="listChanged()">
       <option *ngFor="let list of giftLists" [value]="list.id">{{list.name}}</option>
     </select>
   </div>
   <div class="form-group">
     <ng-multiselect-dropdown [placeholder]="'Select one or more contacts'"
-                             [disabled]="!contactsLoaded"
+                             [disabled]="contactsLoaded == false"
                              [data]="dropdownList"
                              [(ngModel)]="selectedItems"
                              name="contact-list"
@@ -29,7 +30,8 @@
   </div>
   <ng-template #listPassField>
     <div class="form-group">
-      A password was previously entered for this list. Therefore the same password will be used.
+      A password was previously entered for this list. Therefore the same password will be used.<br /><br />
+      NOTE: You can change the password under the edit list action above once a list has been expanded below.
     </div>
   </ng-template>
   <button class="btn btn-primary inline" (click)="shareWithContactClicked()">Share</button>

@@ -15,11 +15,15 @@ import { ShareGiftListService } from './services/share-gift-list.service';
 })
 export class ShareGiftListComponent implements OnInit, OnChanges {
   @ViewChild('shareForm') shareForm: NgForm;
+  @ViewChild('listSelect') listSelect: HTMLElement;
   @Input()
   public contacts: Contact[];
 
   @Input()
   public giftLists: GiftList[];
+
+  @Input()
+  public expandedList: any = null;
 
   public contactShares: any[] = null;
 
@@ -46,11 +50,14 @@ export class ShareGiftListComponent implements OnInit, OnChanges {
     private cntctSvc: ContactService,
     private gftSvc: GiftListService,
     private shareSvc: ShareGiftListService
-  ) { }
+  ) {
+    this.setDropdownSettings();
+  }
 
   ngOnInit() {
-    /* TODO: Make a change to where contacts don't appear if they've already had a given list shared with them. */
     // Then set the dropdown configuration.
+    this.selectedList = this.expandedList.id;
+    this.listChanged();
     this.setDropdownSettings();
   }
 
@@ -165,7 +172,7 @@ export class ShareGiftListComponent implements OnInit, OnChanges {
         name: c.name
       });
     }
-    
+
     this.dropdownSettings = {
       singleSelection: false,
       idField: 'contactId',

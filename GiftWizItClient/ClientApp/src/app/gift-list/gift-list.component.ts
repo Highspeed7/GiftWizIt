@@ -24,6 +24,7 @@ export class GiftListComponent implements OnInit {
   public itemsToMove: GiftItem[];
   public contactsLoaded = false;
   public expandedLists: any[] = [];
+  public expandedList: any;
 
   constructor(
     private glService: GiftListService,
@@ -172,6 +173,7 @@ export class GiftListComponent implements OnInit {
 
     // Update the expanded list array for certain list-actions.
     this.setExpandedListsArray();
+    this.clearListActionDisplay();
 
     // Update the DOM
     this.cd.detectChanges();
@@ -181,7 +183,24 @@ export class GiftListComponent implements OnInit {
     console.log(newList);
   }
 
+  public getExpandedList() {
+    if (this.expandedLists.length == 1) {
+      return this.expandedLists[0]
+    } else
+      return null;
+  }
+
   private setExpandedListsArray() {
     this.expandedLists = this.giftLists.filter(list => list.isExpanded == true);
+  }
+
+  private clearListActionDisplay() {
+    if (this.expandedLists.length == 0 || this.expandedLists.length > 1) {
+      this.showCheckboxes = false;
+      this.moveActionActive = false;
+      this.shareActionActive = false;
+      this.editActionActive = false;
+      this.trashActionActive = false;
+    }
   }
 }

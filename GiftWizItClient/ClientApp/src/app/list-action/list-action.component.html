@@ -1,4 +1,4 @@
-<div class="row actions pb-2">
+<div class="row actions pb-2 d-none d-md-block">
   <div class="col-2">
     <ng-content select="[globalListActions]"></ng-content>
   </div>
@@ -12,6 +12,18 @@
       </div>
       <div class="col-2">
         <ng-content select="[listActions]"></ng-content>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row actions d-block d-md-none fixed-bottom">
+  <div class="col-12">
+    <div class="row">
+      <div class="col-6">
+        <ng-content select="[globalMobileListActions]"></ng-content>
+      </div>
+      <div class="col-6">
+        <ng-content select="[mobileListActions]"></ng-content>
       </div>
     </div>
   </div>

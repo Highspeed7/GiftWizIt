@@ -1,3 +1,8 @@
+* {
+  margin: 0px;
+  padding: 0px;
+}
+
 html,
 body {
   height: 100%;
@@ -102,7 +107,6 @@ div.top-spacer {
   top: 0px;
   position: fixed;
   background-color: blue;
-  width: 100%;
 }
 
 div.side-ribbon ul {
@@ -185,5 +189,23 @@ div.side-ribbon ul > li:hover {
   @media (max-width: 1179px) {
     span .or-divider {
     display: none;
+  }
+
+  @media(max-width: 767px) {
+    div.main-view {
+      margin-left: 0px;
+    }
+
+    div.main-view .content {
+      margin-left: 0px;
+      margin-bottom: 60px;
+    }
+
+    div.logo img {
+      height: 85px;
+      position: relative;
+      left: -15px;
+      z-index: 99999;
+    }
   }
 }

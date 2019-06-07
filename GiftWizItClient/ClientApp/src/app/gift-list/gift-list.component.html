@@ -4,6 +4,11 @@
     <gw-list-action>
       <div globalListActions>
         <gw-list-action-item icon="fas fa-plus" title="Add" [isActive]="addActionActive" (onActionClicked)="actionClicked($event)"></gw-list-action-item>
+        <gw-list-action-item icon="fas fa-share" title="Share" [isActive]="shareActionActive" (onActionClicked)="actionClicked($event)"></gw-list-action-item>
+      </div>
+      <div globalMobileListActions>
+        <gw-list-action-item class="col-sm-6" icon="fas fa-plus" title="Add" [isActive]="addActionActive" (onActionClicked)="actionClicked($event)"></gw-list-action-item>
+        <gw-list-action-item class="col-sm-6" icon="fas fa-share" title="Share" [isActive]="shareActionActive" (onActionClicked)="actionClicked($event)"></gw-list-action-item>
       </div>
       <div actionDisplay>
         <gw-add-gift-list *ngIf="addActionActive"
@@ -11,7 +16,8 @@
         <gw-move-to-gift-list *ngIf="moveActionActive" [giftLists]="giftLists" (onMoveClicked)="itemMoveClicked($event)"></gw-move-to-gift-list>
         <gw-share-gift-list *ngIf="shareActionActive"
                             [giftLists]="giftLists"
-                            [contacts]="contacts"></gw-share-gift-list>
+                            [contacts]="contacts"
+                            [expandedList]="getExpandedList()"></gw-share-gift-list>
       </div>
       <div listActionLabel>
         <span *ngIf="expandedLists.length == 1"
@@ -20,9 +26,13 @@
       </div>
       <div listActions>
         <gw-list-action-item *ngIf="expandedLists.length == 1" icon="fas fa-dolly" title="Move" [isActive]="moveActionActive" (onActionClicked)="actionClicked($event)"></gw-list-action-item>
-        <gw-list-action-item *ngIf="expandedLists.length == 1" icon="fas fa-share" title="Share" [isActive]="shareActionActive" (onActionClicked)="actionClicked($event)"></gw-list-action-item>
         <gw-list-action-item *ngIf="expandedLists.length == 1" icon="fas fa-edit" title="Edit" [isActive]="editActionActive" (onActionClicked)="actionClicked($event)"></gw-list-action-item>
         <gw-list-action-item *ngIf="expandedLists.length == 1" icon="fas fa-trash" title="Delete" [isActive]="trashActionActive" (onActionClicked)="actionClicked($event)"></gw-list-action-item>
+      </div>
+      <div mobileListActions>
+        <gw-list-action-item class="col-sm-4" *ngIf="expandedLists.length == 1" icon="fas fa-dolly" title="Move" [isActive]="moveActionActive" (onActionClicked)="actionClicked($event)"></gw-list-action-item>
+        <gw-list-action-item class="col-sm-4" *ngIf="expandedLists.length == 1" icon="fas fa-edit" title="Edit" [isActive]="editActionActive" (onActionClicked)="actionClicked($event)"></gw-list-action-item>
+        <gw-list-action-item class="col-sm-4" *ngIf="expandedLists.length == 1" icon="fas fa-trash" title="Delete" [isActive]="trashActionActive" (onActionClicked)="actionClicked($event)"></gw-list-action-item>
       </div>
     </gw-list-action>
     <div class="card" *ngFor="let list of giftLists">
@@ -52,10 +62,10 @@
             <div class="col-1 pl-4">
               <input *ngIf="showCheckboxes == true && expandedLists.length == 1" type="checkbox" [value]="item.item_Id" (click)="itemSelected(item)" />
             </div>
-            <div class="col-1">
+            <div class="col-3">
               <img [src]="item.image" alt="Alternate Text" class="gift-itm-img" />
             </div>
-            <div class="col-9">
+            <div class="col-7">
               {{item.itm_Name}}
             </div>
           </div>

@@ -5,3 +5,12 @@ div.actions {
   font-size: 20px;
   /*height: 65px;*/
 }
+
+@media(max-width: 767px) {
+  div.actions {
+    height: 65px;
+    border-radius: 0px;
+    z-index: 99999;
+    background-color: white;
+  }
+}
