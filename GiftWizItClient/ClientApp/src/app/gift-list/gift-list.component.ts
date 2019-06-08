@@ -29,7 +29,7 @@ export class GiftListComponent implements OnInit {
   constructor(
     private glService: GiftListService,
     private cntctService: ContactService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
   ) {
     this.glService.getLists().then((data) => {
       this.giftLists = data
@@ -57,6 +57,58 @@ export class GiftListComponent implements OnInit {
 
   public actionClicked(actionInfo) {
     // TODO: Add checkboxes to UI
+    switch (actionInfo.action) {
+      case "Add": {
+        this.showCheckboxes = false;
+        this.addActionActive = true;
+        this.trashActionActive = false;
+        this.moveActionActive = false;
+        this.shareActionActive = false;
+        this.editActionActive = false;
+        break;
+      }
+      // TODO: Make share only visible when a wishlist is selected.
+      case "Share": {
+        this.showCheckboxes = false;
+        this.addActionActive = false;
+        this.trashActionActive = false;
+        this.moveActionActive = false;
+        this.shareActionActive = true;
+        this.editActionActive = false;
+        break;
+      }
+      case "Move": {
+        this.showCheckboxes = true;
+        this.addActionActive = false;
+        this.trashActionActive = false;
+        this.moveActionActive = true;
+        this.shareActionActive = false;
+        this.editActionActive = false;
+        break;
+      }
+      case "Delete": {
+        this.showCheckboxes = true;
+        this.trashActionActive = true;
+        this.addActionActive = false;
+        this.moveActionActive = false;
+        this.shareActionActive = false;
+        this.editActionActive = false;
+        break;
+      }
+      case "Edit": {
+        this.showCheckboxes = false;
+        this.editActionActive = true;
+        this.trashActionActive = false;
+        this.addActionActive = false;
+        this.moveActionActive = false;
+        this.shareActionActive = false;
+      }
+    }
+    this.cd.detectChanges();
+  }
+
+  public mobileActionClicked(actionInfo, content) {
+    // If there's any modal open... close it.
     switch (actionInfo.action) {
       case "Add": {
         this.showCheckboxes = false;
@@ -135,6 +187,7 @@ export class GiftListComponent implements OnInit {
       this.glService.getLists().then((data) => {
         this.giftLists = data;
         this.cd.detectChanges();
+        this.modalService.dismissAll();
       })
     });
   }

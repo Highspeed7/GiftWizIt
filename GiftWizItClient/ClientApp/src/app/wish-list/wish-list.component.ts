@@ -71,7 +71,7 @@ export class WishListComponent implements OnInit {
     }
   }
 
-  public mobileActionClicked(actionInfo, content) {
+  public mobileActionClicked(actionInfo) {
     this.showCheckboxes = true;
     switch (actionInfo.action) {
       case "Cancel": {
@@ -81,7 +81,6 @@ export class WishListComponent implements OnInit {
         break;
       }
       case "Move": {
-        this.modal = this.modalSvc.open(content, { centered: true });
         this.trashActionActive = false;
         this.moveActionActive = true;
         break;
@@ -124,15 +123,18 @@ export class WishListComponent implements OnInit {
 
   public deleteConfirmed() {
     if (this.getCheckedItems().length > 0) {
+      this.modal.close();
       this.itemsDeleted();
     }
     else {
+      this.modal.dismiss();
       // TODO: Implement proper notification
       alert("You did not select an item. Please try again.");
     }
   }
 
   public deleteCancelled() {
+    this.modal.dismiss();
     this.trashActionActive = false;
     this.showCheckboxes = false;
   }

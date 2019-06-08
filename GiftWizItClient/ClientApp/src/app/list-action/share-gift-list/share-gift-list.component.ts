@@ -55,9 +55,11 @@ export class ShareGiftListComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    // Then set the dropdown configuration.
-    this.selectedList = this.expandedList.id;
+    if (this.expandedList != null) {
+      this.selectedList = this.expandedList.id;
+    }
     this.listChanged();
+    // Then set the dropdown configuration.
     this.setDropdownSettings();
   }
 

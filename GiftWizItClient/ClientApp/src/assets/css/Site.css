@@ -61,7 +61,7 @@ div.side-ribbon {
   box-shadow: 10px 0px 25px #888888;
   position: fixed;
   top: 0px;
-  z-index: 99998;
+  z-index: 998;
 }
 
 div.side-ribbon-content {
@@ -71,7 +71,7 @@ div.side-ribbon-content {
 nav.top-nav {
   top: 45px;
   background-image: linear-gradient(to bottom, #e6e6e6, #ffffff, #e6e6e6);
-  z-index: 99999;
+  z-index: 999;
   box-shadow: 10px 0px 8px #888888;
   height: 110px;
   position: fixed;
@@ -90,7 +90,7 @@ div.logo img {
   height: 165px;
   position: relative;
   left: -15px;
-  z-index: 99999;
+  z-index: 999;
 }
 
 div.main-view {
@@ -108,7 +108,7 @@ div.main-view .content {
 }
 
 div.top-spacer {
-  z-index: 99998;
+  z-index: 998;
   height: 45px;
   background-image: url(../../assets/images/gf_bg-texture.png);
   background-position-x: 15px;
@@ -213,7 +213,7 @@ div.side-ribbon ul > li:hover {
       height: 85px;
       position: relative;
       left: -15px;
-      z-index: 99999;
+      z-index: 999;
     }
   }
 }

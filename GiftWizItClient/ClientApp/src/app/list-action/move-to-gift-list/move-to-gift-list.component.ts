@@ -19,9 +19,14 @@ export class MoveToGiftListComponent implements OnInit {
   public selectedGiftList: string;
 
   constructor(private dialogCfg: DialogConfig) {
+    if (this.dialogCfg.data != null) {
+      this.giftLists = this.dialogCfg.data.giftLists;
+      this.onMoveClicked = this.dialogCfg.data.onMoveClicked;
+    }
   }
 
   ngOnInit() {
+    console.log(`Move to list initiated`);
   }
 
   public moveItemsClicked() {

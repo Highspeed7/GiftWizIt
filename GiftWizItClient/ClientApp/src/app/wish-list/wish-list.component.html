@@ -21,18 +21,19 @@
                              class="col-sm-6"
                              title="Move"
                              [isActive]="moveActionActive"
-                             (onActionClicked)="mobileActionClicked($event, content)"></gw-list-action-item>
+                             (onActionClicked)="mobileActionClicked($event)"></gw-list-action-item>
         <gw-list-action-item icon="fas fa-trash"
                              class="col-sm-6"
                              title="Delete"
                              [isActive]="trashActionActive"
-                             (onActionClicked)="actionClicked($event)"></gw-list-action-item>
+                             (onActionClicked)="mobileActionClicked($event)"></gw-list-action-item>
       </div>
       <div actionDisplay>
         <gw-move-to-gift-list *ngIf="moveActionActive == true" [giftLists]="giftLists" (onMoveClicked)="itemMoveClicked($event)"></gw-move-to-gift-list>
         <gw-delete-wl-item *ngIf="trashActionActive == true" (onDeleteConfirm)="deleteConfirmed()" (onDeleteCancel)="deleteCancelled()"></gw-delete-wl-item>
       </div>
       <div mobileActionDisplay>
+        <gw-move-to-gift-list *ngIf="moveActionActive == true" [giftLists]="giftLists" (onMoveClicked)="itemMoveClicked($event)"></gw-move-to-gift-list>
         <gw-delete-wl-item *ngIf="trashActionActive == true" (onDeleteConfirm)="deleteConfirmed()" (onDeleteCancel)="deleteCancelled()"></gw-delete-wl-item>
       </div>
     </gw-list-action>
@@ -61,6 +62,3 @@
     </div>
   </div>
 </div>
-<ng-template #content let-modal>
-  <gw-move-to-gift-list *ngIf="moveActionActive == true" [giftLists]="giftLists" (onMoveClicked)="itemMoveClicked($event)"></gw-move-to-gift-list>
-</ng-template>

@@ -19,6 +19,7 @@ import { DeleteGlItemComponent } from './delete-gl-item/delete-gl-item.component
     ListActionItemComponent,
     MoveToGiftListComponent,
     DeleteWlItemComponent,
+    DeleteGlItemComponent,
     AddGiftListComponent,
     AddContactComponent,
     ShareGiftListComponent,
@@ -36,6 +37,7 @@ import { DeleteGlItemComponent } from './delete-gl-item/delete-gl-item.component
     ListActionItemComponent,
     MoveToGiftListComponent,
     DeleteWlItemComponent,
+    DeleteGlItemComponent,
     AddGiftListComponent,
     AddContactComponent,
     ShareGiftListComponent
