@@ -1,7 +1,7 @@
-* {
+/** {
   margin: 0px;
   padding: 0px;
-}
+}*/
 
 html,
 body {
@@ -76,6 +76,14 @@ nav.top-nav {
   height: 110px;
   position: fixed;
   width: 100%;
+}
+
+nav.navbar + div.coll-nav-container {
+  top: 155px;
+}
+
+div.collapse.show {
+  background-image: linear-gradient(to bottom, #e6e6e6, #ffffff, #e6e6e6);
 }
 
 div.logo img {
@@ -191,7 +199,7 @@ div.side-ribbon ul > li:hover {
     display: none;
   }
 
-  @media(max-width: 767px) {
+  @media screen and (max-width: 767px) {
     div.main-view {
       margin-left: 0px;
     }

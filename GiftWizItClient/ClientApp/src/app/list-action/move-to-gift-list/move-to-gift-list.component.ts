@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { GiftList } from 'src/app/gift-list/models/gift-list';
 import { NgForm } from '@angular/forms';
+import { DialogConfig } from 'src/app/dialog/dialog-config';
 
 @Component({
   selector: 'gw-move-to-gift-list',
@@ -17,7 +18,7 @@ export class MoveToGiftListComponent implements OnInit {
   public giftLists: GiftList[];
   public selectedGiftList: string;
 
-  constructor() {
+  constructor(private dialogCfg: DialogConfig) {
   }
 
   ngOnInit() {

@@ -8,6 +8,8 @@ import { WishItemService } from './services/wish-item.service';
 import { AuthService } from '../authentication/services/auth.service';
 import { AccountsService } from '../accounts.service';
 import { Item } from './models/item';
+import { MoveToGiftListComponent } from '../list-action/move-to-gift-list/move-to-gift-list.component';
+import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-wish-list',
@@ -25,12 +27,16 @@ export class WishListComponent implements OnInit {
   public moveActionActive: boolean = false;
   public trashActionActive: boolean = false;
 
+  public 
+
   constructor(
     private wshSvc: WishListService,
     private wshItmSvc: WishItemService,
     private glstSvc: GiftListService,
+    private modalSvc: NgbModal,
     private authSvc: AuthService,
-    private acntSvc: AccountsService
+    private acntSvc: AccountsService,
+    private modal: NgbActiveModal
   ) { }
 
   ngOnInit() {
@@ -65,6 +71,29 @@ export class WishListComponent implements OnInit {
     }
   }
 
+  public mobileActionClicked(actionInfo, content) {
+    this.showCheckboxes = true;
+    switch (actionInfo.action) {
+      case "Cancel": {
+        this.showCheckboxes = false;
+        this.moveActionActive = false;
+        this.trashActionActive = false;
+        break;
+      }
+      case "Move": {
+        this.modal = this.modalSvc.open(content, { centered: true });
+        this.trashActionActive = false;
+        this.moveActionActive = true;
+        break;
+      }
+      case "Delete": {
+        this.moveActionActive = false;
+        this.trashActionActive = true;
+        break;
+      }
+    }
+  }
+
   public itemSelected(item: WishList) {
     // Set the item's property to checked.
     if (item.checked == null || item.checked == false) {
@@ -75,6 +104,7 @@ export class WishListComponent implements OnInit {
   }
 
   public itemMoveClicked(eventItem) {
+    this.modal.close();
     var checkedItems = this.getCheckedItems();
 
     this.itemsToMove = checkedItems.map((item: WishList) => {

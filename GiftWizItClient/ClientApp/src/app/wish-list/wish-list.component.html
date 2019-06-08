@@ -1,12 +1,12 @@
 <div class="row">
   <div class="col-md content">
     <div class="row">
-      <div class="col-3">
+      <div class="col-12 col-md-3">
         <h2>Your Wish List</h2>
       </div>
     </div>
-    <gw-list-action *ngIf="wishList?.length > 0; else noItems">
-      <div actions>
+    <gw-list-action class="row" *ngIf="wishList?.length > 0; else noItems">
+      <div globalListActions class="col-12">
         <gw-list-action-item icon="fas fa-dolly"
                              title="Move"
                              [isActive]="moveActionActive"
@@ -16,8 +16,23 @@
                              [isActive]="trashActionActive"
                              (onActionClicked)="actionClicked($event)"></gw-list-action-item>
       </div>
+      <div globalMobileListActions>
+        <gw-list-action-item icon="fas fa-dolly"
+                             class="col-sm-6"
+                             title="Move"
+                             [isActive]="moveActionActive"
+                             (onActionClicked)="mobileActionClicked($event, content)"></gw-list-action-item>
+        <gw-list-action-item icon="fas fa-trash"
+                             class="col-sm-6"
+                             title="Delete"
+                             [isActive]="trashActionActive"
+                             (onActionClicked)="actionClicked($event)"></gw-list-action-item>
+      </div>
       <div actionDisplay>
         <gw-move-to-gift-list *ngIf="moveActionActive == true" [giftLists]="giftLists" (onMoveClicked)="itemMoveClicked($event)"></gw-move-to-gift-list>
+        <gw-delete-wl-item *ngIf="trashActionActive == true" (onDeleteConfirm)="deleteConfirmed()" (onDeleteCancel)="deleteCancelled()"></gw-delete-wl-item>
+      </div>
+      <div mobileActionDisplay>
         <gw-delete-wl-item *ngIf="trashActionActive == true" (onDeleteConfirm)="deleteConfirmed()" (onDeleteCancel)="deleteCancelled()"></gw-delete-wl-item>
       </div>
     </gw-list-action>
@@ -46,3 +61,6 @@
     </div>
   </div>
 </div>
+<ng-template #content let-modal>
+  <gw-move-to-gift-list *ngIf="moveActionActive == true" [giftLists]="giftLists" (onMoveClicked)="itemMoveClicked($event)"></gw-move-to-gift-list>
+</ng-template>

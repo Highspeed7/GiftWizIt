@@ -16,6 +16,7 @@ export class AppComponent implements OnInit, OnDestroy {
   public displayName: string = "Guest";
   public isLoggedIn: boolean = false;
   public user: any;
+  public isNavbarCollapsed = true;
   private appInfo: AppInfo = new AppInfo();
   private window: any;
   private bcsLoginSuccessSub: Subscription;

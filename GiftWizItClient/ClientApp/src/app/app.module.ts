@@ -22,6 +22,7 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { SharedGiftListModule } from './shared-gift-list/shared-gift-list.module';
 import { DialogModule } from './dialog/dialog.module';
 import { SharedListAccessModalComponent } from './shared-gift-list/shared-list-access-modal/shared-list-access-modal.component';
+import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { SharedListAccessModalComponent } from './shared-gift-list/shared-list-a
     ReactiveFormsModule,
     CommonModule,
     DialogModule,
+    NgbCollapseModule,
     NgMultiSelectDropDownModule.forRoot(),
     AuthenticationModule,
     GiftListsModule,

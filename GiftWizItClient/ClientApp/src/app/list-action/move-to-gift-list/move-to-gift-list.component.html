@@ -1,9 +1,13 @@
 <form #moveForm="ngForm">
-  <select class="form-control inline" name="giftList" [(ngModel)]="selectedGiftList">
-    <option *ngFor="let list of giftLists"
-            [value]="list.id">
-      {{list.name}}
-    </option>
-  </select>
-  <button class="btn btn-primary inline" (click)="moveItemsClicked()">Move</button>
+  <div class="form-group">
+    <select class="form-control inline" name="giftList" [(ngModel)]="selectedGiftList">
+      <option *ngFor="let list of giftLists"
+              [value]="list.id">
+        {{list.name}}
+      </option>
+    </select>
+  </div>
+  <div class="btn-group">
+    <button class="btn btn-primary inline" (click)="moveItemsClicked()">Move</button>
+  </div>
 </form>

@@ -8,6 +8,8 @@ import { GiftTagComponent } from '../gift-tag/gift-tag.component';
 import { ListActionModule } from '../list-action/list-action.module';
 import { WishItemService } from './services/wish-item.service';
 import { MsalGuard } from '@azure/msal-angular';
+import { MoveToGiftListComponent } from '../list-action/move-to-gift-list/move-to-gift-list.component';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -26,6 +28,7 @@ import { MsalGuard } from '@azure/msal-angular';
       }
     ])
   ],
-  providers: [WishListService, WishItemService]
+  providers: [WishListService, WishItemService, NgbActiveModal],
+  entryComponents: [MoveToGiftListComponent]
 })
 export class WishListModule { }

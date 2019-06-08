@@ -1,6 +1,6 @@
 <div class="row top-spacer"></div>
 <!--TODO: Consider placing within own component-->
-<nav class="navbar navbar-expand-sm top-nav">
+<nav class="navbar navbar-expand-md top-nav navbar-light bg-light">
     <a class="navbar-brand">
         <div class="row logo">
           <div class="col-12">
@@ -8,27 +8,59 @@
           </div>
         </div>
     </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarText"
+            aria-controls="navbarText"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+            (click)="isNavbarCollapsed = !isNavbarCollapsed">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarText">
-        <ul class="navbar-nav mr-auto"></ul>
-        <div class="navbar-text">
-            <span>Welcome {{displayName}}</span>
-            <ul class="nav navbar-nav navbar-right">
-                <li routerLinkActive="active" *ngIf="!isAuthenticated; else elseBlock">
-                    <a (click)="login()">Login</a>
-                </li>
-                <ng-template #elseBlock>
-                    <li>
-                        <a (click)="onLogout()">Logout</a>
-                    </li>
-                </ng-template>
-                <!--<li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>-->
-            </ul>
-        </div>
+    <div class="collapse navbar-collapse d-none d-md-block" id="navbarText">
+      <ul class="navbar-nav mr-auto"></ul>
+      <div class="navbar-text">
+        <span>Welcome {{displayName}}</span>
+        <ul class="nav navbar-nav navbar-right">
+          <li routerLinkActive="active" *ngIf="!isAuthenticated; else elseBlock">
+            <a (click)="login()">Login</a>
+          </li>
+          <ng-template #elseBlock>
+            <li>
+              <a (click)="onLogout()">Logout</a>
+            </li>
+          </ng-template>
+          <!--<li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>-->
+        </ul>
+      </div>
     </div>
 </nav>
+<div class="row fixed-top coll-nav-container d-block d-md-none">
+  <div class="col-12 pr-0">
+    <div [ngbCollapse]="isNavbarCollapsed" class="collapse navbar-collapse" id="navbarText">
+      <ul class="navbar-nav mr-auto"></ul>
+      <div class="navbar-text">
+        <span>Welcome {{displayName}}</span>
+        <ul class="nav navbar-nav navbar-right">
+          <li (click)="isNavbarCollapsed = !isNavbarCollapsed" class="d-block d-md-none" routerLinkActive="active"><a [routerLink]="['wish-list']">My Wish List</a></li>
+          <li (click)="isNavbarCollapsed = !isNavbarCollapsed" class="d-block d-md-none" routerLinkActive="active"><a [routerLink]="['gift-lists']">My Gift Lists</a></li>
+          <li (click)="isNavbarCollapsed = !isNavbarCollapsed" class="d-block d-md-none" routerLinkActive="active"><a>My Shared Gift Lists</a></li>
+          <li (click)="isNavbarCollapsed = !isNavbarCollapsed" class="d-block d-md-none" routerLinkActive="active"><a [routerLink]="['contacts']">My Contacts</a></li>
+          <li routerLinkActive="active" *ngIf="!isAuthenticated; else elseBlock">
+            <a (click)="login()">Login</a>
+          </li>
+          <ng-template #elseBlock>
+            <li>
+              <a (click)="onLogout()">Logout</a>
+            </li>
+          </ng-template>
+          <!--<li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>-->
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="row-fluid wrapper">
     <app-left-ribbon></app-left-ribbon>
     <div class="col-sm-10 main-view">
