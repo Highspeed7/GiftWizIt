@@ -24,6 +24,8 @@ namespace GiftWizItApi.Models
         public DbSet<ContactUsers> ContactUsers { get; set; }
         public DbSet<LnksItmsPtnrs> LinkItemsPartners { get; set; }
         public DbSet<SharedLists> SharedLists { get; set; }
+        public DbSet<Favorites> Favorites { get; set; }
+        public DbSet<UserFacebook> UserFacebook { get; set; }
 
         public DbQuery<WishListRaw> DbWishListObject { get; set; }
         public DbQuery<CombGiftItems> DbGiftItemsObject { get; set; }
@@ -174,6 +176,9 @@ namespace GiftWizItApi.Models
                 .Property(c => c.VerifyGuid)
                 .HasColumnName("verify_guid")
                 .IsRequired(false);
+            modelBuilder.Entity<Contacts>()
+                .Property(c => c.UserId)
+                .IsRequired(false);
 
             // ContactUsers Linking table configuration
             modelBuilder.Entity<ContactUsers>()
@@ -248,6 +253,78 @@ namespace GiftWizItApi.Models
                 .HasOne(sl => sl.User)
                 .WithMany(u => u.SharedLists)
                 .HasForeignKey(sl => sl.UserId);
+
+            // Favorites table configuration
+            modelBuilder.Entity<Favorites>()
+                .HasKey(f => f.Id);
+            modelBuilder.Entity<Favorites>()
+                .Property(f => f.Id)
+                .HasColumnName("id");
+            modelBuilder.Entity<Favorites>()
+                .Property(f => f.G_List_Id)
+                .HasColumnName("g_list_id");
+            modelBuilder.Entity<Favorites>()
+                .Property(f => f.Item_Id)
+                .HasColumnName("item_id");
+            modelBuilder.Entity<Favorites>()
+                .Property(f => f.Contact_Id)
+                .HasColumnName("contact_id");
+            modelBuilder.Entity<Favorites>()
+                .HasOne(f => f.Item)
+                .WithMany(i => i.Favorites)
+                .HasForeignKey(f => f.Item_Id);
+            modelBuilder.Entity<Favorites>()
+                .HasOne(f => f.Contact)
+                .WithMany(c => c.Favorites)
+                .HasForeignKey(f => f.Contact_Id);
+            modelBuilder.Entity<Favorites>()
+                .HasOne(f => f.GiftList)
+                .WithMany(gl => gl.Favorites)
+                .HasForeignKey(f => f.G_List_Id);
+
+            // Notifications table config
+            modelBuilder.Entity<Notifications>()
+                .HasKey(n => n.Id);
+            modelBuilder.Entity<Notifications>()
+                .Property(n => n.Id)
+                .HasColumnName("id");
+            modelBuilder.Entity<Notifications>()
+                .Property(n => n.UserId)
+                .HasColumnName("user_id")
+                .IsRequired(true);
+            modelBuilder.Entity<Notifications>()
+                .Property(n => n.Type)
+                .HasColumnName("type")
+                .HasMaxLength(50)
+                .IsRequired(true);
+            modelBuilder.Entity<Notifications>()
+                .Property(n => n.CreatedOn)
+                .HasColumnName("created_on")
+                .IsRequired(true);
+            modelBuilder.Entity<Notifications>()
+                .Property(n => n.Deleted)
+                .HasColumnName("deleted")
+                .HasDefaultValue(false);
+            modelBuilder.Entity<Notifications>()
+                .HasOne(n => n.User)
+                .WithMany(u => u.Notifications);
+
+            // UsersFacebook Associate table config
+            modelBuilder.Entity<UserFacebook>()
+                .ToTable("User_Facebook_Assoc")
+                .HasKey(uf => new { uf.UserId, uf.FacebookId });
+            modelBuilder.Entity<UserFacebook>()
+                .Property(uf => uf.UserId)
+                .HasColumnName("user_id")
+                .IsRequired(true);
+            modelBuilder.Entity<UserFacebook>()
+                .Property(uf => uf.FacebookId)
+                .HasColumnName("facebook_id")
+                .HasMaxLength(50)
+                .IsRequired(true);
+            modelBuilder.Entity<UserFacebook>()
+                .HasOne(uf => uf.User)
+                .WithOne(uf => uf.UserFacebook);
         }
     }
 }

@@ -28,7 +28,6 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
       }
     ])
   ],
-  providers: [WishListService, WishItemService, NgbActiveModal],
-  entryComponents: [MoveToGiftListComponent]
+  providers: [WishListService, WishItemService, NgbActiveModal]
 })
 export class WishListModule { }

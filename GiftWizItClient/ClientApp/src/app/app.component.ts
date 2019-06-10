@@ -40,6 +40,7 @@ export class AppComponent implements OnInit, OnDestroy {
   public login() {
     this.authSvc.login().then(() => { });
   }
+
   public ngOnInit() {
     this.user = this.msal.getUser();
     if (this.user !== null) {
@@ -51,9 +52,9 @@ export class AppComponent implements OnInit, OnDestroy {
       this.isAuthenticated = true;
       this.displayName = this.user.name;
 
-      this.authSvc.registerUser().then((r) => {
-        this.appInfo.userInfo['isRegistered'] = true;
-      });
+      //this.authSvc.registerUser().then((r) => {
+      //  this.appInfo.userInfo['isRegistered'] = true;
+      //});
     });
 
     this.bcsLoginFailSub = this.bcs.subscribe("msal:loginFailure", (msg) => {

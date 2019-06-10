@@ -23,7 +23,7 @@ namespace GiftWizItApi.Implementations
             return result;
         }
 
-        public Users Add(string userId, string email)
+        public Users Add(string userId, string email, string facebook_id = null)
         {
             var user = new Users
             {
@@ -32,6 +32,11 @@ namespace GiftWizItApi.Implementations
             };
 
             return Context.Users.Add(user).Entity;
+        }
+
+        public async Task<Users> GetUserByEmailAsync(string email)
+        {
+            return await Context.Users.Where(u => u.Email == email).FirstOrDefaultAsync();
         }
     }
 }

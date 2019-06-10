@@ -15,31 +15,43 @@ namespace GiftWizItApi.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IUserService userService;
 
-        public UsersController(IUserRepository respository, IUnitOfWork unitOfWork)
+        public UsersController(
+            IUserRepository respository,
+            IUnitOfWork unitOfWork,
+            IUserService userService
+            )
         {
             _unitOfWork = unitOfWork;
+            this.userService = userService;
         }
 
         [Route("api/Users")]
         [HttpPost]
         public async Task<int> RegisterUser()
         {
-            // TODO: Help mitigate incidents where facebook email is the same as an already registered user.
-            /*To handle this I will implement UI logic to alert the user that his/her facebook account uses an email
-             that has been previously registered, and give them the option to use one or the other. Perhaps I will
-             allow them to link the already registered account; though this should require email verification.*/
-            var userId = User.Claims.First(e => e.Type == "http://schemas.microsoft.com/identity/claims/objectidentifier").Value;
+            var userId = await userService.GetUserIdAsync(User);
             var email = User.Claims.First(e => e.Type == "emails").Value;
-
             var user = await _unitOfWork.Users.GetUserByIdAsync(userId);
+
+            // Check contacts to see if one needs to be associated with a user
+            var contact = await _unitOfWork.Contacts.GetContactByEmail(email);
 
             if (user == null)
             {
-                _unitOfWork.Users.Add(userId, email);
-            }else
+               user = _unitOfWork.Users.Add(userId, email);
+            }
+
+            // If a contact was returned
+            if (contact != null)
             {
-                return 0;
+                // If the userId isn't already set
+                if (contact.UserId != user.UserId)
+                {
+                    // Associate the user with the contact.
+                    contact.UserId = user.UserId;
+                }
             }
 
             return await _unitOfWork.CompleteAsync();

@@ -25,6 +25,7 @@ namespace GiftWizItApi.Implementations
             ContactUsers = new ContactUsersRepository(_context);
             SharedLists = new SharedListsRepository(_context);
             Items = new ItemsRepository(_context);
+            UserFacebook = new UserFacebookRepository(_context);
         }
 
         public IGiftListRepository GiftLists { get; private set; }
@@ -38,6 +39,7 @@ namespace GiftWizItApi.Implementations
         public IContactUsersRepository ContactUsers { get; private set; }
         public ISharedListsRepository SharedLists { get; private set; }
         public IItemsRepository Items { get; private set; }
+        public IUserFacebookRepository UserFacebook { get; private set; }
 
         public async Task<int> CompleteAsync()
         {

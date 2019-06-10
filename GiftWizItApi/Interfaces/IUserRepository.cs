@@ -10,6 +10,7 @@ namespace GiftWizItApi.Interfaces
     public interface IUserRepository : IRepository<Users>
     {
         Task<Users> GetUserByIdAsync(string id);
-        Users Add(string userId, string email);
+        Users Add(string userId, string email, string facebook_id = null);
+        Task<Users> GetUserByEmailAsync(string email);
     }
 }

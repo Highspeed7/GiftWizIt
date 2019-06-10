@@ -187,7 +187,6 @@ export class GiftListComponent implements OnInit {
       this.glService.getLists().then((data) => {
         this.giftLists = data;
         this.cd.detectChanges();
-        this.modalService.dismissAll();
       })
     });
   }
@@ -255,5 +254,9 @@ export class GiftListComponent implements OnInit {
       this.editActionActive = false;
       this.trashActionActive = false;
     }
+  }
+
+  public tempRandomNumberGenerator(min, max) {
+    return Math.floor(Math.random() * (max - min) + min);
   }
 }

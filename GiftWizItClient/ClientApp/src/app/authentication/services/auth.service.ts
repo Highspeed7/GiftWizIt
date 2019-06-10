@@ -30,7 +30,9 @@ export class AuthService implements OnDestroy {
   }
   public async login() {
     var promise = new Promise((resolve, reject) => {
-      this.msal.loginPopup(authConfig.config.b2cScopes).then(() => {})
+      this.msal.loginPopup(authConfig.config.b2cScopes).then(async (res) => {
+        await this.registerUser();
+      });
     })
   }
 
@@ -42,7 +44,8 @@ export class AuthService implements OnDestroy {
           return Promise.resolve(token);
         }).catch(error => {
           this.msal.acquireTokenPopup(authConfig.config.b2cScopes)
-            .then(token => {
+            .then(async (token) => {
+              await this.registerUser();
               return Promise.resolve(token);
             }).catch(innererror => {
               return Promise.resolve('');

@@ -27,5 +27,6 @@ namespace GiftWizItApi.Models
         
         public List<GiftItem> GiftItems { get; set; }
         public List<SharedLists> SharedLists { get; set; }
+        public List<Favorites> Favorites { get; set; }
     }
 }

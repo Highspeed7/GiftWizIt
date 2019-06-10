@@ -66,6 +66,9 @@ namespace GiftWizItApi.Controllers
 
             ContactUsers insertedContact;
 
+            // Check users table for the provided email
+            var userContact = await unitOfWork.Users.GetUserByEmailAsync(contact.Email);
+
             // Verify that the contact hasn't already been added
             var existingContact = await unitOfWork.Contacts.GetContactByEmail(contact.Email);
 
@@ -83,6 +86,11 @@ namespace GiftWizItApi.Controllers
             }else
             {
                 insertedContact = unitOfWork.ContactUsers.Add(contact, userId);
+            }
+
+            if(userContact != null)
+            {
+                insertedContact.Contact.UserId = userContact.UserId;
             }
 
             try

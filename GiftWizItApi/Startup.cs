@@ -49,6 +49,7 @@ namespace GiftWizItApi
             services.AddSingleton<IEmailConfiguration>(Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>());
             services.AddSingleton<IGiftWizItWebSettings>(Configuration.GetSection("GiftWizItWebSettings").Get<GiftWizItWebSettings>());
             services.AddTransient<IEmailService, EmailService>();
+            services.AddTransient<IUserService, UserService>();
             services.AddCors(options =>
             {
                 options.AddPolicy(GWAllowSpecificOrigins, builder =>

@@ -4,14 +4,16 @@ using GiftWizItApi.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GiftWizItApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190610094346_RemovedFacebookIdFromUsersTable")]
+    partial class RemovedFacebookIdFromUsersTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -272,23 +274,6 @@ namespace GiftWizItApi.Migrations
                     b.ToTable("Shared_Lists");
                 });
 
-            modelBuilder.Entity("GiftWizItApi.Models.UserFacebook", b =>
-                {
-                    b.Property<string>("UserId")
-                        .HasColumnName("user_id");
-
-                    b.Property<string>("FacebookId")
-                        .HasColumnName("facebook_id")
-                        .HasMaxLength(50);
-
-                    b.HasKey("UserId", "FacebookId");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
-
-                    b.ToTable("User_Facebook_Assoc");
-                });
-
             modelBuilder.Entity("GiftWizItApi.Models.Users", b =>
                 {
                     b.Property<string>("UserId")
@@ -447,14 +432,6 @@ namespace GiftWizItApi.Migrations
                     b.HasOne("GiftWizItApi.Models.Users", "User")
                         .WithMany("SharedLists")
                         .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("GiftWizItApi.Models.UserFacebook", b =>
-                {
-                    b.HasOne("GiftWizItApi.Models.Users", "User")
-                        .WithOne("UserFacebook")
-                        .HasForeignKey("GiftWizItApi.Models.UserFacebook", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("GiftWizItApi.Models.WishItem", b =>

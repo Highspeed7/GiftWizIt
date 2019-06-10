@@ -33,6 +33,8 @@
     <Compile Remove="Migrations\20190521220645_AddedGUIDDefaultValueToContactsTable.Designer.cs" />
     <Compile Remove="Migrations\20190521222217_AddedEmailAndAccessFieldsToContacts.cs" />
     <Compile Remove="Migrations\20190521222217_AddedEmailAndAccessFieldsToContacts.Designer.cs" />
+    <Compile Remove="Migrations\20190609223724_AddedFavoritesTable.cs" />
+    <Compile Remove="Migrations\20190609223724_AddedFavoritesTable.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
