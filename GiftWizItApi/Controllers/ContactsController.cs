@@ -27,18 +27,21 @@ namespace GiftWizItApi.Controllers
     public class ContactsController : ControllerBase
     {
         private readonly IEmailService emailer;
+        private readonly IUserService userService;
         private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;
         private readonly IHostingEnvironment env;
         private ContactGreetMailTemplate contactMailTemplate;
 
         public ContactsController(
-            IEmailService emailer, 
+            IEmailService emailer,
+            IUserService userService,
             IUnitOfWork unitOfWork, 
             IMapper mapper,
             IHostingEnvironment env)
         {
             this.emailer = emailer;
+            this.userService = userService;
             this.unitOfWork = unitOfWork;
             this.mapper = mapper;
             this.env = env;
@@ -51,7 +54,7 @@ namespace GiftWizItApi.Controllers
         [HttpGet]
         public async Task<IEnumerable<ContactUsersDTO>> GetAllUserContacts()
         {
-            var userId = User.Claims.First(e => e.Type == "http://schemas.microsoft.com/identity/claims/objectidentifier").Value;
+            var userId = await userService.GetUserIdAsync();
             var results = await unitOfWork.ContactUsers.GetAllUserContacts(userId);
 
             return mapper.Map<List<ContactUsersDTO>>(results);
@@ -62,7 +65,7 @@ namespace GiftWizItApi.Controllers
         [HttpPost]
         public async Task<IActionResult> AddContact(AddContactDTO contact)
         {
-            var userId = User.Claims.First(e => e.Type == "http://schemas.microsoft.com/identity/claims/objectidentifier").Value;
+            var userId = await userService.GetUserIdAsync();
 
             ContactUsers insertedContact;
 

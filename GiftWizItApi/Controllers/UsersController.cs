@@ -31,7 +31,7 @@ namespace GiftWizItApi.Controllers
         [HttpPost]
         public async Task<int> RegisterUser()
         {
-            var userId = await userService.GetUserIdAsync(User);
+            var userId = await userService.GetUserIdAsync();
             var email = User.Claims.First(e => e.Type == "emails").Value;
             var user = await _unitOfWork.Users.GetUserByIdAsync(userId);
 
@@ -55,13 +55,6 @@ namespace GiftWizItApi.Controllers
             }
 
             return await _unitOfWork.CompleteAsync();
-        }
-
-        [Route("api/Users/GetUserId")]
-        [HttpGet]
-        public string GetUserId()
-        {
-            return User.Claims.First(e => e.Type == "http://schemas.microsoft.com/identity/claims/objectidentifier").Value;
         }
     }
 }

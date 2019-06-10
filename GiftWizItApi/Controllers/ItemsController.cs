@@ -17,10 +17,16 @@ namespace GiftWizItApi.Controllers
     [ApiController]
     public class ItemsController : ControllerBase
     {
+        private readonly IUserService userService;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper mapper;
 
-        public ItemsController(IWishListRepository repository, IUnitOfWork unitOfWork, IMapper mapper) {
+        public ItemsController(
+            IWishListRepository repository,
+            IUserService userService,
+            IUnitOfWork unitOfWork, 
+            IMapper mapper) {
+            this.userService = userService;
             _unitOfWork = unitOfWork;
             this.mapper = mapper;
         }
@@ -33,7 +39,7 @@ namespace GiftWizItApi.Controllers
             WishLists existingWishList = null;
 
             // Get the name of the user for the wish list
-            var userId = User.Claims.First(e => e.Type == "http://schemas.microsoft.com/identity/claims/objectidentifier").Value;
+            var userId = await userService.GetUserIdAsync();
             var name = User.Claims.First(e => e.Type == "name").Value;
             var listName = $"{name}'s Wish List";
             // Check if wish list already exists
@@ -93,7 +99,7 @@ namespace GiftWizItApi.Controllers
         public async Task<ActionResult> ItemToGiftList(GiftItemMoveDTO[] items)
         {
             // Validate user is allowed to add item to giftlist and that Gift List is valid
-            var userId = User.Claims.First(e => e.Type == "http://schemas.microsoft.com/identity/claims/objectidentifier").Value;
+            var userId = await userService.GetUserIdAsync();
            
             // Get user lists
             IEnumerable<GiftLists> giftLists = await _unitOfWork.GiftLists.GetUserLists(userId);

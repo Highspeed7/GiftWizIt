@@ -46,6 +46,8 @@ namespace GiftWizItApi
                 )
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
+            services.AddHttpContextAccessor();
+
             services.AddSingleton<IEmailConfiguration>(Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>());
             services.AddSingleton<IGiftWizItWebSettings>(Configuration.GetSection("GiftWizItWebSettings").Get<GiftWizItWebSettings>());
             services.AddTransient<IEmailService, EmailService>();

@@ -26,6 +26,7 @@ namespace GiftWizItApi.Controllers
         private readonly IMapper mapper;
         private readonly IHostingEnvironment env;
         private readonly IEmailService emailSender;
+        private readonly IUserService userService;
         private readonly IGiftWizItWebSettings siteSettings;
         private ContactShareMailTemplate contactShareMailTemplate;
 
@@ -34,12 +35,14 @@ namespace GiftWizItApi.Controllers
             IMapper mapper, 
             IHostingEnvironment env,
             IEmailService emailSender,
+            IUserService userService,
             IGiftWizItWebSettings siteSettings)
         {
             _unitOfWork = unitOfWork;
             this.mapper = mapper;
             this.env = env;
             this.emailSender = emailSender;
+            this.userService = userService;
             this.siteSettings = siteSettings;
         }
 
@@ -51,9 +54,13 @@ namespace GiftWizItApi.Controllers
             // TODO: Check for valid user id's
             // TODO: Insure unique gift list names
             // TODO: If a previously deleted list name is the same as the one provided, re-enable it without items.
+            var userId = await userService.GetUserIdAsync();
+
+            // We want to set the userId incase this is a facebook login.
+            glist.UserId = userId;
 
             // Check for user in database
-            var user = await _unitOfWork.Users.GetUserByIdAsync(glist.UserId);
+            var user = await _unitOfWork.Users.GetUserByIdAsync(userId);
 
             if (user == null)
             {
@@ -78,7 +85,7 @@ namespace GiftWizItApi.Controllers
         [HttpGet]
         public async Task<IEnumerable<GiftLists>> GetUserGiftLists()
         {
-            var userId = User.Claims.First(e => e.Type == "http://schemas.microsoft.com/identity/claims/objectidentifier").Value;
+            var userId = await userService.GetUserIdAsync();
 
             return await _unitOfWork.GiftLists.GetUserLists(userId);
         }
@@ -99,7 +106,7 @@ namespace GiftWizItApi.Controllers
         [HttpGet]
         public async Task<IEnumerable<QueryGiftItemDTO>> GetGiftListItems(int gift_list_id)
         {
-            var userId = User.Claims.First(e => e.Type == "http://schemas.microsoft.com/identity/claims/objectidentifier").Value;
+            var userId = await userService.GetUserIdAsync();
             var result = await _unitOfWork.GiftItems.GetGiftListItems(gift_list_id, userId);
 
             return mapper.Map<List<QueryGiftItemDTO>>(result);
@@ -109,7 +116,7 @@ namespace GiftWizItApi.Controllers
         [HttpPost]
         public async Task<ActionResult> MoveItem(GiftItemMoveDTO[] giftItems)
         {
-            var userId = User.Claims.First(e => e.Type == "http://schemas.microsoft.com/identity/claims/objectidentifier").Value;
+            var userId = await userService.GetUserIdAsync();
 
             // Validate the provided giftlist
             var giftLists = await _unitOfWork.GiftLists.GetUserLists(userId);
@@ -151,7 +158,7 @@ namespace GiftWizItApi.Controllers
         public async Task<ActionResult> ShareGiftList(GListShareDTO listShare)
         {
             // Get the userid
-            var userId = User.Claims.First(e => e.Type == "http://schemas.microsoft.com/identity/claims/objectidentifier").Value;
+            var userId = await userService.GetUserIdAsync();
 
             // Get the user contacts for validation
             var contacts = await _unitOfWork.ContactUsers.GetAllUserContacts(userId);

@@ -16,13 +16,16 @@ namespace GiftWizItApi.Controllers
     public class SharedListController : ControllerBase
     {
         private readonly IUnitOfWork unitOfWork;
+        private readonly IUserService userService;
         private readonly IMapper mapper;
 
         public SharedListController(
             IUnitOfWork unitOfWork,
+            IUserService userService,
             IMapper mapper)
         {
             this.unitOfWork = unitOfWork;
+            this.userService = userService;
             this.mapper = mapper;
         }
 
@@ -31,7 +34,7 @@ namespace GiftWizItApi.Controllers
         [HttpGet]
         public async Task<ActionResult> GetSharedListContacts()
         {
-            var userId = User.Claims.First(e => e.Type == "http://schemas.microsoft.com/identity/claims/objectidentifier").Value;
+            var userId = await userService.GetUserIdAsync();
 
             var result = await unitOfWork.SharedLists.GetAllUserSharedLists(userId);
 

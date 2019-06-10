@@ -9,7 +9,7 @@ namespace GiftWizItApi.Interfaces
 {
     public interface IUserService
     {
-        Task<string> GetUserIdAsync(ClaimsPrincipal user);
+        Task<string> GetUserIdAsync();
         Task<UserFacebook> SetUserFacebookAssoc(string userId, string fbId);
     }
 }

@@ -18,11 +18,16 @@ namespace GiftWizItApi.Controllers
     public class WishListController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IUserService userService;
         private readonly IMapper mapper;
 
-        public WishListController(IUnitOfWork unitOfWork, IMapper mapper)
+        public WishListController(
+            IUnitOfWork unitOfWork,
+            IUserService userService,
+            IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            this.userService = userService;
             this.mapper = mapper;
         }
 
@@ -30,7 +35,7 @@ namespace GiftWizItApi.Controllers
         [HttpGet]
         public async Task<IEnumerable<WishListDto>> GetWishList()
         {
-            var userId = User.Claims.First(e => e.Type == "http://schemas.microsoft.com/identity/claims/objectidentifier").Value;
+            var userId = await userService.GetUserIdAsync();
             var result = await _unitOfWork.WishItems.GetWishItems(userId);
 
             return mapper.Map<List<WishListDto>>(result);
@@ -40,7 +45,7 @@ namespace GiftWizItApi.Controllers
         [HttpPost]
         public async Task<ActionResult> DeleteWishItem(ItemDTO[] items)
         {
-            var userId = User.Claims.First(e => e.Type == "http://schemas.microsoft.com/identity/claims/objectidentifier").Value;
+            var userId = await userService.GetUserIdAsync();
             var wishItems = await _unitOfWork.WishItems.GetWishItems(userId);
 
             foreach(ItemDTO item in items)
