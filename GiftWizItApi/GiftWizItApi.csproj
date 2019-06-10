@@ -35,6 +35,8 @@
     <Compile Remove="Migrations\20190521222217_AddedEmailAndAccessFieldsToContacts.Designer.cs" />
     <Compile Remove="Migrations\20190609223724_AddedFavoritesTable.cs" />
     <Compile Remove="Migrations\20190609223724_AddedFavoritesTable.Designer.cs" />
+    <Compile Remove="Migrations\20190610184138_AddedNotificationsFieldContactIdToNotificationsTable.cs" />
+    <Compile Remove="Migrations\20190610184138_AddedNotificationsFieldContactIdToNotificationsTable.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

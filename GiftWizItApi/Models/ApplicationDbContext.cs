@@ -26,6 +26,7 @@ namespace GiftWizItApi.Models
         public DbSet<SharedLists> SharedLists { get; set; }
         public DbSet<Favorites> Favorites { get; set; }
         public DbSet<UserFacebook> UserFacebook { get; set; }
+        public DbSet<Notifications> Notifications { get; set; }
 
         public DbQuery<WishListRaw> DbWishListObject { get; set; }
         public DbQuery<CombGiftItems> DbGiftItemsObject { get; set; }
@@ -291,12 +292,23 @@ namespace GiftWizItApi.Models
             modelBuilder.Entity<Notifications>()
                 .Property(n => n.UserId)
                 .HasColumnName("user_id")
-                .IsRequired(true);
+                .IsRequired(false);
+            modelBuilder.Entity<Notifications>()
+                .Property(n => n.ContactId)
+                .HasColumnName("contact_id");
             modelBuilder.Entity<Notifications>()
                 .Property(n => n.Type)
                 .HasColumnName("type")
                 .HasMaxLength(50)
                 .IsRequired(true);
+            modelBuilder.Entity<Notifications>()
+                .Property(n => n.Title)
+                .HasColumnName("title");
+            modelBuilder.Entity<Notifications>()
+                .Property(n => n.Message)
+                .HasColumnName("message")
+                .IsRequired(true)
+                .HasMaxLength(250);
             modelBuilder.Entity<Notifications>()
                 .Property(n => n.CreatedOn)
                 .HasColumnName("created_on")
@@ -307,7 +319,12 @@ namespace GiftWizItApi.Models
                 .HasDefaultValue(false);
             modelBuilder.Entity<Notifications>()
                 .HasOne(n => n.User)
-                .WithMany(u => u.Notifications);
+                .WithMany(u => u.Notifications)
+                .HasForeignKey(n => n.UserId);
+            modelBuilder.Entity<Notifications>()
+                .HasOne(n => n.Contact)
+                .WithMany(c => c.Notifications)
+                .HasForeignKey(n => n.ContactId);
 
             // UsersFacebook Associate table config
             modelBuilder.Entity<UserFacebook>()

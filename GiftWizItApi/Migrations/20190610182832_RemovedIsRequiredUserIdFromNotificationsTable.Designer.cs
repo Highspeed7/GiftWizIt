@@ -4,14 +4,16 @@ using GiftWizItApi.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GiftWizItApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190610182832_RemovedIsRequiredUserIdFromNotificationsTable")]
+    partial class RemovedIsRequiredUserIdFromNotificationsTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -201,9 +203,6 @@ namespace GiftWizItApi.Migrations
                         .HasColumnName("id")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("ContactId")
-                        .HasColumnName("contact_id");
-
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnName("created_on");
 
@@ -211,14 +210,6 @@ namespace GiftWizItApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnName("deleted")
                         .HasDefaultValue(false);
-
-                    b.Property<string>("Message")
-                        .IsRequired()
-                        .HasColumnName("message")
-                        .HasMaxLength(250);
-
-                    b.Property<string>("Title")
-                        .HasColumnName("title");
 
                     b.Property<string>("Type")
                         .IsRequired()
@@ -229,8 +220,6 @@ namespace GiftWizItApi.Migrations
                         .HasColumnName("user_id");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ContactId");
 
                     b.HasIndex("UserId");
 
@@ -438,11 +427,6 @@ namespace GiftWizItApi.Migrations
 
             modelBuilder.Entity("GiftWizItApi.Models.Notifications", b =>
                 {
-                    b.HasOne("GiftWizItApi.Models.Contacts", "Contact")
-                        .WithMany("Notifications")
-                        .HasForeignKey("ContactId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("GiftWizItApi.Models.Users", "User")
                         .WithMany("Notifications")
                         .HasForeignKey("UserId");
