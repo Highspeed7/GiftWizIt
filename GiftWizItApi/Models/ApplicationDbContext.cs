@@ -294,9 +294,6 @@ namespace GiftWizItApi.Models
                 .HasColumnName("user_id")
                 .IsRequired(false);
             modelBuilder.Entity<Notifications>()
-                .Property(n => n.ContactId)
-                .HasColumnName("contact_id");
-            modelBuilder.Entity<Notifications>()
                 .Property(n => n.Type)
                 .HasColumnName("type")
                 .HasMaxLength(50)
@@ -321,10 +318,6 @@ namespace GiftWizItApi.Models
                 .HasOne(n => n.User)
                 .WithMany(u => u.Notifications)
                 .HasForeignKey(n => n.UserId);
-            modelBuilder.Entity<Notifications>()
-                .HasOne(n => n.Contact)
-                .WithMany(c => c.Notifications)
-                .HasForeignKey(n => n.ContactId);
 
             // UsersFacebook Associate table config
             modelBuilder.Entity<UserFacebook>()

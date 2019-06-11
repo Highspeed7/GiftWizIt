@@ -4,14 +4,16 @@ using GiftWizItApi.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GiftWizItApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190611030643_RemovedContactFromNotificationsTable")]
+    partial class RemovedContactFromNotificationsTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -201,6 +203,8 @@ namespace GiftWizItApi.Migrations
                         .HasColumnName("id")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("ContactsContactId");
+
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnName("created_on");
 
@@ -226,6 +230,8 @@ namespace GiftWizItApi.Migrations
                         .HasColumnName("user_id");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ContactsContactId");
 
                     b.HasIndex("UserId");
 
@@ -433,6 +439,10 @@ namespace GiftWizItApi.Migrations
 
             modelBuilder.Entity("GiftWizItApi.Models.Notifications", b =>
                 {
+                    b.HasOne("GiftWizItApi.Models.Contacts")
+                        .WithMany("Notifications")
+                        .HasForeignKey("ContactsContactId");
+
                     b.HasOne("GiftWizItApi.Models.Users", "User")
                         .WithMany("Notifications")
                         .HasForeignKey("UserId");

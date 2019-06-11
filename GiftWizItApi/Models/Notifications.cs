@@ -9,7 +9,6 @@ namespace GiftWizItApi.Models
     {
         public int Id { get; set; }
         public string UserId { get; set; }
-        public int ContactId { get; set; }
         public string Type { get; set; }
         public DateTime CreatedOn { get; set; }
         public bool Deleted { get; set; }
@@ -17,6 +16,5 @@ namespace GiftWizItApi.Models
         public string Message { get; set; }
 
         public Users User { get; set; }
-        public Contacts Contact { get; set; }
     }
 }

@@ -75,6 +75,15 @@ namespace GiftWizItApi.Controllers
 
             if (result > 0)
             {
+                _unitOfWork.Notifications.Add(new Notifications()
+                {
+                    UserId = userId,
+                    Title = NotificationConstants.ListCreatedNotifTitle,
+                    Message = $"Gift list {glist.Name} was created successfully!",
+                    Type = NotificationConstants.Success,
+                    CreatedOn = DateTime.Now
+                });
+                await _unitOfWork.CompleteAsync();
                 return StatusCode((int)HttpStatusCode.OK, insertedList);
             }
             // TODO: Device custom status codes for different errors.
