@@ -38,6 +38,7 @@
     <None Remove="ClientApp\src\app\list-action\share-gift-list\models\list-share.ts" />
     <None Remove="ClientApp\src\app\models\appInfo.ts" />
     <None Remove="ClientApp\src\app\models\guestInfo.ts" />
+    <None Remove="ClientApp\src\app\models\notifications.ts" />
     <None Remove="ClientApp\src\app\shared-gift-list\models\shared-list.ts" />
     <None Remove="ClientApp\src\app\utils\Utilities.ts" />
     <None Remove="ClientApp\src\app\wish-list\models\gift-item.ts" />
@@ -71,6 +72,7 @@
     <TypeScriptCompile Include="ClientApp\src\app\list-action\share-gift-list\models\list-share.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\appInfo.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\guestInfo.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\models\notifications.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared-gift-list\models\shared-list.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\utils\Utilities.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\wish-list\models\gift-item.ts" />

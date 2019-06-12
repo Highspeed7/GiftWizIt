@@ -90,6 +90,10 @@ namespace GiftWizItApi.Models
                 .Property(gi => gi.GListId)
                 .HasColumnName("g_list_id");
             modelBuilder.Entity<GiftItem>()
+                .Property(gi => gi.Purchase_Status)
+                .HasColumnName("purchase_status")
+                .HasMaxLength(5);
+            modelBuilder.Entity<GiftItem>()
                 .Property(gi => gi.Item_Id)
                 .HasColumnName("item_id");
             modelBuilder.Entity<GiftItem>()

@@ -121,6 +121,13 @@ namespace GiftWizItApi.Controllers
             return mapper.Map<List<QueryGiftItemDTO>>(result);
         }
 
+        [Route("api/GiftListItems/Purchase")]
+        [HttpGet]
+        public async Task<ActionResult> SetItemPurchaseStatus(string item_id)
+        {
+            return StatusCode((int)HttpStatusCode.OK);
+        }
+
         [Route("api/MoveGiftItem")]
         [HttpPost]
         public async Task<ActionResult> MoveItem(GiftItemMoveDTO[] giftItems)
