@@ -297,6 +297,20 @@ namespace GiftWizItApi.Controllers
                     giftListName = giftList.NewName,
                     giftListPassword = list.Password
                 };
+
+                if (env.IsDevelopment())
+                {
+                    contactShareMailTemplate.giftListLink = $"{siteSettings.LocalBaseUrl}/shared-gift-list?gListId={list.GiftListId}&emailId={list.Contact.VerifyGuid}";
+                    contactShareMailTemplate.baseSiteLink = $"{siteSettings.LocalBaseUrl}";
+                }
+                else
+                {
+                    if (env.IsProduction() || env.IsStaging())
+                    {
+                        contactShareMailTemplate.giftListLink = $"{siteSettings.ProdBaseUrl}?giftId={list.GiftListId}";
+                        contactShareMailTemplate.baseSiteLink = $"{siteSettings.ProdBaseUrl}";
+                    }
+                }
             }
 
             var saveResults = await _unitOfWork.CompleteAsync();
