@@ -18,15 +18,18 @@
                             [giftLists]="giftLists"
                             [contacts]="contacts"
                             [expandedList]="getExpandedList()"></gw-share-gift-list>
+        <gw-edit-gift-list *ngIf="editActionActive" [giftLists]="giftLists"></gw-edit-gift-list>
       </div>
-      <div mobileActionDisplay>
+      <div mobileActionDisplay class="d-block d-md-none">
         <gw-add-gift-list *ngIf="addActionActive"
                           (onListAdded)="onListAdded($event)"></gw-add-gift-list>
         <gw-move-to-gift-list *ngIf="moveActionActive" [giftLists]="giftLists" (onMoveClicked)="itemMoveClicked($event)"></gw-move-to-gift-list>
         <gw-share-gift-list *ngIf="shareActionActive"
                             [giftLists]="giftLists"
                             [contacts]="contacts"
-                            [expandedList]="getExpandedList()"></gw-share-gift-list>
+                            [expandedList]="getExpandedList()">
+        </gw-share-gift-list>
+        <gw-edit-gift-list [giftLists]="giftLists" *ngIf="editActionActive"></gw-edit-gift-list>
       </div>
       <div listActionLabel>
         <span *ngIf="expandedLists.length == 1"

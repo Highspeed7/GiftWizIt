@@ -12,6 +12,7 @@ import { ShareGiftListComponent } from './share-gift-list/share-gift-list.compon
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { SharedGiftListService } from '../shared-gift-list/services/shared-gift-list.service';
 import { DeleteGlItemComponent } from './delete-gl-item/delete-gl-item.component';
+import { EditGiftListComponent } from './edit-gift-list/edit-gift-list.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { DeleteGlItemComponent } from './delete-gl-item/delete-gl-item.component
     AddGiftListComponent,
     AddContactComponent,
     ShareGiftListComponent,
-    DeleteGlItemComponent
+    DeleteGlItemComponent,
+    EditGiftListComponent
   ],
   imports: [
     NgbModule.forRoot(),
@@ -40,7 +42,8 @@ import { DeleteGlItemComponent } from './delete-gl-item/delete-gl-item.component
     DeleteGlItemComponent,
     AddGiftListComponent,
     AddContactComponent,
-    ShareGiftListComponent
+    ShareGiftListComponent,
+    EditGiftListComponent
   ],
   providers: [
     SharedGiftListService

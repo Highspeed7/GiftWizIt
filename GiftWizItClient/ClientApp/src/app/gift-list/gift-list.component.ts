@@ -173,6 +173,16 @@ export class GiftListComponent implements OnInit {
     // NOTE: As of 6/3 Edge does not support method flat();
     checkedItems = checkedItems.reduce((acc, val) => acc.concat(val), []);
 
+    if (checkedItems.length == 0) {
+      alert("You did not select any items. Please try again.")
+      return false;
+    }
+
+    if (eventItem == null) {
+      alert("You did not select a gift list");
+      return false;
+    }
+
     console.log(`Moving ${checkedItems} to ${eventItem}`);
 
     this.itemsToMove = checkedItems.map((item: GiftItemQuery) => {
