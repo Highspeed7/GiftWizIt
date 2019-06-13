@@ -4,6 +4,7 @@ import { GiftList, GiftItemQuery } from './models/gift-list';
 import { GiftItem } from '../wish-list/models/gift-item';
 import { Contact } from '../contacts/models/contact';
 import { ContactService } from '../contacts/contact.service';
+import { EditListModel } from '../list-action/edit-gift-list/models/edit-contact';
 
 @Component({
   selector: 'app-gift-list',
@@ -250,6 +251,14 @@ export class GiftListComponent implements OnInit {
       return this.expandedLists[0]
     } else
       return null;
+  }
+
+  public editListClicked(updatedList: EditListModel) {
+    this.glService.updateList(updatedList).then((res) => {
+      this.glService.getLists().then((data) => {
+        this.giftLists = data;
+      });
+    });
   }
 
   private setExpandedListsArray() {

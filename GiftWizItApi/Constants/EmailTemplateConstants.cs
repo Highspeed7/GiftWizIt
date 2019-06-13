@@ -20,5 +20,9 @@ namespace GiftWizItApi.Constants
         // Sharing
         public const string ContactListShareSubject = "A gift list was shared with you";
         public const string ContactListShareTemplate = "ContactListShareTemplate.html";
+
+        // Updating
+        public const string ContactListUpdateSubject = "A gift list has been updated";
+        public const string ContactListUpdateTemplate = "ContactListUpdateTemplate.html";
     }
 }

@@ -1,5 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { GiftList } from 'src/app/gift-list/models/gift-list';
+import { EditListModel } from './models/edit-contact';
 
 @Component({
   selector: 'gw-edit-gift-list',
@@ -7,11 +8,14 @@ import { GiftList } from 'src/app/gift-list/models/gift-list';
   styleUrls: ['./edit-gift-list.component.css']
 })
 export class EditGiftListComponent implements OnInit {
+  @Output()
+  onEditListClicked: EventEmitter<EditListModel> = new EventEmitter();
 
   @Input()
   public giftLists: GiftList[];
   public expandedList: GiftList[];
   public newName: string;
+  public newPassword: string;
 
   constructor() { }
 
@@ -23,5 +27,14 @@ export class EditGiftListComponent implements OnInit {
     if (this.expandedList.length > 0) {
       this.newName = this.expandedList[0].name;
     }
+  }
+
+  public editListClicked() {
+    var editedList = new EditListModel();
+    editedList.giftListId = this.expandedList[0].id;
+    editedList.newName = this.newName;
+    editedList.newPass = this.newPassword;
+
+    this.onEditListClicked.emit(editedList);
   }
 }

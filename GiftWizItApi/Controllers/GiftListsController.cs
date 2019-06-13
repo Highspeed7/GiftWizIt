@@ -271,8 +271,61 @@ namespace GiftWizItApi.Controllers
             }
             return StatusCode((int)HttpStatusCode.OK);
         }
+        
+        [Route("api/GiftLists/Update")]
+        [HttpPost]
+        public async Task<ActionResult> UpdateGiftList(EditContactDTO giftList) {
+            var userId = await userService.GetUserIdAsync();
+            var dbGiftList = await _unitOfWork.GiftLists.GetUserGiftListByIdAsync(userId, giftList.GiftListId);
+            var dbSharedList = await _unitOfWork.SharedLists.GetUserSharedListCollection(userId, giftList.GiftListId);
 
-        private string SetEmailTemplateParams(BodyBuilder builder)
+            dbGiftList.Name = giftList.NewName;
+            foreach(SharedLists list in dbSharedList)
+            {
+                list.Password = giftList.NewPass;
+
+                // Update contacts with new password.
+                // We'll use the same share mail template, because they're similar.
+                contactShareMailTemplate = new ContactShareMailTemplate()
+                {
+                    contactEmail = new EmailAddress()
+                    {
+                        Name = list.Contact.Name,
+                        Address = list.Contact.Email
+                    },
+                    fromUser = User.Claims.First(e => e.Type == "name").Value,
+                    giftListName = giftList.NewName,
+                    giftListPassword = list.Password
+                };
+            }
+
+            var saveResults = await _unitOfWork.CompleteAsync();
+
+            if (saveResults == 0)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, "Update failed");
+            }else
+            {
+                foreach(SharedLists list in dbSharedList)
+                {
+                    try
+                    {
+                        await SendContactUpdateEmail(new EmailAddress()
+                        {
+                            Name = list.Contact.Name,
+                            Address = list.Contact.Email
+                        });
+                    }catch(Exception e)
+                    {
+                        return StatusCode((int)HttpStatusCode.InternalServerError, $"Sending email failed with: {e.Message}");
+                    }
+                    
+                }
+                return StatusCode((int)HttpStatusCode.OK, dbGiftList);
+            }
+        }
+
+        private string SetShareEmailTemplateParams(BodyBuilder builder)
         {
             /*
              {0}: Contact name
@@ -294,6 +347,27 @@ namespace GiftWizItApi.Controllers
             return messageBody;
         }
 
+        private async Task SendContactUpdateEmail(EmailAddress toAddresses)
+        {
+            var fromAddress = new List<EmailAddress>();
+            fromAddress.Add(new EmailAddress()
+            {
+                Name = EmailTemplateConstants.FromName,
+                Address = EmailTemplateConstants.FromAddress
+            });
+
+            var email = new EmailMessage()
+            {
+                FromAddresses = fromAddress,
+                Content = emailSender.getContentBody<BodyBuilder>(EmailTemplateConstants.ContactListUpdateTemplate, SetShareEmailTemplateParams),
+                Subject = EmailTemplateConstants.ContactListUpdateSubject
+            };
+
+            email.ToAddresses.Add(toAddresses);
+
+            await emailSender.Send(email);
+        }
+
         private async Task SendShareEmail(EmailAddress toAddresses)
         {
             var fromAddress = new List<EmailAddress>();
@@ -306,7 +380,7 @@ namespace GiftWizItApi.Controllers
             var email = new EmailMessage()
             {
                 FromAddresses = fromAddress,
-                Content = emailSender.getContentBody<BodyBuilder>(EmailTemplateConstants.ContactListShareTemplate, SetEmailTemplateParams),
+                Content = emailSender.getContentBody<BodyBuilder>(EmailTemplateConstants.ContactListShareTemplate, SetShareEmailTemplateParams),
                 Subject = EmailTemplateConstants.ContactListShareSubject
             };
 
@@ -314,7 +388,5 @@ namespace GiftWizItApi.Controllers
 
             await emailSender.Send(email);
         }
-
-        
     }
 }

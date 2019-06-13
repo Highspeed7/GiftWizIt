@@ -9,6 +9,7 @@ import { AccountsService } from 'src/app/accounts.service';
 import { Subscription } from 'rxjs';
 import { GiftItem } from 'src/app/wish-list/models/gift-item';
 import { ListShare } from 'src/app/list-action/share-gift-list/models/list-share';
+import { EditListModel } from 'src/app/list-action/edit-gift-list/models/edit-contact';
 
 @Injectable({
   providedIn: 'root'
@@ -80,6 +81,13 @@ export class GiftListService implements OnDestroy {
       this.accessToken = token;
     });
     return this.http.post(`${this.apiUrl}/ShareGiftList`, listToShare, { headers: { 'Authorization': `bearer ${this.accessToken}` } }).toPromise();
+  }
+
+  public async updateList(updatedList: EditListModel) {
+    await this.authSvc.getToken().then((token) => {
+      this.accessToken = token;
+    });
+    return this.http.post(`${this.apiUrl}/GiftLists/Update`, updatedList, { headers: { 'Authorization': `bearer ${this.accessToken}` } }).toPromise();
   }
 
   ngOnDestroy() {
