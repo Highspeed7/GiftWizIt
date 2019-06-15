@@ -23,13 +23,17 @@ import { SharedGiftListModule } from './shared-gift-list/shared-gift-list.module
 import { DialogModule } from './dialog/dialog.module';
 import { SharedListAccessModalComponent } from './shared-gift-list/shared-list-access-modal/shared-list-access-modal.component';
 import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
+import { SellUpHomeComponent } from './sell-up-home/sell-up-home.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LeftRibbonComponent,
     LoginComponent,
-    ContactGetStartedComponent
+    ContactGetStartedComponent,
+    SellUpHomeComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
@@ -52,6 +56,14 @@ import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
       {
         path: "contact-get-started",
         component: ContactGetStartedComponent
+      },
+      {
+        path: "welcome",
+        component: HomeComponent
+      },
+      {
+        path: "",
+        component: SellUpHomeComponent
       }
     ])
   ],
