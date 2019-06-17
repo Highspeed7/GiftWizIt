@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { AuthService } from '../authentication/services/auth.service';
 
 @Component({
   selector: 'app-left-ribbon',
@@ -7,7 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LeftRibbonComponent implements OnInit {
 
-  constructor() { }
+  @Input()
+  public isAuthenticated = false;
+
+  constructor(private authSvc: AuthService) { }
 
   ngOnInit() {
   }

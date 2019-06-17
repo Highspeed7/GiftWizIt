@@ -17,19 +17,23 @@ export class AppComponent implements OnInit, OnDestroy {
   public isLoggedIn: boolean = false;
   public user: any;
   public isNavbarCollapsed = true;
+  public isAuthenticated: boolean = false;
+
   private appInfo: AppInfo = new AppInfo();
   private window: any;
+  private isAuthenticatedSub: Subscription;
   private bcsLoginSuccessSub: Subscription;
   private bcsLoginFailSub: Subscription;
   // TODO: Move to a service
-  private isAuthenticated: boolean = false;
 
   // Injected msal service to handle redirect from auth server.
   constructor(
     private windowRef: WindowRefService,
     private authSvc: AuthService,
     private bcs: BroadcastService,
-    private msal: MsalService) {
+    private msal: MsalService,
+    private router: Router
+  ) {
     this.window = this.windowRef.nativeWindow;
     // Check for non-registered user experience
     if (this.authSvc.getNonRegisteredUserX() != null) {
@@ -42,14 +46,24 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
+
+    this.isAuthenticatedSub = this.authSvc.getAuthenticatedObs().subscribe((value) => {
+      this.isAuthenticated = value;
+      if (this.isAuthenticated) {
+        this.router.navigate(["welcome"]);
+      } else {
+        this.router.navigate([""]);
+      }
+    });
+
     this.user = this.msal.getUser();
     if (this.user !== null) {
       this.displayName = this.user.name;
-      this.isAuthenticated = true;
+      this.authSvc.setAuthenticated(true);
     }
     this.bcsLoginSuccessSub = this.bcs.subscribe("msal:loginSuccess", (msg) => {
       this.user = this.msal.getUser();
-      this.isAuthenticated = true;
+      this.authSvc.setAuthenticated(true);
       this.displayName = this.user.name;
 
       //this.authSvc.registerUser().then((r) => {
@@ -74,5 +88,6 @@ export class AppComponent implements OnInit, OnDestroy {
   public ngOnDestroy() {
     this.bcsLoginSuccessSub.unsubscribe();
     this.bcsLoginFailSub.unsubscribe();
+    this.isAuthenticatedSub.unsubscribe();
   }
 }

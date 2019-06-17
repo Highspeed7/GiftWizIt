@@ -61,9 +61,11 @@
     </div>
   </div>
 </div>
-<div class="row-fluid wrapper">
-    <app-left-ribbon></app-left-ribbon>
-    <div class="col-sm-10 main-view">
-        <router-outlet></router-outlet>
-    </div>
+<div class="row wrapper">
+  <div class="col-sm-2 side-bar pr-0">
+    <app-left-ribbon [isAuthenticated]="isAuthenticated"></app-left-ribbon>
+  </div>
+  <div class="col-sm-10 main-view">
+      <router-outlet></router-outlet>
+  </div>
 </div>

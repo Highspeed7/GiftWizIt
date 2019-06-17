@@ -6,7 +6,7 @@ import { MsalService, BroadcastService } from '@azure/msal-angular';
 import { HttpClient } from '@angular/common/http';
 import * as authConfig from '../../configs/authConfig';
 import { AppInfo } from 'src/app/models/appInfo';
-import { Subscription } from 'rxjs';
+import { Subscription, Subject } from 'rxjs';
 import { GWAppConstants } from 'src/app/constants/appConstants';
 import { GuestInfo } from 'src/app/models/guestInfo';
 
@@ -16,6 +16,8 @@ import { GuestInfo } from 'src/app/models/guestInfo';
 
 export class AuthService implements OnDestroy {
   public redirectUrl = "/";
+  private _isAuthenticatedSrc: Subject<boolean> = new Subject();
+  private isAuthenticated$ = this._isAuthenticatedSrc.asObservable();
   private window: any;
   private isLoggedInSub: Subscription;
   private isLoggedOutSub: Subscription;
@@ -34,6 +36,14 @@ export class AuthService implements OnDestroy {
         await this.registerUser();
       });
     })
+  }
+
+  public setAuthenticated(value: boolean) {
+    this._isAuthenticatedSrc.next(value);
+  }
+
+  public getAuthenticatedObs() {
+    return this.isAuthenticated$;
   }
 
   public getToken(): Promise<string> {
