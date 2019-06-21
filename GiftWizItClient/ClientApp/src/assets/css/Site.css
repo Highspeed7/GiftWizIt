@@ -8,6 +8,16 @@ body {
   height: 100%;
 }
 
+*.curlText {
+  font-family: 'Curlz MT';
+}
+
+/*@font-face {
+  font-family: CurlMT;
+  src: url("../../fonts/CurlzMT.ttf") format('truetype');
+  src: url("../../fonts/CurlzMT.woff") format('woff');
+}*/
+
 body {
   padding-top: 50px;
   padding-bottom: 20px;
@@ -102,7 +112,7 @@ div.logo img {
 }
 
 div.main-view {
-  margin-top: 175px;
+  margin-top: 155px;
 }
 
 div.main-view .content {
