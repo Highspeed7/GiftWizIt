@@ -1,94 +1,138 @@
 div.section {
   height: 450px;
 }
-div.section div {
-  max-height: 450px;
-}
+
+  div.section div {
+    max-height: 450px;
+  }
+
   div.section.section2 div.ext-img-container {
     position: relative;
     z-index: 998;
   }
 
-  div.footer {
-    height: 50px;
-    background-color: rgb(128, 128, 128, 0.8);
-  }
+div.footer {
+  height: 50px;
+  background-color: rgb(128, 128, 128, 0.8);
+}
 
-  div.section.section2 img.ext-img {
-    max-height: 530px;
-    top: -45px;
-    position: relative
-  }
+div.section.section2 img.ext-img {
+  max-height: 530px;
+  top: -45px;
+  position: relative
+}
 
-  div.section div.section-content {
+div.section div.section-content {
+  height: inherit;
+}
+
+  div.section div.section-content > div.row {
     height: inherit;
   }
 
-    div.section div.section-content > div.row {
-      height: inherit;
-    }
+div.section div.section-text {
+  background-image: url("../../assets/images/txt-wrapper-bg.png");
+  font-family: 'Curlz MT';
+  width: 300px;
+  height: 300px;
+  padding-top: 6em;
+  padding-left: 15px;
+  font-size: 19px;
+  font-weight: 600;
+  box-shadow: 5px 5px 10px grey;
+}
 
-  div.section div.section-text {
-    background-image: url("../../assets/images/txt-wrapper-bg.png");
-    font-family: 'Curlz MT';
-    width: 300px;
-    height: 300px;
-    padding-top: 6em;
-    padding-left: 15px;
-    font-size: 19px;
-    font-weight: 600;
-    box-shadow: 5px 5px 10px grey;
-  }
+div.section .right-arrow::after {
+  content: '';
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 150px 0 150px 100px;
+  border-color: transparent transparent transparent rgba(158, 199, 232, 0.8);
+  position: absolute;
+  right: -100px;
+}
 
-  div.section .right-arrow::after {
-    content: '';
-    width: 0;
-    height: 0;
-    border-style: solid;
-    border-width: 150px 0 150px 100px;
-    border-color: transparent transparent transparent rgba(158, 199, 232, 0.8);
-    position: absolute;
-    right: -100px;
-  }
+div.section div.section-text > div.ext-install {
+  background-image: url("../../assets/images/225pxTape.png");
+  height: 200px;
+  position: absolute;
+  width: 250px;
+  background-repeat: no-repeat;
+  line-height: 4.5;
+  text-align: center;
+  top: -44px;
+  right: 25px;
+}
 
-  div.section div.section-text > div.ext-install {
-    background-image: url("../../assets/images/225pxTape.png");
-    height: 200px;
-    position: absolute;
-    width: 250px;
-    background-repeat: no-repeat;
-    line-height: 4.5;
+div.section.section1 {
+  background-image: url("../../assets/images/gift-section1.png");
+  background-size: cover;
+  background-position-y: center;
+}
+
+div.section.section2 {
+  background-color: transparent;
+}
+
+div.section.section4 {
+  background-color: rgba(215, 224, 209, 0.8);
+}
+
+div.section.section3 div.section-content div.section3-bg-wrapper {
+  height: inherit;
+  background-image: url('../../assets/images/carboard-border-section.png');
+}
+
+div.section.section3 div.section-content div.section3-bg-left {
+  background-image: url('../../assets/images/cardboard-left-end.png');
+  background-repeat: no-repeat;
+}
+
+div.section.section3 div.section-content div.section3-left-content {
+  height: 350px;
+  background-color: rgba(230, 222, 193, 0.3);
+  font-family: 'Curlz MT';
+}
+
+  div.section.section3 div.section-content div.section3-left-content h1 {
     text-align: center;
-    top: -44px;
-    right: 25px;
+    font-weight: 800;
   }
 
-  div.section.section1 {
-    background-image: url("../../assets/images/gift-section1.png");
+  div.section.section3 div.section-content div.section3-left-content p {
+    font-weight: 500;
+    font-family: sans-serif;
+  }
+
+div.section.section3 div.section-content div.section3-right-content {
+  background-color: rgba(227, 227, 227, 0.3);
+  height: 350px;
+}
+
+  div.section.section3 div.section-content div.section3-right-content div.img-round {
     background-size: cover;
-    background-position-y: center;
-  }
-
-  div.section.section2 {
-    background-color: transparent;
-  }
-
-  div.section.section4 {
-    background-color: rgba(215, 224, 209, 0.8);
-  }
-
-  div.section.section3 div.section-content div.section3-bg-wrapper {
-    height: inherit;
-    background-image: url('../../assets/images/carboard-border-section.png');
-  }
-
-  div.section.section3 div.section-content div.section3-bg-left {
-    background-image: url('../../assets/images/cardboard-left-end.png');
     background-repeat: no-repeat;
+    height: 90px;
+    border-radius: 50%;
+    border: 1px solid black;
+    background-color: #9bc5e6;
   }
 
-  div.section.section3 div.section-content div.section3-bg-right {
-    background-image: url('../../assets/images/cardboard-right-end.png');
-    background-repeat: no-repeat;
-    background-position-x: 100%;
+  div.section.section3 div.section-content div.section3-right-content div.round-txt {
+    font-size: 40px;
+    line-height: 2.5;
   }
+
+  div.section.section3 div.section-content div.section3-right-content div.img-round#wedding {
+    background-image: url("../../assets/images/wedding-rings.png");
+  }
+  div.section.section3 div.section-content div.section3-right-content div.img-round#birthday {
+    background-image: url("../../assets/images/birthday-cake-843921_640.jpg");
+  }
+
+div.section.section3 div.section-content div.section3-bg-right {
+  background-image: url('../../assets/images/cardboard-right-end.png');
+  background-repeat: no-repeat;
+  background-position-x: 100%;
+}

@@ -52,7 +52,6 @@
     <Folder Include="ClientApp\src\app\authentication\services\" />
     <Folder Include="ClientApp\src\app\gift-tag\" />
     <Folder Include="ClientApp\src\app\list-action\share-gift-list\services\" />
-    <Folder Include="ClientApp\src\assets\images\" />
     <Folder Include="ClientApp\src\assets\css\" />
   </ItemGroup>
 
