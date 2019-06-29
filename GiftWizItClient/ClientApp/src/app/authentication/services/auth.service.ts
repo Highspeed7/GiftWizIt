@@ -30,12 +30,8 @@ export class AuthService implements OnDestroy {
     private router: Router) {
     this.window = this.windowRef.nativeWindow;
   }
-  public async login() {
-    var promise = new Promise((resolve, reject) => {
-      this.msal.loginPopup(authConfig.config.b2cScopes).then(async (res) => {
-        await this.registerUser();
-      });
-    })
+  public login() {
+    this.msal.loginRedirect(authConfig.config.b2cScopes);
   }
 
   public setAuthenticated(value: boolean) {

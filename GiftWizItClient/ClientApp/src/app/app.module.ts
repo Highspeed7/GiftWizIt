@@ -25,6 +25,7 @@ import { SharedListAccessModalComponent } from './shared-gift-list/shared-list-a
 import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 import { SellUpHomeComponent } from './sell-up-home/sell-up-home.component';
 import { HomeComponent } from './home/home.component';
+import { HomeGuard } from './guards/home-guard';
 
 @NgModule({
   declarations: [
@@ -59,15 +60,16 @@ import { HomeComponent } from './home/home.component';
       },
       {
         path: "welcome",
-        component: HomeComponent
+        component: SellUpHomeComponent
       },
       {
         path: "",
-        component: SellUpHomeComponent
+        component: HomeComponent,
+        canActivate: [HomeGuard]
       }
     ])
   ],
-  providers: [AccountsService, MsalService, AuthService],
+  providers: [AccountsService, MsalService, AuthService, HomeGuard],
   bootstrap: [AppComponent],
   entryComponents: [SharedListAccessModalComponent]
 })

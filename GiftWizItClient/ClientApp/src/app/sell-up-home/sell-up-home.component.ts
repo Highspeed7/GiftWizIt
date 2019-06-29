@@ -1,5 +1,7 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { WindowRefService } from '../window-ref.service';
+import { MsalService } from '@azure/msal-angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'gw-sell-up-home',
@@ -11,12 +13,17 @@ export class SellUpHomeComponent implements OnInit {
   private window;
 
   constructor(
-    private windowRef: WindowRefService
+    private windowRef: WindowRefService,
+    private msal: MsalService,
+    private router: Router
   ) {
     this.window = this.windowRef.nativeWindow;
   }
 
   ngOnInit() {
-    
+    var user = this.msal.getUser();
+    if (user != null) {
+      this.router.navigate([""]);
+    }
   }
 }

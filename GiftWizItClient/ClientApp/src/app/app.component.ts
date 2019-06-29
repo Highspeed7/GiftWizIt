@@ -6,6 +6,7 @@ import { MsalService, BroadcastService } from '@azure/msal-angular';
 import { AuthService } from './authentication/services/auth.service';
 import { Subscription } from 'rxjs';
 import { AppInfo } from './models/appInfo';
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -32,7 +33,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private authSvc: AuthService,
     private bcs: BroadcastService,
     private msal: MsalService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {
     this.window = this.windowRef.nativeWindow;
     // Check for non-registered user experience
@@ -42,18 +44,21 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   public login() {
-    this.authSvc.login().then(() => { });
+    this.authSvc.login();
   }
 
   public ngOnInit() {
-
+    this.route.url.subscribe((url) => {
+      console.log(url);
+    });
     this.isAuthenticatedSub = this.authSvc.getAuthenticatedObs().subscribe((value) => {
       this.isAuthenticated = value;
-      if (this.isAuthenticated) {
-        this.router.navigate(["welcome"]);
-      } else {
-        this.router.navigate([""]);
-      }
+      //if (this.isAuthenticated) {
+      //  //if (this.route.url == environment.)
+      //  this.router.navigate(["welcome"]);
+      //} else {
+      //  this.router.navigate([""]);
+      //}
     });
 
     this.user = this.msal.getUser();
@@ -64,6 +69,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.bcsLoginSuccessSub = this.bcs.subscribe("msal:loginSuccess", (msg) => {
       this.user = this.msal.getUser();
       this.authSvc.setAuthenticated(true);
+      this.authSvc.registerUser();
       this.displayName = this.user.name;
 
       //this.authSvc.registerUser().then((r) => {

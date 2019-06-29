@@ -127,9 +127,68 @@ div.section.section3 div.section-content div.section3-right-content {
   div.section.section3 div.section-content div.section3-right-content div.img-round#wedding {
     background-image: url("../../assets/images/wedding-rings.png");
   }
+
   div.section.section3 div.section-content div.section3-right-content div.img-round#birthday {
     background-image: url("../../assets/images/birthday-cake-843921_640.jpg");
+    left: 75px;
+    top: -16px;
   }
+
+    div.section.section3 div.section-content div.section3-right-content div.img-round#birthday + div.round-txt {
+      position: relative;
+      left: 75px;
+      top: -16px;
+    }
+
+  div.section.section3 div.section-content div.section3-right-content div.img-round#baby-showers {
+    background-image: url("../../assets/images/baby-shower-balloons.jpg");
+    top: -40px;
+  }
+
+    div.section.section3 div.section-content div.section3-right-content div.img-round#baby-showers + div.round-txt {
+      position: relative;
+      top: -40px;
+    }
+
+  div.section.section3 div.section-content div.section3-right-content div.img-round#holidays {
+    background-image: url("../../assets/images/decorating-christmas-tree-2999722_640.jpg");
+    left: 75px;
+    top: -60px;
+  }
+
+    div.section.section3 div.section-content div.section3-right-content div.img-round#holidays + div.round-txt {
+      position: relative;
+      left: 75px;
+      top: -60px;
+    }
+
+  div.section.section3 div.section-content div.section3-right-content div.img-round#grad-parties {
+    background-image: url("../../assets/images/graduation-907565_640.jpg");
+    top: -85px;
+  }
+
+    div.section.section3 div.section-content div.section3-right-content div.img-round#grad-parties + div.round-txt {
+      position: relative;
+      top: -85px;
+      font-size: 35px;
+    }
+
+  div.section.section3 div.section-content div.section3-right-content > div.row {
+    position: relative;
+    top: -32px;
+  }
+
+div.section.section4 div.section-content div.section4-step1 > p {
+  font-size: 24px;
+  font-weight: 800;
+}
+
+div.section.section4 div.section-content div.section4-step1 > img {
+  shape-outside: circle();
+  float: right;
+  width: 250px;
+  border-radius: 50%;
+}
 
 div.section.section3 div.section-content div.section3-bg-right {
   background-image: url('../../assets/images/cardboard-right-end.png');
