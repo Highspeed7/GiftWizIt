@@ -19,6 +19,7 @@
                             [contacts]="contacts"
                             [expandedList]="getExpandedList()"></gw-share-gift-list>
         <gw-edit-gift-list *ngIf="editActionActive" [giftLists]="giftLists" (onEditListClicked)="editListClicked($event)"></gw-edit-gift-list>
+        <gw-delete-gl-item *ngIf="trashActionActive" [itemsCheckedCount]="itemsChecked" [giftLists]="giftLists" (onDeclineDelete)="clearAllActions()" (onDeleteItemClicked)="itemsDeleted()"></gw-delete-gl-item>
       </div>
       <div mobileActionDisplay class="d-block d-md-none">
         <gw-add-gift-list *ngIf="addActionActive"

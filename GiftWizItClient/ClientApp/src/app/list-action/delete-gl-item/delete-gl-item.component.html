@@ -1,3 +1,11 @@
+<ng-template [ngIf]="itemsCheckedCount == 0" [ngIfElse]="itemsChecked">
+  <p>Select the items within this list to be deleted.</p>
+</ng-template>
+<ng-template #itemsChecked>
+  <p>Are you sure you want to delete the selected item(s)?</p>
+  <input class="btn btn-primary" type="button" value="Yes" (click)="confirmDelete()" />
+  <input class="btn btn-secondary" type="button" value="No" (click)="cancelDelete()" />
+</ng-template>
 <p>
-  delete-gl-item works!
+  Note: If you wish to delete the entire list, please do so through the edit list action to the right.
 </p>

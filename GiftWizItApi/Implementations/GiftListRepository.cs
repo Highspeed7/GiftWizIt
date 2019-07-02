@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
+using Z.EntityFramework.Plus;
 
 namespace GiftWizItApi.Implementations
 {
@@ -30,7 +31,10 @@ namespace GiftWizItApi.Implementations
 
         public async Task<IEnumerable<GiftLists>> GetUserLists(string userId)
         {
-            return await Context.GiftLists.Include(gl => gl.GiftItems).Where(gl => gl.UserId == userId && gl.Deleted == false).ToListAsync();
+            return await Context.GiftLists
+                .Where(gl => gl.UserId == userId && gl.Deleted == false)
+                .IncludeFilter(gl => gl.GiftItems.Where(gi => gi.Deleted == false))
+                .ToListAsync();
         }
 
         public async Task<GiftLists> GetUserGiftListByIdAsync(string userId, int listId)

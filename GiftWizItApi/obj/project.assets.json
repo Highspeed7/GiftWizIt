@@ -4937,6 +4937,18 @@
         "runtime": {
           "lib/netstandard1.3/System.Xml.XPath.XDocument.dll": {}
         }
+      },
+      "Z.EntityFramework.Plus.EFCore/2.0.3": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore.Relational": "[2.0.0, 3.0.0)"
+        },
+        "compile": {
+          "lib/netstandard2.0/Z.EntityFramework.Plus.EFCore.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Z.EntityFramework.Plus.EFCore.dll": {}
+        }
       }
     }
   },
@@ -13494,6 +13506,21 @@
         "system.xml.xpath.xdocument.4.3.0.nupkg.sha512",
         "system.xml.xpath.xdocument.nuspec"
       ]
+    },
+    "Z.EntityFramework.Plus.EFCore/2.0.3": {
+      "sha512": "THWQVF/92bBb0CfHIVF99eH1cgE9zwg2TorP5f2aPhTUN0c5C1MsDKC3NKEoQ2oiUZHphUexPQLAwppLw/v15A==",
+      "type": "package",
+      "path": "z.entityframework.plus.efcore/2.0.3",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/netstandard2.0/Z.EntityFramework.Plus.EFCore.deps.json",
+        "lib/netstandard2.0/Z.EntityFramework.Plus.EFCore.dll",
+        "lib/netstandard2.0/Z.EntityFramework.Plus.EFCore.pdb",
+        "lib/netstandard2.0/Z.EntityFramework.Plus.EFCore.xml",
+        "z.entityframework.plus.efcore.2.0.3.nupkg.sha512",
+        "z.entityframework.plus.efcore.nuspec"
+      ]
     }
   },
   "projectFileDependencyGroups": {
@@ -13505,7 +13532,8 @@
       "Microsoft.AspNetCore.Authentication.AzureADB2C.UI >= 2.2.0",
       "Microsoft.AspNetCore.Razor.Design >= 2.2.0",
       "Microsoft.NETCore.App >= 2.2.0",
-      "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 2.2.0"
+      "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 2.2.0",
+      "Z.EntityFramework.Plus.EFCore >= 2.0.3"
     ]
   },
   "packageFolders": {
@@ -13585,6 +13613,10 @@
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
             "target": "Package",
             "version": "[2.2.0, )"
+          },
+          "Z.EntityFramework.Plus.EFCore": {
+            "target": "Package",
+            "version": "[2.0.3, )"
           }
         },
         "imports": [

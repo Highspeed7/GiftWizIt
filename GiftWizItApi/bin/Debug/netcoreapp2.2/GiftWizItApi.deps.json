@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.2",
-    "signature": "ec88a97d006acb212e91dc6acb0c4da3f5079262"
+    "signature": "d459c69ffea380675f6af1873604953239a56e19"
   },
   "compilationOptions": {
     "defines": [
@@ -31,7 +31,8 @@
           "Microsoft.AspNetCore.Authentication.AzureADB2C.UI": "2.2.0",
           "Microsoft.AspNetCore.Razor.Design": "2.2.0",
           "Microsoft.NETCore.App": "2.2.0",
-          "Microsoft.VisualStudio.Web.CodeGeneration.Design": "2.2.0"
+          "Microsoft.VisualStudio.Web.CodeGeneration.Design": "2.2.0",
+          "Z.EntityFramework.Plus.EFCore": "2.0.3"
         },
         "runtime": {
           "GiftWizItApi.dll": {}
@@ -808,6 +809,20 @@
         "dependencies": {
           "System.Runtime": "4.3.0",
           "System.Runtime.Handles": "4.3.0"
+        }
+      },
+      "Z.EntityFramework.Plus.EFCore/2.0.3": {
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore.Relational": "2.2.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Z.EntityFramework.Plus.EFCore.dll": {
+            "assemblyVersion": "2.0.3.0",
+            "fileVersion": "2.0.3.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.0/Z.EntityFramework.Plus.EFCore.dll": {}
         }
       },
       "Microsoft.AspNet.WebApi.Client/5.2.6": {
@@ -4124,6 +4139,13 @@
       "sha512": "sha512-SrCOmTvvOOCmJT4BBxdZcwhz6XEMsjBGZvGSVorOxdCznaUNeVotEjDfXGIZ8gcGo00qgPbTV6puHDgcFYl6Iw==",
       "path": "system.threading.threadpool/4.3.0",
       "hashPath": "system.threading.threadpool.4.3.0.nupkg.sha512"
+    },
+    "Z.EntityFramework.Plus.EFCore/2.0.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-THWQVF/92bBb0CfHIVF99eH1cgE9zwg2TorP5f2aPhTUN0c5C1MsDKC3NKEoQ2oiUZHphUexPQLAwppLw/v15A==",
+      "path": "z.entityframework.plus.efcore/2.0.3",
+      "hashPath": "z.entityframework.plus.efcore.2.0.3.nupkg.sha512"
     },
     "Microsoft.AspNet.WebApi.Client/5.2.6": {
       "type": "package",

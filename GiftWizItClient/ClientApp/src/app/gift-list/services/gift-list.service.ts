@@ -58,6 +58,21 @@ export class GiftListService implements OnDestroy {
     return this.http.delete(`${this.apiUrl}/GiftLists`, options);
   }
 
+  public async deleteItems(body: GiftItemQuery[]) {
+    await this.authSvc.getToken().then((token) => {
+      this.accessToken = token;
+    });
+    
+    var retVal;
+    try {
+      retVal = this.http.post(`${this.apiUrl}/GiftListItems`, body, { headers: { 'Authorization': `bearer ${this.accessToken}` } }).toPromise();
+    } catch (e) {
+      throw e;
+    }
+
+    return retVal;
+  }
+
   public async getGiftItems(glist_id: number) {
     await this.authSvc.getToken().then(token => this.access = token);
     return this.http.get(`${this.apiUrl}/GiftListItems?gift_list_id=${glist_id}`, { headers: { 'Authorization': `bearer ${this.access}` } }).toPromise();

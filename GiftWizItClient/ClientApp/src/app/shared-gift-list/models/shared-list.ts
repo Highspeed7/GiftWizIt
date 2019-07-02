@@ -11,6 +11,7 @@ class GiftList {
 class Items {
   public item_Id: number;
   public item: Item
+  public deleted: boolean;
 }
 
 class Item {

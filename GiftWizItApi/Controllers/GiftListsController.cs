@@ -96,7 +96,9 @@ namespace GiftWizItApi.Controllers
         {
             var userId = await userService.GetUserIdAsync();
 
-            return await _unitOfWork.GiftLists.GetUserLists(userId);
+            var giftLists = await _unitOfWork.GiftLists.GetUserLists(userId);
+
+            return giftLists;
         }
 
         [Route("api/GiftLists/")]
@@ -119,6 +121,45 @@ namespace GiftWizItApi.Controllers
             var result = await _unitOfWork.GiftItems.GetGiftListItems(gift_list_id, userId);
 
             return mapper.Map<List<QueryGiftItemDTO>>(result);
+        }
+
+        [Route("api/GiftListItems")]
+        [HttpPost]
+        public async Task<ActionResult> DeleteListItem(QueryGiftItemDTO[] giftItems)
+        {
+            var userId = await userService.GetUserIdAsync();
+            // Verify that the user had access to the provided gift list id.
+            // Since items can only be deleted from one list at a time, we'll take the first item's list id.
+            var giftList = await _unitOfWork.GiftLists.GetUserGiftListByIdAsync(userId, giftItems[0].Gift_List_Id);
+            if(giftList == null)
+            {
+                // TODO: Eliminate magic strings.
+                return StatusCode((int)HttpStatusCode.BadRequest, "Gift list not found for this user.");
+            }else
+            {
+                // Verify that the item is a part of the gift list
+                foreach(QueryGiftItemDTO item in giftItems)
+                {
+                    var dbGiftItem = await _unitOfWork.GiftItems.GetGiftItemByIdAsync(item.Item_Id);
+
+                    if (dbGiftItem == null)
+                    {
+                        return StatusCode((int)HttpStatusCode.BadRequest, "The provided item does not exist");
+                    }else
+                    {
+                        // We check to make sure the provided item id is a part of the provided gift list.
+                        if (dbGiftItem.GListId != item.Gift_List_Id)
+                        {
+                            return StatusCode((int)HttpStatusCode.BadRequest, "The item is either not a part of the provided list or it has already been deleted.");
+                        }
+                        // Soft delete the item.
+                        dbGiftItem.Deleted = true;
+                    }
+                }
+                var result = await _unitOfWork.CompleteAsync();
+                return StatusCode((int)HttpStatusCode.OK, result);
+            }
+            // Set the deleted flag to true
         }
 
         [Route("api/GiftListItems/Purchase")]

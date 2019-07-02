@@ -26,6 +26,7 @@ export class GiftListComponent implements OnInit {
   public contactsLoaded = false;
   public expandedLists: any[] = [];
   public expandedList: any;
+  public itemsChecked: number = 0;
 
   constructor(
     private glService: GiftListService,
@@ -54,6 +55,18 @@ export class GiftListComponent implements OnInit {
     this.glService.getLists().then((data) => {
       this.giftLists = data;
     });
+  }
+
+  public clearAllActions() {
+    this.showCheckboxes = false;
+    this.addActionActive = false;
+    this.trashActionActive = false;
+    this.moveActionActive = false;
+    this.shareActionActive = false;
+    this.editActionActive = false;
+    this.itemsChecked = 0;
+
+    this.cd.detectChanges();
   }
 
   public actionClicked(actionInfo) {
@@ -160,6 +173,34 @@ export class GiftListComponent implements OnInit {
     this.cd.detectChanges();
   }
 
+  public itemsDeleted() {
+    var checkedItems: any[] = [];
+
+    for (var i = 0; i < this.giftLists.length; i++) {
+      checkedItems.push(this.giftLists[i].giftItems.filter((item) => {
+        return item.checked === true;
+      }));
+    }
+
+    checkedItems = checkedItems.reduce((acc, val) => acc.concat(val), []);
+
+    var itemsToDelete = checkedItems.map((item: GiftItemQuery) => {
+      var giftItem: GiftItemQuery = new GiftItemQuery();
+      giftItem.gift_List_Id = item.gift_List_Id;
+      giftItem.item_Id = item.item_Id;
+      return giftItem;
+    });
+
+    this.glService.deleteItems(itemsToDelete).then((res) => {
+      this.glService.getLists().then((data) => {
+        this.giftLists = data;
+        this.clearAllActions();
+        this.itemsChecked = 0;
+        this.cd.detectChanges();
+      });
+    })
+  }
+
   // TODO: Add a check for moves to same gift lists.
   public itemMoveClicked(eventItem) {
     var checkedItems: any[] = [];
@@ -206,9 +247,14 @@ export class GiftListComponent implements OnInit {
     // Set the item's property to checked.
     if (item.checked == null || item.checked == false) {
       item.checked = true;
+      // Increment the checked items counter.
+      this.itemsChecked++;
     } else {
       item.checked = false;
+      // Decrease the checked items counter.
+      this.itemsChecked--;
     }
+    this.cd.detectChanges();
   }
 
   public deleteList(list: GiftList) {
@@ -224,7 +270,15 @@ export class GiftListComponent implements OnInit {
   }
 
   public async expandGiftList(list: GiftList) {
+    if (this.expandedLists.length > 1) {
+      this.itemsChecked = 0;
+    }
     // TODO: Implement nocache action so that items are updated appropriately and not stale.
+    // If there are no items... then clicking on the list should not affect action items.
+    if (list.giftItems.length == 0) {
+      return false;
+    }
+
     // Set the expanded property of a list.
     if (list.isExpanded == null) {
       await this.glService.getGiftItems(list.id).then((items: GiftItemQuery[]) => {

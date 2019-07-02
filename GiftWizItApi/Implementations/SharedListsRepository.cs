@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Z.EntityFramework.Plus;
 
 namespace GiftWizItApi.Implementations
 {
@@ -28,6 +29,7 @@ namespace GiftWizItApi.Implementations
 
         public async Task<SharedLists> GetSharedList(int giftListId, string giftListPass)
         {
+            // TODO: This should filter on whether items are deleted or not
             return await Context.SharedLists
                 .Include(sl => sl.GiftList)
                 .ThenInclude(gl => gl.GiftItems)

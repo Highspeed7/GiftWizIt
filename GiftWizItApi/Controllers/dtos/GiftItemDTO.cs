@@ -9,6 +9,7 @@ namespace GiftWizItApi.Controllers.dtos
     {
         public int GListId { get; set; }
         public int Item_Id { get; set; }
+        public bool Deleted { get; set; }
         public ItemDbResource Item { get; set; }
     }
 }

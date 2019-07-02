@@ -97,6 +97,11 @@ namespace GiftWizItApi.Models
                 .Property(gi => gi.Item_Id)
                 .HasColumnName("item_id");
             modelBuilder.Entity<GiftItem>()
+                .Property(gi => gi.Deleted)
+                .HasColumnName("_deleted")
+                .HasDefaultValue(false)
+                .IsRequired(true);
+            modelBuilder.Entity<GiftItem>()
                 .HasOne(gi => gi.GiftList)
                 .WithMany(gl => gl.GiftItems)
                 .HasForeignKey(gi => gi.GListId);
