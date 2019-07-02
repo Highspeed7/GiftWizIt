@@ -9,14 +9,15 @@ import { AccountsService } from 'src/app/accounts.service';
 import { Subscription } from 'rxjs';
 import { GiftItem } from 'src/app/wish-list/models/gift-item';
 import { ListShare } from 'src/app/list-action/share-gift-list/models/list-share';
+import * as env from '../../../environments/environment';
 import { EditListModel } from 'src/app/list-action/edit-gift-list/models/edit-contact';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GiftListService implements OnDestroy {
-
-  private apiUrl: string = "https://localhost:44327/api";
+  private apiUrl: string = env.environment.apiUrl;
+  //private apiUrl: string = "https://localhost:44327/api";
   private access = null;
   private subscription: Subscription
   private accessToken: string;

@@ -4,13 +4,15 @@ import { HttpClient } from '@angular/common/http';
 import { MsalService } from '@azure/msal-angular';
 import * as authConfig from "../../configs/authConfig";
 import { AuthService } from 'src/app/authentication/services/auth.service';
+import * as env from '../../../environments/environment';
 import { Item } from '../models/item';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WishItemService {
-  private apiUrl: string = "https://localhost:44327/api"
+  private apiUrl: string = env.environment.apiUrl;
+  //private apiUrl: string = "https://localhost:44327/api"
   private accessToken = null;
 
   constructor(

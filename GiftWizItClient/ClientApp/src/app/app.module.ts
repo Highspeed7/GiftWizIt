@@ -26,13 +26,14 @@ import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 import { SellUpHomeComponent } from './sell-up-home/sell-up-home.component';
 import { HomeComponent } from './home/home.component';
 import { HomeGuard } from './guards/home-guard';
+import { ContactGetStartedModule } from './contact-get-started/contact-get-started.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     LeftRibbonComponent,
     LoginComponent,
-    ContactGetStartedComponent,
+    //ContactGetStartedComponent,
     SellUpHomeComponent,
     HomeComponent
   ],
@@ -43,6 +44,7 @@ import { HomeGuard } from './guards/home-guard';
     CommonModule,
     DialogModule,
     NgbCollapseModule,
+    ContactGetStartedModule,
     NgMultiSelectDropDownModule.forRoot(),
     AuthenticationModule,
     GiftListsModule,

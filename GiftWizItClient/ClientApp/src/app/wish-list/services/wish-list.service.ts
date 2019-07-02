@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { WishList } from '../models/wish-list';
 import { Observable } from 'rxjs';
 import { GiftItem } from '../models/gift-item';
+import * as env from '../../../environments/environment';
 import { AuthService } from 'src/app/authentication/services/auth.service';
 
 @Injectable({
@@ -12,7 +13,8 @@ import { AuthService } from 'src/app/authentication/services/auth.service';
 })
 export class WishListService {
 
-  private apiUrl: string = "https://localhost:44327/api/WishList";
+  private apiUrl: string = env.environment.apiUrl;
+  //private apiUrl: string = "https://localhost:44327/api/WishList";
   private access = null;
 
   constructor(
@@ -26,7 +28,7 @@ export class WishListService {
       this.access = token;
     })
 
-    return this.http.get(`${this.apiUrl}`, { headers: { 'Authorization': `bearer ${this.access}` } })
+    return this.http.get(`${this.apiUrl}/WishList`, { headers: { 'Authorization': `bearer ${this.access}` } })
       .map(res => res as WishList[]).toPromise();
   }
 }
