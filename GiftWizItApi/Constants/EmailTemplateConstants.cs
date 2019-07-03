@@ -15,7 +15,8 @@ namespace GiftWizItApi.Constants
         // Greetings
         public const string ContactGreetSubject = "Someone wants to connect!";
         public const string ContactGreetTemplate = "ContactGreetTemplate.html";
-        public const string ContactGetStartedUrl = "https://localhost:44347/contact-get-started";
+        public const string ContactGetStartedDevUrl = "https://localhost:44347/contact-get-started";
+        public const string ContactGetStartedProdUrl = "https://www.giftwizit.com/contact-get-started";
 
         // Sharing
         public const string ContactListShareSubject = "A gift list was shared with you";

@@ -9,6 +9,7 @@ import { AppInfo } from 'src/app/models/appInfo';
 import { Subscription, Subject } from 'rxjs';
 import { GWAppConstants } from 'src/app/constants/appConstants';
 import { GuestInfo } from 'src/app/models/guestInfo';
+import * as env from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,7 @@ import { GuestInfo } from 'src/app/models/guestInfo';
 
 export class AuthService implements OnDestroy {
   public redirectUrl = "/";
+  private apiUrl: string = env.environment.apiUrl;
   private _isAuthenticatedSrc: Subject<boolean> = new Subject();
   private isAuthenticated$ = this._isAuthenticatedSrc.asObservable();
   private window: any;
@@ -66,7 +68,7 @@ export class AuthService implements OnDestroy {
     await this.getToken().then((token) => {
       access_token = token;
     });
-    return this.http.post("https://localhost:44327/api/Users", null, { headers: { 'Authorization': `bearer ${access_token}` } }).toPromise();
+    return this.http.post(`${this.apiUrl}/Users`, null, { headers: { 'Authorization': `bearer ${access_token}` } }).toPromise();
   }
 
   public getNonRegisteredUserX(): GuestInfo | null {

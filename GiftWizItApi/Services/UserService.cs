@@ -26,6 +26,7 @@ namespace GiftWizItApi.Services
 
         public async Task<string> GetUserIdAsync()
         {
+            // TODO: return to later... there's still a bug when a user registers first; then uses facebook.
             var authedUser = context.HttpContext.User;
 
             var userId = authedUser.Claims.First(e => e.Type == "http://schemas.microsoft.com/identity/claims/objectidentifier").Value;
@@ -52,9 +53,15 @@ namespace GiftWizItApi.Services
                 {
                     // Get the user from users table
                     var user = await unitOfWork.Users.GetUserByEmailAsync(email);
-
-                    var fbAssoc = await SetUserFacebookAssoc(user.UserId, userId);
-                    return fbAssoc.UserId;
+                    if(user == null)
+                    {
+                        // Use the claim provided userid
+                        return userId;
+                    }else
+                    {
+                        var fbAssoc = await SetUserFacebookAssoc(user.UserId, userId);
+                        return fbAssoc.UserId;
+                    }
                 }
             }
             return userId;

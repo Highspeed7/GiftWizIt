@@ -15,13 +15,13 @@
     <ng-multiselect-dropdown [placeholder]="'Select one or more contacts'"
                              [disabled]="contactsLoaded == false"
                              [data]="dropdownList"
-                             [(ngModel)]="selectedItems"
+                             [(ngModel)]="selectedContacts"
                              name="contact-list"
                              [settings]="dropdownSettings"
                              (onSelect)="onItemSelect($event)"
                              (onSelectAll)="onItemSelectAll($event)"
                              (onDeSelect)="onItemDeselect($event)"
-                             (onDeSelectAll)="onItemDeselectAll($event)">
+                             (onDeSelectAll)="onItemDeselectAll()">
     </ng-multiselect-dropdown>
   </div>
   <div class="form-group"  *ngIf="showPassField === true; else listPassField">

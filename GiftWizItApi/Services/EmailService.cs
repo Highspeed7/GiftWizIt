@@ -85,7 +85,17 @@ namespace GiftWizItApi.Services
             var headers = new HeaderId[] { HeaderId.From, HeaderId.Subject, HeaderId.Date };
             var headerAlgorithm = DkimCanonicalizationAlgorithm.Simple;
             var bodyAlgorithm = DkimCanonicalizationAlgorithm.Simple;
-            var signer = new DkimSigner("C:/Users/Brian/Desktop/key1.giftwizit.com.pem.txt", "giftwizit.com", "key1", DkimSignatureAlgorithm.RsaSha256);
+            var keyPath = "";
+
+            if (env.IsDevelopment())
+            {
+                keyPath = "C:/Users/Brian/Desktop/key1.giftwizit.com.pem.txt";
+            }else
+            {
+                keyPath = "key1.giftwizit.com.pem.txt";
+            }
+
+            var signer = new DkimSigner(keyPath, "giftwizit.com", "key1", DkimSignatureAlgorithm.RsaSha256);
 
             message.Prepare(EncodingConstraint.SevenBit);
 

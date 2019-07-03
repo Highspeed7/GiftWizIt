@@ -162,12 +162,12 @@ namespace GiftWizItApi.Controllers
             // Set the deleted flag to true
         }
 
-        [Route("api/GiftListItems/Purchase")]
-        [HttpGet]
-        public async Task<ActionResult> SetItemPurchaseStatus(string item_id)
-        {
-            return StatusCode((int)HttpStatusCode.OK);
-        }
+        //[Route("api/GiftListItems/Purchase")]
+        //[HttpGet]
+        //public async Task<ActionResult> SetItemPurchaseStatus(string item_id)
+        //{
+        //    return StatusCode((int)HttpStatusCode.OK);
+        //}
 
         [Route("api/MoveGiftItem")]
         [HttpPost]
