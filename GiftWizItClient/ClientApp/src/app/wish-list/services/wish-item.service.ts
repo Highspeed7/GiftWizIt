@@ -12,7 +12,6 @@ import { Item } from '../models/item';
 })
 export class WishItemService {
   private apiUrl: string = env.environment.apiUrl;
-  //private apiUrl: string = "https://localhost:44327/api"
   private accessToken = null;
 
   constructor(

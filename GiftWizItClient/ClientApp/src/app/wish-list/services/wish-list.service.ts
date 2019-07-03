@@ -14,7 +14,6 @@ import { AuthService } from 'src/app/authentication/services/auth.service';
 export class WishListService {
 
   private apiUrl: string = env.environment.apiUrl;
-  //private apiUrl: string = "https://localhost:44327/api/WishList";
   private access = null;
 
   constructor(

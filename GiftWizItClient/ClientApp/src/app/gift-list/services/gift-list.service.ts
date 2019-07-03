@@ -17,7 +17,6 @@ import { EditListModel } from 'src/app/list-action/edit-gift-list/models/edit-co
 })
 export class GiftListService implements OnDestroy {
   private apiUrl: string = env.environment.apiUrl;
-  //private apiUrl: string = "https://localhost:44327/api";
   private access = null;
   private subscription: Subscription
   private accessToken: string;

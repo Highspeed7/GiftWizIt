@@ -58,7 +58,8 @@ namespace GiftWizItApi
                 {
                     builder.WithOrigins("https://localhost:44347",
                                         "https://www.giftwizit.com",
-                                        "chrome-extension://adofnoobbeoahcnapncpcndebfcfdcbi").AllowAnyMethod();
+                                        "chrome-extension://adofnoobbeoahcnapncpcndebfcfdcbi",
+                                        "chrome-extension://ojbmfjenijdkdndemkbkongfaendkgic").AllowAnyMethod();
                     builder.WithHeaders("Authorization", "Content-Type", "Cache-Control");
                 });
             });
