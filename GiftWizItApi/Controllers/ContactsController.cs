@@ -111,7 +111,18 @@ namespace GiftWizItApi.Controllers
                 await unitOfWork.CompleteAsync();
 
                 contactMailTemplate.fromUser = User.Claims.First(e => e.Type == "name").Value;
-                contactMailTemplate.getStartedUrl = $"{EmailTemplateConstants.ContactGetStartedUrl}?emailId={insertedContact.Contact.VerifyGuid}";
+                
+                if(env.IsDevelopment())
+                {
+                    contactMailTemplate.getStartedUrl = $"{EmailTemplateConstants.ContactGetStartedDevUrl}?emailId={insertedContact.Contact.VerifyGuid}";
+                }else
+                {
+                    if(env.IsProduction())
+                    {
+                        contactMailTemplate.getStartedUrl = $"{EmailTemplateConstants.ContactGetStartedProdUrl}?emailId={insertedContact.Contact.VerifyGuid}";
+                    }
+                }
+
                 await SendGreetEmail();
 
                 // Update the contact email column
@@ -124,7 +135,7 @@ namespace GiftWizItApi.Controllers
                 // TODO: Implement better error handling
                 // TODO: Logging here
                 Console.WriteLine(ex.Message);
-                return StatusCode((int)HttpStatusCode.MultiStatus, "Email failed");
+                return StatusCode((int)HttpStatusCode.MultiStatus, "Email failed with " + ex.Message);
             }
 
             return StatusCode((int)HttpStatusCode.OK);

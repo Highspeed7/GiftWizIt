@@ -14,7 +14,7 @@ export class ContactsComponent implements OnInit {
   public trashActionActive: boolean = false;
   public showCheckboxes: boolean = false;
 
-  public contacts: Contact[];
+  public contacts: Contact[] = [];
 
   constructor(private contactSvc: ContactService) { }
 
