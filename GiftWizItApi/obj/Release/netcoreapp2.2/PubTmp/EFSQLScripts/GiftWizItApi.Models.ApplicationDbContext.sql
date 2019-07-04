@@ -1265,3 +1265,39 @@ END;
 
 GO
 
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20190704043648_RemovedSharedListsCompositeKeyAndReplaceWithId')
+BEGIN
+    ALTER TABLE [Shared_Lists] DROP CONSTRAINT [PK_Shared_Lists];
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20190704043648_RemovedSharedListsCompositeKeyAndReplaceWithId')
+BEGIN
+    ALTER TABLE [Shared_Lists] ADD [shared_list_id] int NOT NULL IDENTITY;
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20190704043648_RemovedSharedListsCompositeKeyAndReplaceWithId')
+BEGIN
+    ALTER TABLE [Shared_Lists] ADD CONSTRAINT [PK_Shared_Lists] PRIMARY KEY ([shared_list_id]);
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20190704043648_RemovedSharedListsCompositeKeyAndReplaceWithId')
+BEGIN
+    CREATE INDEX [IX_Shared_Lists_contact_id] ON [Shared_Lists] ([contact_id]);
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20190704043648_RemovedSharedListsCompositeKeyAndReplaceWithId')
+BEGIN
+    INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+    VALUES (N'20190704043648_RemovedSharedListsCompositeKeyAndReplaceWithId', N'2.2.1-servicing-10028');
+END;
+
+GO
+

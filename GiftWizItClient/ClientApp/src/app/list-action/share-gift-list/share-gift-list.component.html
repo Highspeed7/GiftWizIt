@@ -15,7 +15,6 @@
     <ng-multiselect-dropdown [placeholder]="'Select one or more contacts'"
                              [disabled]="contactsLoaded == false"
                              [data]="dropdownList"
-                             [(ngModel)]="selectedContacts"
                              name="contact-list"
                              [settings]="dropdownSettings"
                              (onSelect)="onItemSelect($event)"
