@@ -41,6 +41,11 @@ namespace GiftWizItApi.Models
                 .Property(gl => gl.CreatedAt)
                 .ValueGeneratedOnAdd();
             modelBuilder.Entity<GiftLists>()
+                .Property(gl => gl.Password)
+                .HasColumnName("password")
+                .HasDefaultValue("")
+                .IsRequired(true);
+            modelBuilder.Entity<GiftLists>()
                 .Property(gl => gl.UserId)
                 .HasColumnName("user_id");
             modelBuilder.Entity<GiftLists>()
@@ -48,6 +53,10 @@ namespace GiftWizItApi.Models
                 .IsRequired(true)
                 .HasDefaultValue(false)
                 .HasColumnName("_deleted");
+            modelBuilder.Entity<GiftLists>()
+                .Property(gl => gl.IsPublic)
+                .HasColumnName("is_public")
+                .HasDefaultValue(false);
             modelBuilder.Entity<GiftLists>()
                 .HasOne(gl => gl.Users)
                 .WithMany(u => u.GiftLists)
@@ -234,10 +243,6 @@ namespace GiftWizItApi.Models
             modelBuilder.Entity<SharedLists>()
                 .ToTable("Shared_Lists")
                 .HasKey(sl => sl.SharedListId);
-            modelBuilder.Entity<SharedLists>()
-                .Property(sl => sl.Password)
-                .HasColumnName("password")
-                .IsRequired(true);
             modelBuilder.Entity<SharedLists>()
                 .Property(sl => sl.SharedListId)
                 .HasColumnName("shared_list_id");

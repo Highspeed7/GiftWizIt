@@ -35,7 +35,7 @@ namespace GiftWizItApi.Implementations
                 .ThenInclude(gl => gl.GiftItems)
                 .ThenInclude(gi => gi.Item)
                 .ThenInclude(i => i.LinkItemPartners)
-                .Where(sl => sl.Password == giftListPass && sl.GiftListId == giftListId)
+                .Where(sl => sl.GiftListId == giftListId)
                 .FirstOrDefaultAsync();
         }
 

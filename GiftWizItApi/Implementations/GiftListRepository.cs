@@ -22,6 +22,7 @@ namespace GiftWizItApi.Implementations
             var giftList = new GiftLists
             {
                 Name = glist.Name,
+                IsPublic = glist.IsPublic,
                 UserId = glist.UserId
             };
 

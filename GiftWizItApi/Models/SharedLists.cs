@@ -8,7 +8,6 @@ namespace GiftWizItApi.Models
     public class SharedLists
     {
         public int SharedListId { get; set; }
-        public string Password { get; set; }
         public bool EmailSent { get; set; }
         public int GiftListId { get; set; }
         public int ContactId { get; set; }

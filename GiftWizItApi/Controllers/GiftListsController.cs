@@ -221,7 +221,7 @@ namespace GiftWizItApi.Controllers
             var contacts = await _unitOfWork.ContactUsers.GetAllUserContacts(userId);
 
             // Get the shared gift list
-            // var giftList = await _unitOfWork.GiftLists.GetUserGiftListByIdAsync(userId, listShare.G_List_Id);
+            var giftList = await _unitOfWork.GiftLists.GetUserGiftListByIdAsync(userId, listShare.G_List_Id);
 
             // Queue for added lists
             Queue<SharedLists> addedLists = new Queue<SharedLists>();
@@ -244,7 +244,7 @@ namespace GiftWizItApi.Controllers
                     {
                         // Create a shared list object for insertion into the database
                         sharedList.GiftListId = listShare.G_List_Id;
-                        sharedList.Password = listShare.Password;
+                        //sharedList.Password = (listShare.Password == null) ? "" : listShare.Password;
                         sharedList.UserId = userId;
                         sharedList.ContactId = dbContact.Contact.ContactId;
 
@@ -270,7 +270,7 @@ namespace GiftWizItApi.Controllers
                         },
                         fromUser = User.Claims.First(e => e.Type == "name").Value,
                         giftListName = list.GiftList.Name,
-                        giftListPassword = list.Password
+                        giftListPassword = giftList.Password
                     };
 
                     if(env.IsDevelopment())
@@ -282,7 +282,7 @@ namespace GiftWizItApi.Controllers
                     {
                         if(env.IsProduction() || env.IsStaging())
                         {
-                            contactShareMailTemplate.giftListLink = $"{siteSettings.ProdBaseUrl}?giftId={list.GiftListId}";
+                            contactShareMailTemplate.giftListLink = $"{siteSettings.ProdBaseUrl}/shared-gift-list?gListId={list.GiftListId}&emailId={list.Contact.VerifyGuid}";
                             contactShareMailTemplate.baseSiteLink = $"{siteSettings.ProdBaseUrl}";
                         }
                     }
@@ -321,10 +321,11 @@ namespace GiftWizItApi.Controllers
             var dbSharedList = await _unitOfWork.SharedLists.GetUserSharedListCollection(userId, giftList.GiftListId);
 
             dbGiftList.Name = giftList.NewName;
+            dbGiftList.Password = (giftList.NewPass == null) ? "" : giftList.NewPass;
+            dbGiftList.IsPublic = giftList.IsPublic;
+
             foreach(SharedLists list in dbSharedList)
             {
-                list.Password = giftList.NewPass;
-
                 // Update contacts with new password.
                 // We'll use the same share mail template, because they're similar.
                 contactShareMailTemplate = new ContactShareMailTemplate()
@@ -336,8 +337,8 @@ namespace GiftWizItApi.Controllers
                     },
                     fromUser = User.Claims.First(e => e.Type == "name").Value,
                     giftListName = giftList.NewName,
-                    giftListPassword = list.Password
-                };
+                    giftListPassword = (giftList.NewPass == null) ? "No password has been set for this list." : giftList.NewPass
+            };
 
                 if (env.IsDevelopment())
                 {

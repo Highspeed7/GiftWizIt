@@ -10,6 +10,8 @@ import { Router } from '@angular/router';
 })
 export class SellUpHomeComponent implements OnInit {
 
+  // TODO: Return to make linking more dynamic
+  private chromeExtInstallUrl: "https://chrome.google.com/webstore/detail/ojbmfjenijdkdndemkbkongfaendkgic";
   private window;
 
   constructor(
@@ -26,4 +28,10 @@ export class SellUpHomeComponent implements OnInit {
       this.router.navigate([""]);
     }
   }
+
+  public installExtension(url: string) {
+    // TODO: Implement browser detection
+    window.open(url, '_blank');
+  }
+
 }

@@ -10,5 +10,6 @@ namespace GiftWizItApi.Controllers.dtos
         public int GiftListId { get; set; }
         public string NewName { get; set; }
         public string NewPass { get; set; }
+        public bool IsPublic { get; set; }
     }
 }

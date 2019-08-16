@@ -91,23 +91,24 @@ export class SharedGiftListComponent implements OnInit {
 
     this.dialogRef.afterClosed.subscribe(result => {
       if (result == null) {
-        if (this.prevViewedLists.length == 0) {
-          this.router.navigate(["/"]);
-        }
-      } else {
-        // Make api call
-        this.listSvc.getSharedList(this.giftListId, result).then(async (list: SharedList) => {
-          if (list != null) {
-            this.sharedList = list;
-            // TODO: IMPORTANT - Make it so when the list is expired the entire guest info is cleared.
-            if (!this.listSvc.checkStoredLists(this.prevViewedLists, this.giftListId)) {
-              await this.listSvc.storeListToUserX(list, result);
-            }
-          } else {
-            this.runAccessDialog();
-          }
-        });
+        // It's now possible to not have a password so set a null value to an empty string.
+        result = "";
+        //if (this.prevViewedLists.length == 0) {
+        //  this.router.navigate(["/"]);
+        //}
       }
+      // Make api call
+      this.listSvc.getSharedList(this.giftListId, result).then(async (list: SharedList) => {
+        if (list != null) {
+          this.sharedList = list;
+          // TODO: IMPORTANT - Make it so when the list is expired the entire guest info is cleared.
+          if (!this.listSvc.checkStoredLists(this.prevViewedLists, this.giftListId)) {
+            await this.listSvc.storeListToUserX(list, result);
+          }
+        } else {
+          this.runAccessDialog();
+        }
+      });
     });
   }
 

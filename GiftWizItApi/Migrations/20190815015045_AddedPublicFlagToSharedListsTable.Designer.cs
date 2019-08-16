@@ -4,14 +4,16 @@ using GiftWizItApi.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GiftWizItApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190815015045_AddedPublicFlagToSharedListsTable")]
+    partial class AddedPublicFlagToSharedListsTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -141,21 +143,10 @@ namespace GiftWizItApi.Migrations
                         .HasColumnName("_deleted")
                         .HasDefaultValue(false);
 
-                    b.Property<bool>("IsPublic")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("is_public")
-                        .HasDefaultValue(false);
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnName("name")
                         .HasMaxLength(50);
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("password")
-                        .HasDefaultValue("");
 
                     b.Property<string>("UserId")
                         .HasColumnName("user_id");
@@ -287,6 +278,14 @@ namespace GiftWizItApi.Migrations
 
                     b.Property<int>("GiftListId")
                         .HasColumnName("g_list_id");
+
+                    b.Property<bool>("IsPublic")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("is_public")
+                        .HasDefaultValue(false);
+
+                    b.Property<string>("Password")
+                        .HasColumnName("password");
 
                     b.Property<string>("UserId")
                         .HasColumnName("user_id");

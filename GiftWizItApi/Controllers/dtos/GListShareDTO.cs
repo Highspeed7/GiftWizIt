@@ -9,6 +9,7 @@ namespace GiftWizItApi.Controllers.dtos
     {
         public int G_List_Id { get; set; }
         public string Password { get; set; }
+        public bool IsPublic { get; set; }
         public List<ContactDTO> Contacts { get; set; }
     }
 }

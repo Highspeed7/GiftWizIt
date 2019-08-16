@@ -1301,3 +1301,95 @@ END;
 
 GO
 
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20190814235736_RemoveRequiredPassFromSharedList')
+BEGIN
+    DECLARE @var12 sysname;
+    SELECT @var12 = [d].[name]
+    FROM [sys].[default_constraints] [d]
+    INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+    WHERE ([d].[parent_object_id] = OBJECT_ID(N'[Shared_Lists]') AND [c].[name] = N'password');
+    IF @var12 IS NOT NULL EXEC(N'ALTER TABLE [Shared_Lists] DROP CONSTRAINT [' + @var12 + '];');
+    ALTER TABLE [Shared_Lists] ALTER COLUMN [password] nvarchar(max) NULL;
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20190814235736_RemoveRequiredPassFromSharedList')
+BEGIN
+    INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+    VALUES (N'20190814235736_RemoveRequiredPassFromSharedList', N'2.2.1-servicing-10028');
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20190815015045_AddedPublicFlagToSharedListsTable')
+BEGIN
+    ALTER TABLE [Shared_Lists] ADD [is_public] bit NOT NULL DEFAULT 0;
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20190815015045_AddedPublicFlagToSharedListsTable')
+BEGIN
+    INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+    VALUES (N'20190815015045_AddedPublicFlagToSharedListsTable', N'2.2.1-servicing-10028');
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20190815022442_RemovedPublicFlagFromSharedListAndAddedToGiftLists')
+BEGIN
+    DECLARE @var13 sysname;
+    SELECT @var13 = [d].[name]
+    FROM [sys].[default_constraints] [d]
+    INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+    WHERE ([d].[parent_object_id] = OBJECT_ID(N'[Shared_Lists]') AND [c].[name] = N'is_public');
+    IF @var13 IS NOT NULL EXEC(N'ALTER TABLE [Shared_Lists] DROP CONSTRAINT [' + @var13 + '];');
+    ALTER TABLE [Shared_Lists] DROP COLUMN [is_public];
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20190815022442_RemovedPublicFlagFromSharedListAndAddedToGiftLists')
+BEGIN
+    ALTER TABLE [GiftLists] ADD [is_public] bit NOT NULL DEFAULT 0;
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20190815022442_RemovedPublicFlagFromSharedListAndAddedToGiftLists')
+BEGIN
+    INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+    VALUES (N'20190815022442_RemovedPublicFlagFromSharedListAndAddedToGiftLists', N'2.2.1-servicing-10028');
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20190816002420_RemovePasswordFromSharedListsAddPasswordToGiftLists')
+BEGIN
+    DECLARE @var14 sysname;
+    SELECT @var14 = [d].[name]
+    FROM [sys].[default_constraints] [d]
+    INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+    WHERE ([d].[parent_object_id] = OBJECT_ID(N'[Shared_Lists]') AND [c].[name] = N'password');
+    IF @var14 IS NOT NULL EXEC(N'ALTER TABLE [Shared_Lists] DROP CONSTRAINT [' + @var14 + '];');
+    ALTER TABLE [Shared_Lists] DROP COLUMN [password];
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20190816002420_RemovePasswordFromSharedListsAddPasswordToGiftLists')
+BEGIN
+    ALTER TABLE [GiftLists] ADD [password] nvarchar(max) NOT NULL DEFAULT N'';
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20190816002420_RemovePasswordFromSharedListsAddPasswordToGiftLists')
+BEGIN
+    INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+    VALUES (N'20190816002420_RemovePasswordFromSharedListsAddPasswordToGiftLists', N'2.2.1-servicing-10028');
+END;
+
+GO
+

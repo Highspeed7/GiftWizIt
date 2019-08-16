@@ -20,6 +20,10 @@ namespace GiftWizItApi.Models
         public string UserId { get; set; }
         public Users Users { get; set; }
 
+        public string Password { get; set; }
+
+        public bool IsPublic { get; set; }
+
         [Column("created_on")]
         public DateTime CreatedAt { get; set; }
 

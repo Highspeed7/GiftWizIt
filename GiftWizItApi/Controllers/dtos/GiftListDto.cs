@@ -10,6 +10,7 @@ namespace GiftWizItApi.Controllers.dtos
         public string UserId { get; set; }
         public int Id { get; set; }
         public string Name { get; set; }
+        public bool IsPublic { get; set; }
 
         public List<GiftItemDTO> GiftItems { get; set; }
     }
