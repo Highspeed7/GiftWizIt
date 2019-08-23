@@ -22,6 +22,7 @@ namespace GiftWizItApi.Mapping
             CreateMap<GiftListDto, GiftLists>();
             CreateMap<GiftItemDTO, GiftItem>();
             CreateMap<ItemDbResource, Items>();
+            CreateMap<PageRes, Page>();
         }
     }
 }

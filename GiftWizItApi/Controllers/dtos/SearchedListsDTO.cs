@@ -5,9 +5,7 @@ using System.Threading.Tasks;
 
 namespace GiftWizItApi.Controllers.dtos
 {
-    public class GListShareDTO
+    public class SearchedListsDTO
     {
-        public int G_List_Id { get; set; }
-        public List<ContactDTO> Contacts { get; set; }
     }
 }

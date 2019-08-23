@@ -4,6 +4,7 @@ using GiftWizItApi.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using GiftWizItApi.Extensions;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
@@ -36,6 +37,18 @@ namespace GiftWizItApi.Implementations
                 .Where(gl => gl.UserId == userId && gl.Deleted == false)
                 .IncludeFilter(gl => gl.GiftItems.Where(gi => gi.Deleted == false))
                 .ToListAsync();
+        }
+
+        public PagedResult<GiftLists> GetGiftListsBySearch(string term, Page pager, string userId = null)
+        {
+            var giftLists = Context.GiftLists.Where(gl => gl.Name.Contains(term) && gl.IsPublic == true && gl.Deleted == false);
+
+            if(userId != null)
+            {
+                giftLists.Where(gl => gl.UserId == userId);
+            }
+
+            return giftLists.GetPaged(pager.PageCount, pager.PageSize);
         }
 
         public async Task<GiftLists> GetUserGiftListByIdAsync(string userId, int listId)

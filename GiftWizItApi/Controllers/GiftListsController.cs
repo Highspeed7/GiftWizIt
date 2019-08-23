@@ -18,7 +18,6 @@ using System.Threading.Tasks;
 
 namespace GiftWizItApi.Controllers
 {
-    [Authorize]
     [ApiController]
     public class GiftListsController : ControllerBase
     {
@@ -46,6 +45,7 @@ namespace GiftWizItApi.Controllers
             this.siteSettings = siteSettings;
         }
 
+        [Authorize]
         [Route("api/GiftLists/")]
         [HttpPost]
         public async Task<ActionResult> CreateList(GiftListDto glist)
@@ -90,6 +90,7 @@ namespace GiftWizItApi.Controllers
             return StatusCode((int)HttpStatusCode.InternalServerError);
         }
 
+        [Authorize]
         [Route("api/GiftLists/")]
         [HttpGet]
         public async Task<IEnumerable<GiftLists>> GetUserGiftLists()
@@ -101,6 +102,7 @@ namespace GiftWizItApi.Controllers
             return giftLists;
         }
 
+        [Authorize]
         [Route("api/GiftLists/")]
         [HttpDelete]
         public async Task<ActionResult> DeleteList(GiftListDto glist)
@@ -113,6 +115,7 @@ namespace GiftWizItApi.Controllers
             return StatusCode((int)HttpStatusCode.OK, result);
         }
 
+        [Authorize]
         [Route("api/GiftListItems/")]
         [HttpGet]
         public async Task<IEnumerable<QueryGiftItemDTO>> GetGiftListItems(int gift_list_id)
@@ -123,6 +126,7 @@ namespace GiftWizItApi.Controllers
             return mapper.Map<List<QueryGiftItemDTO>>(result);
         }
 
+        [Authorize]
         [Route("api/GiftListItems")]
         [HttpPost]
         public async Task<ActionResult> DeleteListItem(QueryGiftItemDTO[] giftItems)
@@ -169,6 +173,7 @@ namespace GiftWizItApi.Controllers
         //    return StatusCode((int)HttpStatusCode.OK);
         //}
 
+        [Authorize]
         [Route("api/MoveGiftItem")]
         [HttpPost]
         public async Task<ActionResult> MoveItem(GiftItemMoveDTO[] giftItems)
@@ -210,6 +215,7 @@ namespace GiftWizItApi.Controllers
             return StatusCode((int)HttpStatusCode.OK, result);
         }
 
+        [Authorize]
         [Route("api/ShareGiftList")]
         [HttpPost]
         public async Task<ActionResult> ShareGiftList(GListShareDTO listShare)
@@ -312,7 +318,39 @@ namespace GiftWizItApi.Controllers
             }
             return StatusCode((int)HttpStatusCode.OK);
         }
-        
+
+        [Route("api/SearchLists")]
+        [HttpPost]
+        public async Task<ActionResult> GetSearchedLists(SearchTermDTO search)
+        {
+            string userId = null;
+            string term = search.SearchTerm;
+            Users user;
+
+            if(term == null)
+            {
+                return StatusCode((int)HttpStatusCode.BadRequest, "No Search term provided");
+            }
+
+            if(search.Pager == null)
+            {
+                return StatusCode((int)HttpStatusCode.BadRequest, "No paging data provided");
+            }
+
+            if(search.UserEmail != null)
+            {
+                user = await this._unitOfWork.Users.GetUserByEmailAsync(search.UserEmail);
+                userId = user.UserId;
+            }
+
+            var mappedPager = mapper.Map<Page>(search.Pager);
+
+            var result = this._unitOfWork.GiftLists.GetGiftListsBySearch(term, mappedPager, userId);
+
+            return StatusCode((int)HttpStatusCode.OK, result);
+        }
+
+        [Authorize]
         [Route("api/GiftLists/Update")]
         [HttpPost]
         public async Task<ActionResult> UpdateGiftList(EditContactDTO giftList) {
