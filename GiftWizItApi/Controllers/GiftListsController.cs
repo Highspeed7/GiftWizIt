@@ -319,7 +319,7 @@ namespace GiftWizItApi.Controllers
             return StatusCode((int)HttpStatusCode.OK);
         }
 
-        [Route("api/SearchLists")]
+        [Route("api/SearchPublicLists")]
         [HttpPost]
         public async Task<ActionResult> GetSearchedLists(SearchTermDTO search)
         {
