@@ -27,6 +27,8 @@ namespace GiftWizItApi.Models
         [Column("created_on")]
         public DateTime CreatedAt { get; set; }
 
+        public DateTime EventDate { get; set; }
+
         public bool Deleted { get; set; }
         
         public List<GiftItem> GiftItems { get; set; }

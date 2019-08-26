@@ -350,6 +350,15 @@ namespace GiftWizItApi.Controllers
             return StatusCode((int)HttpStatusCode.OK, result);
         }
 
+        [Route("api/SearchPublicListItems")]
+        [HttpGet]
+        public async Task<ActionResult> GetSearchedPublicListItems(int giftListId)
+        {
+            var result = await _unitOfWork.GiftItems.GetGiftListItems(giftListId);
+
+            return StatusCode((int)HttpStatusCode.OK, result);
+        }
+
         [Authorize]
         [Route("api/GiftLists/Update")]
         [HttpPost]

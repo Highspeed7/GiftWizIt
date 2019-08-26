@@ -41,6 +41,9 @@ namespace GiftWizItApi.Models
                 .Property(gl => gl.CreatedAt)
                 .ValueGeneratedOnAdd();
             modelBuilder.Entity<GiftLists>()
+                .Property(gl => gl.EventDate)
+                .HasColumnName("event_date");
+            modelBuilder.Entity<GiftLists>()
                 .Property(gl => gl.Password)
                 .HasColumnName("password")
                 .HasDefaultValue("")

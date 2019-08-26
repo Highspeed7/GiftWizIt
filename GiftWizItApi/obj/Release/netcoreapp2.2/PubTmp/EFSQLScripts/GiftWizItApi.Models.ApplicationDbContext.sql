@@ -1393,3 +1393,18 @@ END;
 
 GO
 
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20190825183733_AddEventDateToGiftListsTable')
+BEGIN
+    ALTER TABLE [GiftLists] ADD [event_date] datetime2 NOT NULL DEFAULT '0001-01-01T00:00:00.0000000';
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20190825183733_AddEventDateToGiftListsTable')
+BEGIN
+    INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+    VALUES (N'20190825183733_AddEventDateToGiftListsTable', N'2.2.1-servicing-10028');
+END;
+
+GO
+
