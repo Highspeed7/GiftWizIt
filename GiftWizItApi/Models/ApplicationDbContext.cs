@@ -335,6 +335,14 @@ namespace GiftWizItApi.Models
                 .HasColumnName("deleted")
                 .HasDefaultValue(false);
             modelBuilder.Entity<Notifications>()
+                .Property(n => n.Dismissed)
+                .HasColumnName("dismissed")
+                .HasDefaultValue(false);
+            modelBuilder.Entity<Notifications>()
+                .Property(n => n.Persist)
+                .HasColumnName("persist")
+                .HasDefaultValue(false);
+            modelBuilder.Entity<Notifications>()
                 .HasOne(n => n.User)
                 .WithMany(u => u.Notifications)
                 .HasForeignKey(n => n.UserId);

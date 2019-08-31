@@ -11,6 +11,10 @@ namespace GiftWizItApi.Implementations
     {
         public NotificationsRepository(ApplicationDbContext context) : base(context)
         {
+            //public async Task<Notifications> GetPagedNotificationsAsync()
+            //{
+
+            //}
         }
     }
 }

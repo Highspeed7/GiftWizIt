@@ -12,7 +12,7 @@ namespace GiftWizItApi.Interfaces
     {
         GiftLists Add(GiftListDto glist);
         Task<IEnumerable<GiftLists>> GetUserLists(string userId);
-        PagedResult<GiftLists> GetGiftListsBySearch(string term, Page pager, string userId = null);
+        Task<PagedResult<GiftLists>> GetGiftListsBySearch(string term, Page pager, string userId = null);
         Task<GiftLists> GetUserGiftListByIdAsync(string userId, int listId);
         Task DeleteGiftList(int listId);
     }

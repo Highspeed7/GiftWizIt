@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,7 +8,7 @@ namespace GiftWizItApi.Extensions
 {
     public static class IQueryableExtension
     {
-        public static PagedResult<T> GetPaged<T>(this IQueryable<T> query,
+        public static async Task<PagedResult<T>> GetPaged<T>(this IQueryable<T> query,
                                                  int page, int pageSize) where T : class
         {
             var result = new PagedResult<T>();
@@ -19,7 +20,8 @@ namespace GiftWizItApi.Extensions
             result.PageCount = (int)Math.Ceiling(pageCount);
 
             var skip = (page - 1) * pageSize;
-            result.Results = query.Skip(skip).Take(pageSize).ToList();
+
+            result.Results = await query.Skip(skip).Take(pageSize).ToListAsync();
 
             return result;
         }

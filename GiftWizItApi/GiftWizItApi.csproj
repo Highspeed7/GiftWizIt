@@ -37,6 +37,8 @@
     <Compile Remove="Migrations\20190609223724_AddedFavoritesTable.Designer.cs" />
     <Compile Remove="Migrations\20190610184138_AddedNotificationsFieldContactIdToNotificationsTable.cs" />
     <Compile Remove="Migrations\20190610184138_AddedNotificationsFieldContactIdToNotificationsTable.Designer.cs" />
+    <Compile Remove="Migrations\20190830211757_AddPersistColumnToNotifications.cs" />
+    <Compile Remove="Migrations\20190830211757_AddPersistColumnToNotifications.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

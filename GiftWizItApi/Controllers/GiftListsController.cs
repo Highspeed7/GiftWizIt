@@ -222,6 +222,7 @@ namespace GiftWizItApi.Controllers
         {
             // Get the userid
             var userId = await userService.GetUserIdAsync();
+            var userName = User.Claims.First(e => e.Type == "name").Value;
 
             // Get the user contacts for validation
             var contacts = await _unitOfWork.ContactUsers.GetAllUserContacts(userId);
@@ -274,7 +275,7 @@ namespace GiftWizItApi.Controllers
                             Name = list.Contact.Name,
                             Address = list.Contact.Email
                         },
-                        fromUser = User.Claims.First(e => e.Type == "name").Value,
+                        fromUser = userName,
                         giftListName = list.GiftList.Name,
                         giftListPassword = giftList.Password
                     };
@@ -300,10 +301,37 @@ namespace GiftWizItApi.Controllers
                         await SendShareEmail(contactShareMailTemplate.contactEmail);
                         // Update the list's email sent flag to true
                         list.EmailSent = true;
+
+                        // If the Contact is a user on this system
+                        if(list.Contact.UserId != null)
+                        {
+                            _unitOfWork.Notifications.Add(new Notifications()
+                            {
+                                UserId = list.Contact.UserId,
+                                Title = NotificationConstants.ListShareSuccessNotifTitle,
+                                Message = $"The gift list '{list.GiftList.Name}' has been shared with you. " +
+                                $"{(list.GiftList.IsPublic ? "There is no password assigned to this list." : $"It's password is: {list.GiftList.Password}.")}{Environment.NewLine}" +
+                                $"To view the contents of this list, navigate to your 'Other lists' page.",
+                                Type = NotificationConstants.InfoType,
+                                CreatedOn = DateTime.Now
+                            });
+                        }
+
                     }
                     catch (Exception ex)
                     {
                         // TODO: Implement logging and better error handling
+                        _unitOfWork.Notifications.Add(new Notifications()
+                        {
+                            UserId = userId,
+                            Title = NotificationConstants.ListShareFailedNotifTitle,
+                            Message = $"One or more of your contacts did not receive the gift list '{list.GiftList.Name}'" +
+                            $"{Environment.NewLine} return to share the list; adding whichever contact you intended to recieve it." +
+                            $"{Environment.NewLine} you may also want to verify their email before doing so.",
+                            Type = NotificationConstants.WarningType,
+                            CreatedOn = DateTime.Now
+                        });
+
                         // Return mixed success call 'One or more emails failed'
                         return StatusCode((int)HttpStatusCode.MultiStatus, "One or more emails failed");
                     }
@@ -345,7 +373,7 @@ namespace GiftWizItApi.Controllers
 
             var mappedPager = mapper.Map<Page>(search.Pager);
 
-            var result = this._unitOfWork.GiftLists.GetGiftListsBySearch(term, mappedPager, userId);
+            var result = await this._unitOfWork.GiftLists.GetGiftListsBySearch(term, mappedPager, userId);
 
             return StatusCode((int)HttpStatusCode.OK, result);
         }

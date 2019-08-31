@@ -66,6 +66,7 @@ namespace GiftWizItApi.Controllers
         public async Task<IActionResult> AddContact(AddContactDTO contact)
         {
             var userId = await userService.GetUserIdAsync();
+            var userName = User.Claims.First(e => e.Type == "name").Value;
 
             ContactUsers insertedContact;
 
@@ -94,6 +95,16 @@ namespace GiftWizItApi.Controllers
             if(userContact != null)
             {
                 insertedContact.Contact.UserId = userContact.UserId;
+
+                // Notify the user via notifications
+                unitOfWork.Notifications.Add(new Notifications()
+                {
+                    UserId = userContact.UserId,
+                    Title = NotificationConstants.ContactAddedNotifTitle,
+                    Message = $"{userName} has added you as a contact",
+                    Type = NotificationConstants.InfoType,
+                    CreatedOn = DateTime.Now
+                });
             }
 
             try
@@ -110,7 +121,7 @@ namespace GiftWizItApi.Controllers
                 };
                 await unitOfWork.CompleteAsync();
 
-                contactMailTemplate.fromUser = User.Claims.First(e => e.Type == "name").Value;
+                contactMailTemplate.fromUser = userName;
                 
                 if(env.IsDevelopment())
                 {

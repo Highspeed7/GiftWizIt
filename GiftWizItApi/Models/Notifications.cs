@@ -12,6 +12,8 @@ namespace GiftWizItApi.Models
         public string Type { get; set; }
         public DateTime CreatedOn { get; set; }
         public bool Deleted { get; set; }
+        public bool Dismissed { get; set; }
+        public bool Persist { get; set; }
         public string Title { get; set; }
         public string Message { get; set; }
 
