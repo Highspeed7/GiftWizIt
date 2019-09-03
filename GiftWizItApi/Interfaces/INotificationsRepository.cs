@@ -8,5 +8,6 @@ namespace GiftWizItApi.Interfaces
 {
     public interface INotificationsRepository: IRepository<Notifications>
     {
+        Task<int> GetNotificationsCount(string userId);
     }
 }

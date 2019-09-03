@@ -1,5 +1,6 @@
 ﻿using GiftWizItApi.Interfaces;
 using GiftWizItApi.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,15 @@ namespace GiftWizItApi.Implementations
             //{
 
             //}
+
         }
+
+        public async Task<int> GetNotificationsCount(string userId)
+        {
+            return await Context.Notifications.Where(n => n.UserId == userId && 
+                                n.Deleted == false && 
+                                n.Dismissed == false).CountAsync();
+        }
+
     }
 }

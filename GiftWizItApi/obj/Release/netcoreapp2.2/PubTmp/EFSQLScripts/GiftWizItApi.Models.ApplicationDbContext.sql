@@ -1408,3 +1408,25 @@ END;
 
 GO
 
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20190830212202_AddPersistColumnToNotifications')
+BEGIN
+    ALTER TABLE [Notifications] ADD [dismissed] bit NOT NULL DEFAULT 0;
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20190830212202_AddPersistColumnToNotifications')
+BEGIN
+    ALTER TABLE [Notifications] ADD [persist] bit NOT NULL DEFAULT 0;
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20190830212202_AddPersistColumnToNotifications')
+BEGIN
+    INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+    VALUES (N'20190830212202_AddPersistColumnToNotifications', N'2.2.1-servicing-10028');
+END;
+
+GO
+

@@ -18,6 +18,7 @@ using GiftWizItApi.Interfaces;
 using GiftWizItApi.Implementations;
 using AutoMapper;
 using GiftWizItApi.Services;
+using GiftWizItApi.SignalR.Hubs;
 
 namespace GiftWizItApi
 {
@@ -46,6 +47,7 @@ namespace GiftWizItApi
                 )
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
+            services.AddSignalR();
             services.AddHttpContextAccessor();
 
             services.AddSingleton<IEmailConfiguration>(Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>());
@@ -86,6 +88,10 @@ namespace GiftWizItApi
             app.UseCors(GWAllowSpecificOrigins);
             app.UseHttpsRedirection();
             app.UseAuthentication();
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<NotificationsHub>("/notifHub");
+            });
             app.UseMvc();
         }
     }

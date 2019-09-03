@@ -4,9 +4,11 @@ using GiftWizItApi.Controllers.dtos;
 using GiftWizItApi.EmailTemplateModels;
 using GiftWizItApi.Interfaces;
 using GiftWizItApi.Models;
+using GiftWizItApi.SignalR.Hubs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using MimeKit;
 using System;
 using System.Collections.Generic;
@@ -27,9 +29,11 @@ namespace GiftWizItApi.Controllers
         private readonly IEmailService emailSender;
         private readonly IUserService userService;
         private readonly IGiftWizItWebSettings siteSettings;
+        private readonly IHubContext<NotificationsHub> _hubContext;
         private ContactShareMailTemplate contactShareMailTemplate;
 
         public GiftListsController(
+            IHubContext<NotificationsHub> hubContext,
             IUnitOfWork unitOfWork, 
             IMapper mapper, 
             IHostingEnvironment env,
@@ -40,6 +44,7 @@ namespace GiftWizItApi.Controllers
             _unitOfWork = unitOfWork;
             this.mapper = mapper;
             this.env = env;
+            this._hubContext = hubContext;
             this.emailSender = emailSender;
             this.userService = userService;
             this.siteSettings = siteSettings;
