@@ -104,6 +104,8 @@ namespace GiftWizItApi.Controllers
 
             var giftLists = await _unitOfWork.GiftLists.GetUserLists(userId);
 
+            //await _hubContext.Clients.Group(userId).SendAsync("Notification", "Testing");
+
             return giftLists;
         }
 
@@ -380,6 +382,8 @@ namespace GiftWizItApi.Controllers
 
             var result = await this._unitOfWork.GiftLists.GetGiftListsBySearch(term, mappedPager, userId);
 
+            await _hubContext.Clients.All.SendAsync("Notification", $"Testing notifications");
+
             return StatusCode((int)HttpStatusCode.OK, result);
         }
 
@@ -457,6 +461,7 @@ namespace GiftWizItApi.Controllers
                     }
                     
                 }
+                await _hubContext.Clients.User(userId).SendAsync("Notification", $"Testing notifications");
                 return StatusCode((int)HttpStatusCode.OK, dbGiftList);
             }
         }

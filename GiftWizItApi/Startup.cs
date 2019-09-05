@@ -58,11 +58,11 @@ namespace GiftWizItApi
             {
                 options.AddPolicy(GWAllowSpecificOrigins, builder =>
                 {
-                    builder.WithOrigins("https://localhost:44347",
+                    builder.WithOrigins("http://localhost:8080", "https://localhost:44347",
                                         "https://www.giftwizit.com",
                                         "chrome-extension://adofnoobbeoahcnapncpcndebfcfdcbi",
-                                        "chrome-extension://ojbmfjenijdkdndemkbkongfaendkgic").AllowAnyMethod();
-                    builder.WithHeaders("Authorization", "Content-Type", "Cache-Control");
+                                        "chrome-extension://ojbmfjenijdkdndemkbkongfaendkgic").AllowAnyMethod().AllowCredentials();
+                    builder.WithHeaders("Authorization", "Content-Type", "Cache-Control", "x-requested-with");
                 });
             });
 

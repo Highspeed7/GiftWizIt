@@ -8,9 +8,9 @@ namespace GiftWizItApi.SignalR.Hubs
 {
     public class NotificationsHub: Hub
     {
-        public async Task SendMessage(string user, string message)
+        public string GetConnectionId()
         {
-            await Clients.All.SendAsync("Notification", user, message);
+            return Context.ConnectionId;
         }
     }
 }
