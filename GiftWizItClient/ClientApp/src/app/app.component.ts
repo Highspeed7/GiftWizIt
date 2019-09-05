@@ -4,6 +4,7 @@ import { AccountsService } from './accounts.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { MsalService, BroadcastService } from '@azure/msal-angular';
 import { AuthService } from './authentication/services/auth.service';
+import { NotificationsService } from './services/notifications.service';
 import { Subscription } from 'rxjs';
 import { AppInfo } from './models/appInfo';
 import { environment } from 'src/environments/environment';
@@ -30,6 +31,7 @@ export class AppComponent implements OnInit, OnDestroy {
   // Injected msal service to handle redirect from auth server.
   constructor(
     private windowRef: WindowRefService,
+    private notificationSvc: NotificationsService,
     private authSvc: AuthService,
     private bcs: BroadcastService,
     private msal: MsalService,
@@ -66,6 +68,9 @@ export class AppComponent implements OnInit, OnDestroy {
       this.displayName = this.user.name;
       this.authSvc.setAuthenticated(true);
     }
+
+    this.notificationSvc.connect();
+
     this.bcsLoginSuccessSub = this.bcs.subscribe("msal:loginSuccess", (msg) => {
       this.user = this.msal.getUser();
       this.authSvc.setAuthenticated(true);

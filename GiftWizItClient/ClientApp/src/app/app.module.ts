@@ -27,6 +27,7 @@ import { SellUpHomeComponent } from './sell-up-home/sell-up-home.component';
 import { HomeComponent } from './home/home.component';
 import { HomeGuard } from './guards/home-guard';
 import { ContactGetStartedModule } from './contact-get-started/contact-get-started.module';
+import { NotificationsService } from './services/notifications.service';
 
 @NgModule({
   declarations: [
@@ -71,7 +72,7 @@ import { ContactGetStartedModule } from './contact-get-started/contact-get-start
       }
     ])
   ],
-  providers: [AccountsService, MsalService, AuthService, HomeGuard],
+  providers: [AccountsService, MsalService, AuthService, NotificationsService, HomeGuard],
   bootstrap: [AppComponent],
   entryComponents: [SharedListAccessModalComponent]
 })
