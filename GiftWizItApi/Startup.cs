@@ -52,6 +52,7 @@ namespace GiftWizItApi
 
             services.AddSingleton<IEmailConfiguration>(Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>());
             services.AddSingleton<IGiftWizItWebSettings>(Configuration.GetSection("GiftWizItWebSettings").Get<GiftWizItWebSettings>());
+            services.AddSingleton<INotificationsService, NotificationsService>();
             services.AddTransient<IEmailService, EmailService>();
             services.AddTransient<IUserService, UserService>();
             services.AddCors(options =>
@@ -59,12 +60,24 @@ namespace GiftWizItApi
                 options.AddPolicy(GWAllowSpecificOrigins, builder =>
                 {
                     builder.WithOrigins("http://localhost:8080", "https://localhost:44347",
-                                        "https://www.giftwizit.com",
-                                        "chrome-extension://adofnoobbeoahcnapncpcndebfcfdcbi",
-                                        "chrome-extension://ojbmfjenijdkdndemkbkongfaendkgic").AllowAnyMethod().AllowCredentials();
+                                                "https://www.giftwizit.com",
+                                                "chrome-extension://adofnoobbeoahcnapncpcndebfcfdcbi",
+                                                "chrome-extension://ojbmfjenijdkdndemkbkongfaendkgic").AllowAnyMethod().AllowCredentials();
                     builder.WithHeaders("Authorization", "Content-Type", "Cache-Control", "x-requested-with");
                 });
             });
+            // *********FOR PROD**************************
+            //builder.WithOrigins("https://localhost:44347",
+            //                            "https://www.giftwizit.com",
+            //                            "chrome-extension://adofnoobbeoahcnapncpcndebfcfdcbi",
+            //                            "chrome-extension://ojbmfjenijdkdndemkbkongfaendkgic").AllowAnyMethod();
+            //builder.WithHeaders("Authorization", "Content-Type", "Cache-Control");
+            // *********FOR TESTING***********************
+            //builder.WithOrigins("http://localhost:8080", "https://localhost:44347",
+            //                            "https://www.giftwizit.com",
+            //                            "chrome-extension://adofnoobbeoahcnapncpcndebfcfdcbi",
+            //                            "chrome-extension://ojbmfjenijdkdndemkbkongfaendkgic").AllowAnyMethod().AllowCredentials();
+            //builder.WithHeaders("Authorization", "Content-Type", "Cache-Control", "x-requested-with");
 
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped<IGiftListRepository, GiftListRepository>();

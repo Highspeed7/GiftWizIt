@@ -16,19 +16,32 @@ namespace GiftWizItApi.Controllers
     [ApiController]
     public class NotificationsController : ControllerBase
     {
+        // TODO: Work updating notification count into signalr push notifications somehow.
+
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserService userService;
+        private readonly INotificationsService notifService;
         private readonly IHubContext<NotificationsHub> _hubContext;
 
         public NotificationsController(
             IUnitOfWork unitOfWork,
             IUserService userService,
+            INotificationsService notifService,
             IHubContext<NotificationsHub> hubContext
         )
         {
             _unitOfWork = unitOfWork;
             this.userService = userService;
             this._hubContext = hubContext;
+            this.notifService = notifService;
+        }
+
+        [Route("api/NotificationsInit")]
+        [HttpGet]
+        public bool InitiateNotifications()
+        {
+            notifService.UserEmail = User.Claims.First(c => c.Type == "emails").Value;
+            return true;
         }
 
         [Route("api/NotificationsCount")]
@@ -46,6 +59,7 @@ namespace GiftWizItApi.Controllers
         public async Task<ActionResult> ConnectToNotificationsChannel(string connectionId)
         {
             string userId = await userService.GetUserIdAsync();
+            this.notifService.UserEmail = User.Claims.First(c => c.Type == "emails").Value;
             try
             {
                 await _hubContext.Groups.AddToGroupAsync(connectionId, userId);

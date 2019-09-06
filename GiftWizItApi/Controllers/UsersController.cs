@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GiftWizItApi.Controllers.dtos;
 using GiftWizItApi.Interfaces;
 using GiftWizItApi.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -25,6 +26,22 @@ namespace GiftWizItApi.Controllers
         {
             _unitOfWork = unitOfWork;
             this.userService = userService;
+        }
+
+        [Route("api/UserData")]
+        [HttpGet]
+        public UserDataDTO GetUserData()
+        {
+            var email = User.Claims.First(e => e.Type == "emails").Value;
+            var username = User.Claims.First(e => e.Type == "name").Value;
+
+            var result = new UserDataDTO
+            {
+                Username = username,
+                Email = email
+            };
+
+            return result;
         }
 
         [Route("api/Users")]

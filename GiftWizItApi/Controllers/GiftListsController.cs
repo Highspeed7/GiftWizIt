@@ -89,6 +89,7 @@ namespace GiftWizItApi.Controllers
                     CreatedOn = DateTime.Now
                 });
                 await _unitOfWork.CompleteAsync();
+                await _hubContext.Clients.Group(userId).SendAsync("Notification", NotificationConstants.ListCreatedNotifTitle);
                 return StatusCode((int)HttpStatusCode.OK, insertedList);
             }
             // TODO: Device custom status codes for different errors.
@@ -103,6 +104,7 @@ namespace GiftWizItApi.Controllers
             var userId = await userService.GetUserIdAsync();
 
             var giftLists = await _unitOfWork.GiftLists.GetUserLists(userId);
+
 
             //await _hubContext.Clients.Group(userId).SendAsync("Notification", "Testing");
 
@@ -230,6 +232,7 @@ namespace GiftWizItApi.Controllers
             // Get the userid
             var userId = await userService.GetUserIdAsync();
             var userName = User.Claims.First(e => e.Type == "name").Value;
+            var userEmail = User.Claims.First(e => e.Type == "emails").Value;
 
             // Get the user contacts for validation
             var contacts = await _unitOfWork.ContactUsers.GetAllUserContacts(userId);
@@ -322,6 +325,17 @@ namespace GiftWizItApi.Controllers
                                 Type = NotificationConstants.InfoType,
                                 CreatedOn = DateTime.Now
                             });
+
+                            //List<string> currentUserConnectionIds = new List<string>();
+
+                            //NotificationsHub.ConnectedUsers.TryGetValue(userEmail, out currentUserConnectionIds);
+
+                            //foreach(string id in currentUserConnectionIds)
+                            //{
+                            //    await _hubContext.Groups.AddToGroupAsync(id, list.Contact.UserId);
+                            //}
+
+                            await _hubContext.Clients.Group(list.Contact.UserId).SendAsync("Notification", NotificationConstants.ListShareSuccessNotifTitle);
                         }
 
                     }
@@ -338,6 +352,8 @@ namespace GiftWizItApi.Controllers
                             Type = NotificationConstants.WarningType,
                             CreatedOn = DateTime.Now
                         });
+
+                        await _hubContext.Clients.Group(userId).SendAsync("Notification", NotificationConstants.ListShareFailedNotifTitle);
 
                         // Return mixed success call 'One or more emails failed'
                         return StatusCode((int)HttpStatusCode.MultiStatus, "One or more emails failed");
