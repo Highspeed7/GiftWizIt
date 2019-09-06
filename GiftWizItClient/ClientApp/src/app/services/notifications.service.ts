@@ -23,15 +23,50 @@ export class NotificationsService {
   }
 
   public connect() {
-    var url = "https://localhost:44327/notifHub"
+    this.notificationsInit().then(() => {
+      var url = "https://localhost:44327/notifHub"
 
-    var connection = this._hub.withUrl(url).build();
-    var connectionId;
+      var connection = this._hub.withUrl(url).build();
+      var connectionId;
 
-    connection.on("Notification", (message) => {
-      alert(message);
+      connection.on("Notification", (message) => {
+        alert(message);
+      });
+
+      connection.onclose(() => {
+        setTimeout(() => {
+          this.startSignalRConnection(connection);
+        }, 5000);
+      });
+
+
+      this.startSignalRConnection(connection);
+    })
+
+    //connection.start().then(() => {
+    //  connection.invoke("getConnectionId").then((id) => {
+    //    connectionId = id;
+    //    this.authSvc.getToken().then((token) => {
+    //      this.token = token;
+    //      this.http.post(`${this.apiUrl}/NotificationsChannel?connectionId=${connectionId}`, null, { headers: { 'Authorization': `bearer ${this.token}` } }).subscribe();
+    //    });
+    //  });
+      // Get the token
+      
+    //}).catch(err => console.log(err.toString()));
+
+    //this.http.post()
+  }
+
+  private async notificationsInit() {
+    await this.authSvc.getToken().then((token) => {
+      this.token = token;
     });
+    return this.http.get(`${this.apiUrl}/NotificationsInit`, { headers: { 'Authorization': `bearer ${this.token}` } }).toPromise();
+  }
 
+  private startSignalRConnection(connection) {
+  var connectionId;
     connection.start().then(() => {
       connection.invoke("getConnectionId").then((id) => {
         connectionId = id;
@@ -40,10 +75,6 @@ export class NotificationsService {
           this.http.post(`${this.apiUrl}/NotificationsChannel?connectionId=${connectionId}`, null, { headers: { 'Authorization': `bearer ${this.token}` } }).subscribe();
         });
       });
-      // Get the token
-      
     }).catch(err => console.log(err.toString()));
-
-    //this.http.post()
   }
 }
