@@ -3,4 +3,7 @@
   <parameter name="IIS Web Application Name" description="" value="GiftWizItApi" tags="IisApp">
     <parameterEntry kind="ProviderPath" scope="IisApp" match="^C:\\Users\\Brian\\source\\repos\\GiftWizIt\\GiftWizItApi\\obj\\Release\\netcoreapp2\.2\\PubTmp\\Out\\$" />
   </parameter>
+  <parameter name="GiftWizItApi.Models.ApplicationDbContext" description="" value="Server=tcp:giftwizit.database.windows.net,1433;Initial Catalog=GiftWizIt;Persist Security Info=False;User ID=gwdbadmin;Password=gwAdmin##86;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;" tags="dbfullsql">
+    <parameterEntry kind="ProviderPath" scope="dbfullsql" match="^C:\\Users\\Brian\\source\\repos\\GiftWizIt\\GiftWizItApi\\obj\\Release\\netcoreapp2\.2\\PubTmp\\EFSQLScripts\\GiftWizItApi\.Models\.ApplicationDbContext\.sql$" />
+  </parameter>
 </parameters>

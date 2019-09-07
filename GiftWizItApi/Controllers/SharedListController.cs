@@ -66,5 +66,19 @@ namespace GiftWizItApi.Controllers
                 return StatusCode((int)HttpStatusCode.OK, sharedListResource);
             }
         }
+
+        [Route("api/AllSharedLists")]
+        [HttpGet]
+        public async Task<ActionResult> GetContactSharedLists()
+        {
+            var userId = await userService.GetUserIdAsync();
+            var userContactId = await unitOfWork.Contacts.GetContactIdByUserId(userId);
+
+            var sharedLists = await unitOfWork.SharedLists.GetListsByContactId(userContactId);
+
+            List<SharedFromDTO> sharedListResult = mapper.Map<IEnumerable<SharedFromDTO>>(sharedLists).ToList();
+
+            return StatusCode((int)HttpStatusCode.OK, sharedListResult);
+        }
     }
 }

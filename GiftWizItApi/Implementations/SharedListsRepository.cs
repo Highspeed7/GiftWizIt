@@ -44,9 +44,17 @@ namespace GiftWizItApi.Implementations
             return await Context.SharedLists.Include(sl => sl.Contact).Include(sl => sl.GiftList).Where(sl => sl.UserId == userId).ToListAsync();
         }
 
-        public async Task<IEnumerable<SharedLists>>GetUserSharedListCollection(string userId, int giftListId)
+        public async Task<IEnumerable<SharedLists>> GetUserSharedListCollection(string userId, int giftListId)
         {
             return await Context.SharedLists.Include(sl => sl.Contact).Where(sl => sl.GiftListId == giftListId && sl.UserId == userId).ToListAsync();
+        }
+
+        public async Task<IEnumerable<SharedLists>> GetListsByContactId(int contactId)
+        {
+            return await Context.SharedLists
+                .Include(sl => sl.User)
+                .Include(sl => sl.GiftList)
+                .Where(sl => sl.ContactId == contactId && sl.GiftList.Deleted == false).ToListAsync();
         }
     }
 }

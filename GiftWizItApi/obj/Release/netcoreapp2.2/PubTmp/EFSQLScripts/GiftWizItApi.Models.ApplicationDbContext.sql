@@ -1430,3 +1430,18 @@ END;
 
 GO
 
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20190907155218_AddNameToUsersTable')
+BEGIN
+    ALTER TABLE [Users] ADD [name] nvarchar(max) NOT NULL DEFAULT N'';
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20190907155218_AddNameToUsersTable')
+BEGIN
+    INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+    VALUES (N'20190907155218_AddNameToUsersTable', N'2.2.1-servicing-10028');
+END;
+
+GO
+

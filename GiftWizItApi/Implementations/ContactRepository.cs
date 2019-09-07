@@ -30,5 +30,10 @@ namespace GiftWizItApi.Implementations
             var result = await Context.Contacts.Where(c => c.VerifyGuid == emailId).FirstOrDefaultAsync();
             return result;
         }
+
+        public async Task<int> GetContactIdByUserId(string userId)
+        {
+            return await Context.Contacts.Where(c => c.UserId == userId).Select(c => c.ContactId).SingleAsync();
+        }
     }
 }

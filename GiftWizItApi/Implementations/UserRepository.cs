@@ -23,12 +23,13 @@ namespace GiftWizItApi.Implementations
             return result;
         }
 
-        public Users Add(string userId, string email, string facebook_id = null)
+        public Users Add(string userId, string email, string name, string facebook_id = null)
         {
             var user = new Users
             {
                 UserId = userId,
-                Email = email
+                Email = email,
+                Name = name
             };
 
             return Context.Users.Add(user).Entity;

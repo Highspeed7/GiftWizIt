@@ -12,5 +12,6 @@ namespace GiftWizItApi.Interfaces
         Task Add(AddContactDTO contact, string userId);
         Task<Contacts> GetContactByEmail(string email);
         Task<Contacts> GetContactByEmailGuid(string emailId);
+        Task<int> GetContactIdByUserId(string userId);
     }
 }

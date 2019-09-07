@@ -49,7 +49,10 @@ namespace GiftWizItApi.Controllers
         public async Task<int> RegisterUser()
         {
             var userId = await userService.GetUserIdAsync();
+
             var email = User.Claims.First(e => e.Type == "emails").Value;
+            var name = User.Claims.First(e => e.Type == "name").Value;
+
             var user = await _unitOfWork.Users.GetUserByIdAsync(userId);
 
             // Check contacts to see if one needs to be associated with a user
@@ -57,7 +60,7 @@ namespace GiftWizItApi.Controllers
 
             if (user == null)
             {
-               user = _unitOfWork.Users.Add(userId, email);
+               user = _unitOfWork.Users.Add(userId, email, name);
             }
 
             // If a contact was returned

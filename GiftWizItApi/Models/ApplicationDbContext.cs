@@ -160,6 +160,10 @@ namespace GiftWizItApi.Models
             modelBuilder.Entity<Users>()
                 .HasAlternateKey(u => u.Email)
                 .HasName("email");
+            modelBuilder.Entity<Users>()
+                .Property(u => u.Name)
+                .HasColumnName("name")
+                .IsRequired(true);
 
             // Partners Configuration
             modelBuilder.Entity<Partners>()

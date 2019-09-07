@@ -18,6 +18,12 @@ namespace GiftWizItApi.Mapping
             CreateMap<ContactDTO, Contacts>();
             CreateMap<ContactUsersDTO, ContactUsers>();
             CreateMap<SharedListDTO, SharedLists>();
+            CreateMap<SharedLists, SharedFromDTO>()
+                .ForMember(sf => sf.GiftListName, opt => opt.MapFrom(sl => sl.GiftList.Name))
+                .ForMember(sf => sf.IsPublic, opt => opt.MapFrom(sl => sl.GiftList.IsPublic))
+                .ForMember(sf => sf.FromUser, opt => opt.MapFrom(sl => sl.User.Name))
+                .ReverseMap();
+               
             CreateMap<LnksItmsPtnrsDTO, LnksItmsPtnrs>();
             CreateMap<GiftListDto, GiftLists>();
             CreateMap<GiftItemDTO, GiftItem>();
