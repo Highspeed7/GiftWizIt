@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAfiGZRfh/CEmKxv4ntk7rZgAAAAACAAAAAAAQZgAAAAEAACAAAABz2Y/wDTaj3DPZXZqar+hF2XskeJr2c0Jvzp0R/u5gRAAAAAAOgAAAAAIAACAAAACAa+H4kUVFWIReytYgf2VxgMbjMafnY8ZqzxwlgJLy3oAAAAAz5PFigEYlgegUWAy1xZzT+21j2zZW850iuetIpuOXTZ/lfh6XBoBseL18N0g4Ua0BAGvdb39LJMfv3KWXdQYV4ZiihaKCavMa2+atwbxzRBnZtuEVRp6xL+yeKBXydJWQKZ6lmPUihSHJQHE6l2Zf271ionlGvHXTgLhubg208EAAAADO3i0qPgKpylVM38fDFomXQRM04pHwGPAng0h721ttOpH1/meea15GIE/W1hHWtPsoo+3uIVvz+DLlVo1w99US</EncryptedPassword>
+  </PropertyGroup>
+  <ItemGroup>
+    <DestinationConnectionStrings Include="DefaultConnection">
+      <Value>Data Source=giftwizit.database.windows.net%3bInitial Catalog=GiftWizIt%3bUser ID=gwdbadmin%3bPassword=gwAdmin##86%3bConnect Timeout=30%3bEncrypt=True%3bTrustServerCertificate=False%3bApplicationIntent=ReadWrite%3bMultiSubnetFailover=False</Value>
+    </DestinationConnectionStrings>
+  </ItemGroup>
+</Project>

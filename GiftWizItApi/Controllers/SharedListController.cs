@@ -69,7 +69,7 @@ namespace GiftWizItApi.Controllers
 
         [Route("api/AllSharedLists")]
         [HttpGet]
-        public async Task<ActionResult> GetContactSharedLists()
+        public async Task<ActionResult> GetUserSharedLists()
         {
             var userId = await userService.GetUserIdAsync();
             var userContactId = await unitOfWork.Contacts.GetContactIdByUserId(userId);
@@ -79,6 +79,30 @@ namespace GiftWizItApi.Controllers
             List<SharedFromDTO> sharedListResult = mapper.Map<IEnumerable<SharedFromDTO>>(sharedLists).ToList();
 
             return StatusCode((int)HttpStatusCode.OK, sharedListResult);
+        }
+
+        [Authorize]
+        [Route("api/GetUserSharedListItems")]
+        [HttpPost]
+        public async Task<ActionResult> GetUserSharedListItems(int listId)
+        {
+            var userId = await userService.GetUserIdAsync();
+            var userContactId = await unitOfWork.Contacts.GetContactIdByUserId(userId);
+            var lists = await unitOfWork.SharedLists.GetListsByContactId(userContactId);
+
+            var list = lists.Where(l => l.GiftListId == listId).FirstOrDefault();
+
+            IEnumerable<CombGiftItems> items;
+
+            if(list == null)
+            {
+                return StatusCode((int)HttpStatusCode.BadRequest, "Invalid list id provided");
+            }else
+            {
+                items = await unitOfWork.GiftItems.GetGiftListItems(listId, false);
+            }
+
+            return StatusCode((int)HttpStatusCode.OK, items);
         }
     }
 }

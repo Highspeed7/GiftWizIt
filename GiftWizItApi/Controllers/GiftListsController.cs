@@ -130,7 +130,7 @@ namespace GiftWizItApi.Controllers
         public async Task<IEnumerable<QueryGiftItemDTO>> GetGiftListItems(int gift_list_id)
         {
             var userId = await userService.GetUserIdAsync();
-            var result = await _unitOfWork.GiftItems.GetGiftListItems(gift_list_id, userId);
+            var result = await _unitOfWork.GiftItems.GetGiftListItems(gift_list_id, true, userId);
 
             return mapper.Map<List<QueryGiftItemDTO>>(result);
         }
@@ -407,7 +407,7 @@ namespace GiftWizItApi.Controllers
         [HttpGet]
         public async Task<ActionResult> GetSearchedPublicListItems(int giftListId)
         {
-            var result = await _unitOfWork.GiftItems.GetGiftListItems(giftListId);
+            var result = await _unitOfWork.GiftItems.GetGiftListItems(giftListId, true);
 
             return StatusCode((int)HttpStatusCode.OK, result);
         }
