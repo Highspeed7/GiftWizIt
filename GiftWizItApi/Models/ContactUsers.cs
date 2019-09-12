@@ -10,6 +10,8 @@ namespace GiftWizItApi.Models
         public int ContactId { get; set; }
         public Contacts Contact { get; set; }
 
+        public bool Deleted { get; set; }
+
         public string UserId { get; set; }
         public Users User { get; set; }
     }

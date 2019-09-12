@@ -216,6 +216,11 @@ namespace GiftWizItApi.Models
                 .Property(cu => cu.UserId)
                 .HasColumnName("user_id");
             modelBuilder.Entity<ContactUsers>()
+                .Property(cu => cu.Deleted)
+                .HasColumnName("_deleted")
+                .IsRequired(true)
+                .HasDefaultValue(false);
+            modelBuilder.Entity<ContactUsers>()
                 .HasOne(cu => cu.User)
                 .WithMany(u => u.ContactUsers)
                 .HasForeignKey(cu => cu.UserId);

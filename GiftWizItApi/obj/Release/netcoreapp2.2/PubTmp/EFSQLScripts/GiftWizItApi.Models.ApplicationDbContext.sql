@@ -1445,3 +1445,18 @@ END;
 
 GO
 
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20190910172527_AddDeletedFlagToContactUsersTable')
+BEGIN
+    ALTER TABLE [ContactUsers] ADD [_deleted] bit NOT NULL DEFAULT 0;
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20190910172527_AddDeletedFlagToContactUsersTable')
+BEGIN
+    INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+    VALUES (N'20190910172527_AddDeletedFlagToContactUsersTable', N'2.2.1-servicing-10028');
+END;
+
+GO
+

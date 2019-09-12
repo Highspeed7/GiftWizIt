@@ -34,8 +34,8 @@ namespace GiftWizItApi.Controllers
 
         public GiftListsController(
             IHubContext<NotificationsHub> hubContext,
-            IUnitOfWork unitOfWork, 
-            IMapper mapper, 
+            IUnitOfWork unitOfWork,
+            IMapper mapper,
             IHostingEnvironment env,
             IEmailService emailSender,
             IUserService userService,
@@ -144,21 +144,21 @@ namespace GiftWizItApi.Controllers
             // Verify that the user had access to the provided gift list id.
             // Since items can only be deleted from one list at a time, we'll take the first item's list id.
             var giftList = await _unitOfWork.GiftLists.GetUserGiftListByIdAsync(userId, giftItems[0].Gift_List_Id);
-            if(giftList == null)
+            if (giftList == null)
             {
                 // TODO: Eliminate magic strings.
                 return StatusCode((int)HttpStatusCode.BadRequest, "Gift list not found for this user.");
-            }else
+            } else
             {
                 // Verify that the item is a part of the gift list
-                foreach(QueryGiftItemDTO item in giftItems)
+                foreach (QueryGiftItemDTO item in giftItems)
                 {
                     var dbGiftItem = await _unitOfWork.GiftItems.GetGiftItemByIdAsync(item.Item_Id);
 
                     if (dbGiftItem == null)
                     {
                         return StatusCode((int)HttpStatusCode.BadRequest, "The provided item does not exist");
-                    }else
+                    } else
                     {
                         // We check to make sure the provided item id is a part of the provided gift list.
                         if (dbGiftItem.GListId != item.Gift_List_Id)
@@ -257,7 +257,7 @@ namespace GiftWizItApi.Controllers
                     {
                         //Return Bad Request; Invalid Contact
                         return StatusCode((int)HttpStatusCode.BadRequest, "Invalid Contact");
-                    }else
+                    } else
                     {
                         // Create a shared list object for insertion into the database
                         sharedList.GiftListId = listShare.G_List_Id;
@@ -269,13 +269,13 @@ namespace GiftWizItApi.Controllers
                         var addedList = _unitOfWork.SharedLists.AddSharedList(sharedList);
                         addedLists.Enqueue(addedList);
                     }
-                // END FOREACH
+                    // END FOREACH
                 }
                 // COMPLETE UNIT OF WORK
                 await _unitOfWork.CompleteAsync();
 
                 // For each of the AddedLists
-                foreach(SharedLists list in addedLists)
+                foreach (SharedLists list in addedLists)
                 {
                     // Instantiate email template and populate it's properties
                     contactShareMailTemplate = new ContactShareMailTemplate()
@@ -290,14 +290,14 @@ namespace GiftWizItApi.Controllers
                         giftListPassword = giftList.Password
                     };
 
-                    if(env.IsDevelopment())
+                    if (env.IsDevelopment())
                     {
                         contactShareMailTemplate.giftListLink = $"{siteSettings.LocalBaseUrl}/shared-gift-list?gListId={list.GiftListId}&emailId={list.Contact.VerifyGuid}";
                         contactShareMailTemplate.baseSiteLink = $"{siteSettings.LocalBaseUrl}";
                     }
                     else
                     {
-                        if(env.IsProduction() || env.IsStaging())
+                        if (env.IsProduction() || env.IsStaging())
                         {
                             contactShareMailTemplate.giftListLink = $"{siteSettings.ProdBaseUrl}/shared-gift-list?gListId={list.GiftListId}&emailId={list.Contact.VerifyGuid}";
                             contactShareMailTemplate.baseSiteLink = $"{siteSettings.ProdBaseUrl}";
@@ -313,7 +313,7 @@ namespace GiftWizItApi.Controllers
                         list.EmailSent = true;
 
                         // If the Contact is a user on this system
-                        if(list.Contact.UserId != null)
+                        if (list.Contact.UserId != null)
                         {
                             _unitOfWork.Notifications.Add(new Notifications()
                             {
@@ -358,7 +358,7 @@ namespace GiftWizItApi.Controllers
                         // Return mixed success call 'One or more emails failed'
                         return StatusCode((int)HttpStatusCode.MultiStatus, "One or more emails failed");
                     }
-                // END FOREACH
+                    // END FOREACH
                 }
                 // COMPLETE UNIT OF WORK; UPDATING EMAIL FLAGS
                 await _unitOfWork.CompleteAsync();
@@ -378,17 +378,17 @@ namespace GiftWizItApi.Controllers
             string term = search.SearchTerm;
             Users user;
 
-            if(term == null)
+            if (term == null)
             {
                 return StatusCode((int)HttpStatusCode.BadRequest, "No Search term provided");
             }
 
-            if(search.Pager == null)
+            if (search.Pager == null)
             {
                 return StatusCode((int)HttpStatusCode.BadRequest, "No paging data provided");
             }
 
-            if(search.UserEmail != null)
+            if (search.UserEmail != null)
             {
                 user = await this._unitOfWork.Users.GetUserByEmailAsync(search.UserEmail);
                 userId = user.UserId;
@@ -424,7 +424,7 @@ namespace GiftWizItApi.Controllers
             dbGiftList.Password = (giftList.NewPass == null) ? "" : giftList.NewPass;
             dbGiftList.IsPublic = giftList.IsPublic;
 
-            foreach(SharedLists list in dbSharedList)
+            foreach (SharedLists list in dbSharedList)
             {
                 // Update contacts with new password.
                 // We'll use the same share mail template, because they're similar.
@@ -438,7 +438,7 @@ namespace GiftWizItApi.Controllers
                     fromUser = User.Claims.First(e => e.Type == "name").Value,
                     giftListName = giftList.NewName,
                     giftListPassword = (giftList.NewPass == null) ? "No password has been set for this list." : giftList.NewPass
-            };
+                };
 
                 if (env.IsDevelopment())
                 {
@@ -460,9 +460,9 @@ namespace GiftWizItApi.Controllers
             if (saveResults == 0)
             {
                 return StatusCode((int)HttpStatusCode.InternalServerError, "Update failed");
-            }else
+            } else
             {
-                foreach(SharedLists list in dbSharedList)
+                foreach (SharedLists list in dbSharedList)
                 {
                     try
                     {
@@ -471,15 +471,57 @@ namespace GiftWizItApi.Controllers
                             Name = list.Contact.Name,
                             Address = list.Contact.Email
                         });
-                    }catch(Exception e)
+                    } catch (Exception e)
                     {
                         return StatusCode((int)HttpStatusCode.InternalServerError, $"Sending email failed with: {e.Message}");
                     }
-                    
+
                 }
                 await _hubContext.Clients.User(userId).SendAsync("Notification", $"Testing notifications");
                 return StatusCode((int)HttpStatusCode.OK, dbGiftList);
             }
+        }
+
+        [Authorize]
+        [Route("api/GiftLists/Delete")]
+        [HttpPost]
+        public async Task<ActionResult> DeleteGiftLists(GiftListDto[] giftLists)
+        {
+            var userId = await userService.GetUserIdAsync();
+
+            var dbGiftLists = await _unitOfWork.GiftLists.GetUserLists(userId);
+            
+            foreach(GiftListDto list in giftLists)
+            {
+                var validList = dbGiftLists.Where(gl => gl.Id == list.Id).FirstOrDefault();
+                if(validList == null)
+                {
+                    await _hubContext.Clients.Group(userId).SendAsync("Notification", "Could not delete lists, an invalid gift list id was provided");
+                    _unitOfWork.Notifications.Add(new Notifications()
+                    {
+                        UserId = userId,
+                        Title = "Deletion of Gift List(s) failed",
+                        Message = "An Invalid gift list id was provided",
+                        Type = NotificationConstants.WarningType,
+                        CreatedOn = DateTime.Now
+                    });
+
+                    await _unitOfWork.CompleteAsync();
+                    return StatusCode((int)HttpStatusCode.BadRequest, "Invalid gift list id provided");
+                }
+
+                // Get the items and delete those as well
+                var listItems = await _unitOfWork.GiftItems.GetRawGiftListItems(validList.Id);
+
+                foreach(GiftItem item in listItems)
+                {
+                    item.Deleted = true;
+                }
+
+                validList.Deleted = true;
+            }
+            var result = await _unitOfWork.CompleteAsync();
+            return StatusCode((int)HttpStatusCode.OK, result);
         }
 
         private string SetShareEmailTemplateParams(BodyBuilder builder)
