@@ -1460,3 +1460,18 @@ END;
 
 GO
 
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20190917034942_AddedContactAliasToContactUsersTable')
+BEGIN
+    ALTER TABLE [ContactUsers] ADD [contact_alias] nvarchar(max) NOT NULL DEFAULT N'Contact';
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20190917034942_AddedContactAliasToContactUsersTable')
+BEGIN
+    INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+    VALUES (N'20190917034942_AddedContactAliasToContactUsersTable', N'2.2.1-servicing-10028');
+END;
+
+GO
+

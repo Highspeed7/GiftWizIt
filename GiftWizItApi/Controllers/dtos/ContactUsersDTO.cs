@@ -6,6 +6,7 @@ namespace GiftWizItApi.Controllers.dtos
     {
         public int ContactId { get; set; }
         public Contacts Contact { get; set; }
+        public string ContactAlias { get; set; }
 
         public string UserId { get; set; }
         public Users User { get; set; }

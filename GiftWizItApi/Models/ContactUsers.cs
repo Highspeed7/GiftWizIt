@@ -9,6 +9,7 @@ namespace GiftWizItApi.Models
     {
         public int ContactId { get; set; }
         public Contacts Contact { get; set; }
+        public string ContactAlias { get; set; }
 
         public bool Deleted { get; set; }
 

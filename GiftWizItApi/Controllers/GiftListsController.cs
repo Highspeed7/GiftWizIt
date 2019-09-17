@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using GiftWizItApi.Constants;
 using GiftWizItApi.Controllers.dtos;
+using GiftWizItApi.Controllers.dtos.notifications;
 using GiftWizItApi.EmailTemplateModels;
 using GiftWizItApi.Interfaces;
 using GiftWizItApi.Models;
@@ -89,7 +90,14 @@ namespace GiftWizItApi.Controllers
                     CreatedOn = DateTime.Now
                 });
                 await _unitOfWork.CompleteAsync();
-                await _hubContext.Clients.Group(userId).SendAsync("Notification", NotificationConstants.ListCreatedNotifTitle);
+
+                var notification = new ListCreatedNotificationDTO()
+                {
+                    NotificationTitle = NotificationConstants.ListCreatedNotifTitle
+                };
+
+                await _hubContext.Clients.Group(userId).SendAsync("Notification", notification);
+
                 return StatusCode((int)HttpStatusCode.OK, insertedList);
             }
             // TODO: Device custom status codes for different errors.
@@ -335,7 +343,12 @@ namespace GiftWizItApi.Controllers
                             //    await _hubContext.Groups.AddToGroupAsync(id, list.Contact.UserId);
                             //}
 
-                            await _hubContext.Clients.Group(list.Contact.UserId).SendAsync("Notification", NotificationConstants.ListShareSuccessNotifTitle);
+                            var notification = new SharedListNotificationDTO()
+                            {
+                                NotificationTitle = NotificationConstants.ListShareSuccessNotifTitle
+                            };
+
+                            await _hubContext.Clients.Group(list.Contact.UserId).SendAsync("Notification", notification);
                         }
 
                     }

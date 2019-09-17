@@ -9,6 +9,6 @@ namespace GiftWizItApi.Interfaces
     {
         ContactUsers Add(AddContactDTO contact, string userId, ContactDTO existingContact = null);
         Task<ContactUsers> GetUserContactById(int contactId, string userId);
-        Task<IEnumerable<ContactUsers>> GetAllUserContacts(string userId);
+        Task<IEnumerable<ContactUsers>> GetAllUserContacts(string userId, bool includeDeleted = false);
     }
 }

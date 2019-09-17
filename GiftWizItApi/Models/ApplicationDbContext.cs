@@ -213,6 +213,11 @@ namespace GiftWizItApi.Models
                 .Property(cu => cu.ContactId)
                 .HasColumnName("contact_id");
             modelBuilder.Entity<ContactUsers>()
+                .Property(cu => cu.ContactAlias)
+                .HasColumnName("contact_alias")
+                .IsRequired(true)
+                .HasDefaultValue("Contact");
+            modelBuilder.Entity<ContactUsers>()
                 .Property(cu => cu.UserId)
                 .HasColumnName("user_id");
             modelBuilder.Entity<ContactUsers>()

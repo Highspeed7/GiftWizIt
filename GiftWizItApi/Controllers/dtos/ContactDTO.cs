@@ -10,6 +10,7 @@ namespace GiftWizItApi.Controllers.dtos
     {
         public int ContactId { get; set; }
         public string Name { get; set; }
+        public string Alias { get; set; }
         public string Email { get; set; }
         public bool Verified { get; set; }
         public bool EmailSent { get; set; }

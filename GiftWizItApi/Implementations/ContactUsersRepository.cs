@@ -15,9 +15,17 @@ namespace GiftWizItApi.Implementations
         {
         }
 
-        public async Task<IEnumerable<ContactUsers>> GetAllUserContacts(string userId)
+        public async Task<IEnumerable<ContactUsers>> GetAllUserContacts(string userId, bool includeDeleted = false)
         {
-            var results = await Context.ContactUsers.Include(cu => cu.Contact).Where(cu => cu.UserId == userId).ToListAsync();
+            List<ContactUsers> results;
+            if(includeDeleted == true)
+            {
+                results = await Context.ContactUsers.Include(cu => cu.Contact).Where(cu => cu.UserId == userId).ToListAsync();
+            }
+            else
+            {
+                results = await Context.ContactUsers.Include(cu => cu.Contact).Where(cu => cu.UserId == userId && cu.Deleted != true).ToListAsync();
+            }
             return results;
         }
 
@@ -37,6 +45,7 @@ namespace GiftWizItApi.Implementations
                 {
                     ContactId = existingContact.ContactId,
                     UserId = userId,
+                    ContactAlias = existingContact.Alias
                 };
             }
             else
@@ -51,7 +60,8 @@ namespace GiftWizItApi.Implementations
                         Verified = false,
                         VerifyGuid = Guid.NewGuid().ToString()
                     },
-                    UserId = userId
+                    UserId = userId,
+                    ContactAlias = contact.Name
                 };
             }
 

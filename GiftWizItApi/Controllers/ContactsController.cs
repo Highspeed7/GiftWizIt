@@ -7,13 +7,16 @@ using System.Threading.Tasks;
 using AutoMapper;
 using GiftWizItApi.Constants;
 using GiftWizItApi.Controllers.dtos;
+using GiftWizItApi.Controllers.dtos.notifications;
 using GiftWizItApi.EmailTemplateModels;
 using GiftWizItApi.Interfaces;
 using GiftWizItApi.Models;
+using GiftWizItApi.SignalR.Hubs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using MimeKit;
 
 namespace GiftWizItApi.Controllers
@@ -31,15 +34,18 @@ namespace GiftWizItApi.Controllers
         private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;
         private readonly IHostingEnvironment env;
+        private readonly IHubContext<NotificationsHub> hubContext;
         private ContactGreetMailTemplate contactMailTemplate;
 
         public ContactsController(
             IEmailService emailer,
             IUserService userService,
-            IUnitOfWork unitOfWork, 
+            IUnitOfWork unitOfWork,
+            IHubContext<NotificationsHub> hubContext,
             IMapper mapper,
             IHostingEnvironment env)
         {
+            this.hubContext = hubContext;
             this.emailer = emailer;
             this.userService = userService;
             this.unitOfWork = unitOfWork;
@@ -61,12 +67,58 @@ namespace GiftWizItApi.Controllers
         }
 
         [Authorize]
+        [Route("api/Contacts/Delete")]
+        [HttpPost]
+        public async Task<ActionResult> DeleteUserContact(ContactDTO[] contacts)
+        {
+            var userId = await userService.GetUserIdAsync();
+            var dbContacts = await unitOfWork.ContactUsers.GetAllUserContacts(userId);
+
+            foreach (ContactUsers dbContact in dbContacts)
+            {
+                foreach (ContactDTO contact in contacts)
+                {
+                    if (contact.ContactId != dbContact.ContactId)
+                    {
+                        continue;
+                    }else
+                    {
+                        dbContact.Deleted = true;
+                    }
+                }
+            }
+
+            unitOfWork.Notifications.Add(new Notifications()
+            {
+                UserId = userId,
+                Title = NotificationConstants.ContactDeleteSuccessNotifTitle,
+                Message = $"You successfully deleted {contacts.Count()} contact(s).",
+                Type = NotificationConstants.InfoType,
+                CreatedOn = DateTime.Now
+            });
+
+            var notification = new ContactDeletedNotificationDTO()
+            {
+                NotificationTitle = NotificationConstants.ContactDeleteSuccessNotifTitle
+            };
+
+            await hubContext.Clients.Group(userId).SendAsync("Notification", notification);
+
+            var result = await unitOfWork.CompleteAsync();
+
+            return StatusCode((int)HttpStatusCode.OK, result);
+        }
+
+        [Authorize]
         [Route("api/Contacts/Add")]
         [HttpPost]
         public async Task<IActionResult> AddContact(AddContactDTO contact)
         {
             var userId = await userService.GetUserIdAsync();
             var userName = User.Claims.First(e => e.Type == "name").Value;
+
+            // Make sure the email is all lowercase.
+            contact.Email = contact.Email.ToLower();
 
             ContactUsers insertedContact;
 
@@ -86,7 +138,11 @@ namespace GiftWizItApi.Controllers
                     return StatusCode((int)HttpStatusCode.BadRequest, "Contact already exists for user");
                 }
 
-                insertedContact = unitOfWork.ContactUsers.Add(contact, userId, mapper.Map<ContactDTO>(existingContact));
+                ContactDTO contactToAdd = mapper.Map<ContactDTO>(existingContact);
+
+                contactToAdd.Alias = contact.Name;
+
+                insertedContact = unitOfWork.ContactUsers.Add(contact, userId, contactToAdd);
             }else
             {
                 insertedContact = unitOfWork.ContactUsers.Add(contact, userId);
