@@ -165,6 +165,35 @@ namespace GiftWizItApi.Models
                 .HasColumnName("name")
                 .IsRequired(true);
 
+            // User Checkout
+            modelBuilder.Entity<UserCheckout>()
+                .HasKey(uc => new { uc.UserId, uc.CheckoutId });
+            modelBuilder.Entity<UserCheckout>()
+                .HasOne(uc => uc.User)
+                .WithMany(u => u.UserCheckouts)
+                .HasForeignKey(uc => uc.UserId);
+            modelBuilder.Entity<UserCheckout>()
+                .Property(uc => uc.UserId)
+                .HasColumnName("user_id");
+            modelBuilder.Entity<UserCheckout>()
+                .Property(uc => uc.CheckoutId)
+                .HasColumnName("checkout_id");
+            modelBuilder.Entity<UserCheckout>()
+                .Property(uc => uc.DateCreated)
+                .IsRequired(true)
+                .HasColumnName("date_created");
+            modelBuilder.Entity<UserCheckout>()
+                .Property(uc => uc.DateCompleted)
+                .HasColumnName("date_completed");
+            modelBuilder.Entity<UserCheckout>()
+                .Property(uc => uc.Completed)
+                .IsRequired(true)
+                .HasDefaultValue(false)
+                .HasColumnName("completed");
+            modelBuilder.Entity<UserCheckout>()
+                .Property(uc => uc.WebUrl)
+                .HasColumnName("web_url");
+
             // Partners Configuration
             modelBuilder.Entity<Partners>()
                 .HasKey(p => p.PartnerId);
