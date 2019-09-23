@@ -36,21 +36,15 @@ namespace GiftWizItApi.Controllers
         public async Task<ActionResult> CreateItem(ItemDTO item)
         {
             WishItem insertedWishitem = new WishItem();
-            WishLists existingWishList = null;
 
             // Get the name of the user for the wish list
             var userId = await userService.GetUserIdAsync();
             var name = User.Claims.First(e => e.Type == "name").Value;
             var listName = $"{name}'s Wish List";
+
             // Check if wish list already exists
-            var wishLists = await _unitOfWork.WishLists.GetWishListsAsync(listName, userId);
-            
-            // If Wish list exists
-            if(wishLists.Count() > 0)
-            {
-                // Set the wishlist to send to WishListItems repository.
-                existingWishList = wishLists.First();
-            }
+            WishLists existingWishList = await _unitOfWork.WishLists.GetWishListAsync(listName, userId);
+            WishItem existingListItem = null;
 
             var partners = await _unitOfWork.Partners.GetPartnerAsync(item.Domain);
             var partner = partners.FirstOrDefault();
@@ -62,19 +56,62 @@ namespace GiftWizItApi.Controllers
             {
                 // TODO: Refactor towards cleaner architecture.
                 Items newItem = new Items();
+
                 // Map item dto to Items
                 mapper.Map(item, newItem);
-                // Convert to Items Object
-                // TODO: Check to make sure item doesn't already exist in item's table.
-                // Check for an existing item by domain
-                var isValidItemToAdd = await validateProvidedItem(item.Url, userId);
+
+                bool isValidItemToAdd = false;
+
+                // TODO: Refactor this.
+                // Check for an existing item by domain unless it's null (null means it's a store item)
+                if (item.Url != null)
+                {
+                    var wishItems = await validateProvidedItem(item.Url, userId);
+
+                    if(wishItems.Count() == 0)
+                    {
+                        isValidItemToAdd = true;
+                    }else
+                    {
+                        existingListItem = wishItems.Where(wi => wi.Deleted == true).FirstOrDefault();
+
+                        if(existingListItem != null)
+                        {
+                            existingListItem.Deleted = false;
+                            await _unitOfWork.CompleteAsync();
+                            return StatusCode((int)HttpStatusCode.OK);
+                        }
+                    }
+                }else
+                {
+                    isValidItemToAdd = true;
+                    if(existingWishList != null)
+                    {
+                        existingListItem = existingWishList.WishItems.Where(wi => wi.Item.ProductId == item.ProductId).FirstOrDefault();
+                        if (existingListItem != null)
+                        {
+                            if (existingListItem.Deleted == true)
+                            {
+                                existingListItem.Deleted = false;
+                                await _unitOfWork.CompleteAsync();
+                                return StatusCode((int)HttpStatusCode.OK);
+                            }
+                            else
+                            {
+                                isValidItemToAdd = false;
+                            }
+                        }
+                    }
+                }
 
                 if (!isValidItemToAdd)
                 {
                     return StatusCode((int)HttpStatusCode.BadRequest, "The added item already exists for the user");
                 }
 
+
                 insertedWishitem = _unitOfWork.WishItems.Add(userId, listName, newItem, existingWishList);
+
                 var result = await _unitOfWork.CompleteAsync();
                 if (result > 0)
                 {
@@ -143,13 +180,13 @@ namespace GiftWizItApi.Controllers
             return StatusCode((int)HttpStatusCode.OK);
         }
 
-        private async Task<Boolean> validateProvidedItem(string itemUrl, string userId)
+        private async Task<IEnumerable<WishItem>> validateProvidedItem(string itemUrl, string userId)
         {
             IEnumerable<WishItem> result = await _unitOfWork.WishItems.GetWishItemByUrl(itemUrl, userId);
 
-            var items = result.Where(r => r.Item.LinkItemPartners.Where(lip => lip.AffliateLink == itemUrl).Count() > 0 && r.Deleted == false);
+            var items = result.Where(r => r.Item.LinkItemPartners.Where(lip => lip.AffliateLink == itemUrl).Count() > 0);
 
-            return (items.Count() == 0);
+            return items;
         }
     }
 }

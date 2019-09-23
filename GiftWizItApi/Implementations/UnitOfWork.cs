@@ -27,6 +27,7 @@ namespace GiftWizItApi.Implementations
             Items = new ItemsRepository(_context);
             UserFacebook = new UserFacebookRepository(_context);
             Notifications = new NotificationsRepository(_context);
+            UserCheckout = new UserCheckoutRespository(_context);
         }
 
         public IGiftListRepository GiftLists { get; private set; }
@@ -42,6 +43,7 @@ namespace GiftWizItApi.Implementations
         public IItemsRepository Items { get; private set; }
         public IUserFacebookRepository UserFacebook { get; private set; }
         public INotificationsRepository Notifications { get; private set; }
+        public IUserCheckoutRepository UserCheckout { get; private set; }
 
         public async Task<int> CompleteAsync()
         {

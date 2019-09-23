@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace GiftWizItApi.Interfaces
 {
-    public interface IWishListRepository : IRepository<WishLists>
+    public interface IUserCheckoutRepository: IRepository<UserCheckout>
     {
-        Task<WishLists> GetWishListAsync(string listName, string userId);
+        Task<IEnumerable<UserCheckout>> GetUserCheckout(string userId);
     }
 }

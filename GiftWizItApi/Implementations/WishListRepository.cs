@@ -15,9 +15,13 @@ namespace GiftWizItApi.Implementations
 
         }
 
-        public async Task<IEnumerable<WishLists>> GetWishListsAsync(string listName, string userId)
+        public async Task<WishLists> GetWishListAsync(string listName, string userId)
         {
-            return await Context.WishLists.Where(wl => wl.Name == listName && wl.UserId == userId).ToListAsync();
+            return await Context.WishLists
+                .Include(wl => wl.WishItems)
+                .ThenInclude(wi => wi.Item)
+                .Where(wl => wl.Name == listName && wl.UserId == userId)
+                .FirstOrDefaultAsync();
         }
     }
 }

@@ -17,6 +17,8 @@ namespace GiftWizItApi.Models
         [Column("upc")]
         public string UPC { get; set; }
 
+        public string ProductId { get; set; }
+
         [Column("image")]
         public string Image { get; set; }
 

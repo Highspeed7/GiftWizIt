@@ -1475,3 +1475,42 @@ END;
 
 GO
 
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20190920170649_AddedUserCheckoutTable')
+BEGIN
+    CREATE TABLE [UserCheckout] (
+        [user_id] nvarchar(450) NOT NULL,
+        [checkout_id] nvarchar(450) NOT NULL,
+        [completed] bit NOT NULL DEFAULT 0,
+        [date_created] datetime2 NOT NULL,
+        [date_completed] datetime2 NOT NULL,
+        [web_url] nvarchar(max) NULL,
+        CONSTRAINT [PK_UserCheckout] PRIMARY KEY ([user_id], [checkout_id]),
+        CONSTRAINT [FK_UserCheckout_Users_user_id] FOREIGN KEY ([user_id]) REFERENCES [Users] ([user_id]) ON DELETE CASCADE
+    );
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20190920170649_AddedUserCheckoutTable')
+BEGIN
+    INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+    VALUES (N'20190920170649_AddedUserCheckoutTable', N'2.2.1-servicing-10028');
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20190921224803_AddedProductIdColumnToItemsTable')
+BEGIN
+    ALTER TABLE [Items] ADD [product_id] nvarchar(max) NULL;
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20190921224803_AddedProductIdColumnToItemsTable')
+BEGIN
+    INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+    VALUES (N'20190921224803_AddedProductIdColumnToItemsTable', N'2.2.1-servicing-10028');
+END;
+
+GO
+

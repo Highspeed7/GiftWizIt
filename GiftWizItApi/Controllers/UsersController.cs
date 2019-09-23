@@ -74,6 +74,19 @@ namespace GiftWizItApi.Controllers
                 }
             }
 
+            var listName = $"{name}'s Wish List";
+            var existingWishList = await _unitOfWork.WishLists.GetWishListAsync(listName, userId);
+
+            if(existingWishList == null)
+            {
+                // Create the users's wish list
+                _unitOfWork.WishLists.Add(new WishLists()
+                {
+                    Name = listName,
+                    UserId = userId
+                });
+            }
+
             return await _unitOfWork.CompleteAsync();
         }
     }

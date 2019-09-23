@@ -93,6 +93,10 @@ namespace GiftWizItApi.Models
             modelBuilder.Entity<Items>()
                 .Property(i => i.Image)
                 .HasMaxLength(450);
+            modelBuilder.Entity<Items>()
+                .Property(i => i.ProductId)
+                .HasColumnName("product_id")
+                .IsRequired(false);
 
             //GiftList-Items Linking table configuration
             modelBuilder.Entity<GiftItem>()
