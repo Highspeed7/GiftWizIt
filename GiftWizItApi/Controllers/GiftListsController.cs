@@ -30,11 +30,11 @@ namespace GiftWizItApi.Controllers
         private readonly IEmailService emailSender;
         private readonly IUserService userService;
         private readonly IGiftWizItWebSettings siteSettings;
-        private readonly IHubContext<NotificationsHub> _hubContext;
+        private readonly IHubContext<MainHub> _hubContext;
         private ContactShareMailTemplate contactShareMailTemplate;
 
         public GiftListsController(
-            IHubContext<NotificationsHub> hubContext,
+            IHubContext<MainHub> hubContext,
             IUnitOfWork unitOfWork,
             IMapper mapper,
             IHostingEnvironment env,

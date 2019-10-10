@@ -12,6 +12,7 @@ namespace GiftWizItApi.Models
         public int Partner_Id { get; set; }
         public string Afflt_Link { get; set; }
         public string Itm_Name { get; set; }
+        public string Product_Id { get; set; }
         public string Glst_Name { get; set; }
         public string Image { get; set; }
     }

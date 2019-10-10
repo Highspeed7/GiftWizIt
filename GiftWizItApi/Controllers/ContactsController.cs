@@ -34,14 +34,14 @@ namespace GiftWizItApi.Controllers
         private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;
         private readonly IHostingEnvironment env;
-        private readonly IHubContext<NotificationsHub> hubContext;
+        private readonly IHubContext<MainHub> hubContext;
         private ContactGreetMailTemplate contactMailTemplate;
 
         public ContactsController(
             IEmailService emailer,
             IUserService userService,
             IUnitOfWork unitOfWork,
-            IHubContext<NotificationsHub> hubContext,
+            IHubContext<MainHub> hubContext,
             IMapper mapper,
             IHostingEnvironment env)
         {

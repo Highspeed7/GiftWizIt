@@ -9,5 +9,11 @@ namespace GiftWizItApi.Controllers.dtos
     {
         public int pageCount { get; set; }
         public int pageSize { get; set; }
+
+        public PageRes()
+        {
+            pageCount = 1;
+            pageSize = 20;
+        }
     }
 }

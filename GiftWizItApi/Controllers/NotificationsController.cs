@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using GiftWizItApi.Interfaces;
+using GiftWizItApi.Models;
 using GiftWizItApi.SignalR.Hubs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -21,13 +22,13 @@ namespace GiftWizItApi.Controllers
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserService userService;
         private readonly INotificationsService notifService;
-        private readonly IHubContext<NotificationsHub> _hubContext;
+        private readonly IHubContext<MainHub> _hubContext;
 
         public NotificationsController(
             IUnitOfWork unitOfWork,
             IUserService userService,
             INotificationsService notifService,
-            IHubContext<NotificationsHub> hubContext
+            IHubContext<MainHub> hubContext
         )
         {
             _unitOfWork = unitOfWork;
@@ -52,6 +53,17 @@ namespace GiftWizItApi.Controllers
             int notificiationsCount = await _unitOfWork.Notifications.GetNotificationsCount(userId);
 
             return StatusCode((int)HttpStatusCode.OK, notificiationsCount);
+        }
+
+        [Route("api/UserNotifications")]
+        [HttpGet]
+        public async Task<ActionResult> GetUserNotifications([FromQuery]Page pager = null)
+        {
+            string userId = await userService.GetUserIdAsync();
+
+            var notifications = await _unitOfWork.Notifications.GetUserPagedNotificationsAsync(userId, pager);
+
+            return StatusCode((int)HttpStatusCode.OK, notifications);
         }
 
         [Route("api/NotificationsChannel")]

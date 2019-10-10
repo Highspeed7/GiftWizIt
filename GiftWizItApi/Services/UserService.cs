@@ -12,7 +12,6 @@ namespace GiftWizItApi.Services
 {
     public class UserService: IUserService
     {
-        private ClaimsPrincipal User = new ClaimsPrincipal();
         private readonly IUnitOfWork unitOfWork;
         private readonly IHttpContextAccessor context;
 

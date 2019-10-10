@@ -103,7 +103,7 @@ namespace GiftWizItApi
             app.UseAuthentication();
             app.UseSignalR(routes =>
             {
-                routes.MapHub<NotificationsHub>("/notifHub");
+                routes.MapHub<MainHub>("/notifHub");
             });
             app.UseMvc();
         }
