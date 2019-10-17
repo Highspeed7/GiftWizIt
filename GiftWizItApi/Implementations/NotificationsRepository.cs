@@ -29,7 +29,7 @@ namespace GiftWizItApi.Implementations
 
         public async Task<PagedResult<Notifications>> GetUserPagedNotificationsAsync(string userId, Page pager)
         {
-            var notifications = Context.Notifications.Where(n => n.UserId == userId && n.Deleted == false && n.Dismissed == false);
+            var notifications = Context.Notifications.Where(n => n.UserId == userId && n.Deleted == false && n.Dismissed == false).OrderByDescending(n => n.CreatedOn);
 
             return await notifications.GetPaged(pager.PageCount, pager.PageSize);
         }

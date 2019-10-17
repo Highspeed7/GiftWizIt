@@ -411,8 +411,6 @@ namespace GiftWizItApi.Controllers
 
             var result = await this._unitOfWork.GiftLists.GetGiftListsBySearch(term, mappedPager, userId);
 
-            await _hubContext.Clients.All.SendAsync("Notification", $"Testing notifications");
-
             return StatusCode((int)HttpStatusCode.OK, result);
         }
 

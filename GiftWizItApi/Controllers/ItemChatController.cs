@@ -31,11 +31,12 @@ namespace GiftWizItApi.Controllers
 
         //[Route("api/ItemChatChannel)")]
         //[HttpPost]
-        //public async Task<ActionResult> ConnectToListChatChannel(string connectionId, int giftListId, string password)
+        //public async Task<ActionResult> ConnectToListChatChannel(string connectionId, int giftListId)
         //{
         //    string userId = await _userService.GetUserIdAsync();
 
         //    // Get the lists that have been shared with this user.
+        //    _unitOfWork.SharedLists.GetAllUserSharedLists(userId);
         //        // If the specified giftlist id is not a part of the retrieved lists
         //            // Return an unauthorized response.
         //        // Else 
@@ -46,6 +47,11 @@ namespace GiftWizItApi.Controllers
         //    //    await _hubContext.Groups.AddToGroupAsync(connectionId, sharedListId.ToString());
         //    //    return StatusCode((int)HttpStatusCode.OK, "Connected to List Chat Channel");
         //    //}
+        //}
+
+        //public async Task<ActionResult> DisconnectFromListChatChannel(string connectionId, int giftListId)
+        //{
+
         //}
     }
 }
