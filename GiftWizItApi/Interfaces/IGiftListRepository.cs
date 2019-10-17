@@ -12,7 +12,8 @@ namespace GiftWizItApi.Interfaces
     {
         GiftLists Add(GiftListDto glist);
         Task<IEnumerable<GiftLists>> GetUserLists(string userId);
-        Task<PagedResult<GiftLists>> GetGiftListsBySearch(string term, Page pager, string userId = null);
+        Task<PagedResult<GiftLists>> GetPrivateGiftListsBySearch(string term, Page pager, string password, string userId = null);
+        Task<PagedResult<GiftLists>> GetPublicGiftListsBySearch(string term, Page pager, string userId = null);
         Task<GiftLists> GetUserGiftListByIdAsync(string userId, int listId);
         Task DeleteGiftList(int listId);
     }

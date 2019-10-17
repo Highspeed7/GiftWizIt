@@ -3,6 +3,7 @@ using GiftWizItApi.Constants;
 using GiftWizItApi.Controllers.dtos;
 using GiftWizItApi.Controllers.dtos.notifications;
 using GiftWizItApi.EmailTemplateModels;
+using GiftWizItApi.Extensions;
 using GiftWizItApi.Interfaces;
 using GiftWizItApi.Models;
 using GiftWizItApi.SignalR.Hubs;
@@ -409,7 +410,7 @@ namespace GiftWizItApi.Controllers
 
             var mappedPager = mapper.Map<Page>(search.Pager);
 
-            var result = await this._unitOfWork.GiftLists.GetGiftListsBySearch(term, mappedPager, userId);
+            var result = await this._unitOfWork.GiftLists.GetPublicGiftListsBySearch(term, mappedPager, userId);
 
             return StatusCode((int)HttpStatusCode.OK, result);
         }
@@ -419,6 +420,47 @@ namespace GiftWizItApi.Controllers
         public async Task<ActionResult> GetSearchedPublicListItems(int giftListId)
         {
             var result = await _unitOfWork.GiftItems.GetGiftListItems(giftListId, true);
+
+            return StatusCode((int)HttpStatusCode.OK, result);
+        }
+
+        [Route("api/SearchPrivateLists")]
+        [HttpPost]
+        public async Task<ActionResult> GetSearchedPrivateLists(SearchTermDTO search)
+        {
+            string userId = null;
+            string term = search.SearchTerm;
+            string password = search.Password;
+
+            Users user;
+
+            if(password == null)
+            {
+                return StatusCode((int)HttpStatusCode.BadRequest, "No password provided for private search");
+            }
+
+            if(term == null)
+            {
+                return StatusCode((int)HttpStatusCode.BadRequest, "No Search term provided");
+            }
+            
+            if(search.UserEmail == null)
+            {
+                return StatusCode((int)HttpStatusCode.BadRequest, "No email provided");
+            }
+
+            user = await this._unitOfWork.Users.GetUserByEmailAsync(search.UserEmail);
+
+            if(user == null)
+            {
+                return StatusCode((int)HttpStatusCode.OK);
+            }
+
+            userId = user.UserId;
+
+            var mappedPager = mapper.Map<Page>(search.Pager);
+
+            var result = await this._unitOfWork.GiftLists.GetPrivateGiftListsBySearch(term, mappedPager, search.Password, userId);
 
             return StatusCode((int)HttpStatusCode.OK, result);
         }

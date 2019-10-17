@@ -39,7 +39,20 @@ namespace GiftWizItApi.Implementations
                 .ToListAsync();
         }
 
-        public async Task<PagedResult<GiftLists>> GetGiftListsBySearch(string term, Page pager, string userId = null)
+        public async Task<PagedResult<GiftLists>> GetPrivateGiftListsBySearch(string term, Page pager, string password, string userId)
+        {
+            var giftLists = Context.GiftLists
+                .Where(gl => gl.Name.Contains(term)
+                    && gl.IsPublic == false
+                    && gl.Deleted == false
+                    && gl.Password == password
+                    && gl.UserId == userId
+                );
+
+            return await giftLists.GetPaged(pager.PageCount, pager.PageSize);
+        }
+
+        public async Task<PagedResult<GiftLists>> GetPublicGiftListsBySearch(string term, Page pager, string userId = null)
         {
             var giftLists = Context.GiftLists.Where(gl => gl.Name.Contains(term) && gl.IsPublic == true && gl.Deleted == false);
 

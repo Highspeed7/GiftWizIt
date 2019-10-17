@@ -9,6 +9,12 @@ namespace GiftWizItApi.Controllers.dtos
     {
         public string SearchTerm { get; set; }
         public string UserEmail { get; set; }
+        public string Password { get; set; }
         public PageRes Pager { get; set; }
+
+        SearchTermDTO()
+        {
+            Pager = new PageRes();
+        }
     }
 }
