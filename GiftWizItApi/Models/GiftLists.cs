@@ -24,6 +24,9 @@ namespace GiftWizItApi.Models
 
         public bool IsPublic { get; set; }
 
+        public bool RestrictChat { get; set; }
+        public bool AllowItemAdds { get; set; }
+
         [Column("created_on")]
         public DateTime CreatedAt { get; set; }
 

@@ -61,6 +61,14 @@ namespace GiftWizItApi.Models
                 .HasColumnName("is_public")
                 .HasDefaultValue(false);
             modelBuilder.Entity<GiftLists>()
+                .Property(gl => gl.RestrictChat)
+                .HasColumnName("restrict_chat")
+                .HasDefaultValue(false);
+            modelBuilder.Entity<GiftLists>()
+                .Property(gl => gl.AllowItemAdds)
+                .HasColumnName("allow_item_adds")
+                .HasDefaultValue(true);
+            modelBuilder.Entity<GiftLists>()
                 .HasOne(gl => gl.Users)
                 .WithMany(u => u.GiftLists)
                 .HasForeignKey(gl => gl.UserId);

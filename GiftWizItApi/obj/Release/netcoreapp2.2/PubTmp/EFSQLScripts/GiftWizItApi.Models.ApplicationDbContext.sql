@@ -1514,3 +1514,25 @@ END;
 
 GO
 
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191024094813_AddedMoreGiftListCreationFlags')
+BEGIN
+    ALTER TABLE [GiftLists] ADD [allow_item_adds] bit NOT NULL DEFAULT 1;
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191024094813_AddedMoreGiftListCreationFlags')
+BEGIN
+    ALTER TABLE [GiftLists] ADD [restrict_chat] bit NOT NULL DEFAULT 0;
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191024094813_AddedMoreGiftListCreationFlags')
+BEGIN
+    INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+    VALUES (N'20191024094813_AddedMoreGiftListCreationFlags', N'2.2.1-servicing-10028');
+END;
+
+GO
+
