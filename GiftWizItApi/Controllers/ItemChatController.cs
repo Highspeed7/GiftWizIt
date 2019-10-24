@@ -1,4 +1,5 @@
-﻿using GiftWizItApi.Interfaces;
+﻿using GiftWizItApi.Controllers.dtos;
+using GiftWizItApi.Interfaces;
 using GiftWizItApi.SignalR.Hubs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace GiftWizItApi.Controllers
@@ -16,12 +18,12 @@ namespace GiftWizItApi.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserService _userService;
-        private readonly IHubContext<MainHub> _hubContext;
+        private readonly IHubContext<ChatHub> _hubContext;
 
         public ItemChatController(
             IUnitOfWork unitOfWork,
             IUserService userService,
-            IHubContext<MainHub> hubContext
+            IHubContext<ChatHub> hubContext
         )
         {
             _unitOfWork = unitOfWork;
@@ -29,29 +31,68 @@ namespace GiftWizItApi.Controllers
             _hubContext = hubContext;
         }
 
-        //[Route("api/ItemChatChannel)")]
-        //[HttpPost]
-        //public async Task<ActionResult> ConnectToListChatChannel(string connectionId, int giftListId)
-        //{
-        //    string userId = await _userService.GetUserIdAsync();
+        [Route("api/ListChatChannel")]
+        [HttpPost]
+        public async Task<ActionResult> ConnectToListChatChannel(ItemChatConnectDTO connectionData)
+        {
+            string userId = await _userService.GetUserIdAsync();
 
-        //    // Get the lists that have been shared with this user.
-        //    _unitOfWork.SharedLists.GetAllUserSharedLists(userId);
-        //        // If the specified giftlist id is not a part of the retrieved lists
-        //            // Return an unauthorized response.
-        //        // Else 
-        //            // Get the specified gift list
-        //            // Connect the user to the channel of the gift list specified
-        //    //try
-        //    //{
-        //    //    await _hubContext.Groups.AddToGroupAsync(connectionId, sharedListId.ToString());
-        //    //    return StatusCode((int)HttpStatusCode.OK, "Connected to List Chat Channel");
-        //    //}
-        //}
+            // Get the lists that have been shared with this user.
+            var usersSharedLists = await _unitOfWork.SharedLists.GetAllUserSharedLists(userId);
 
-        //public async Task<ActionResult> DisconnectFromListChatChannel(string connectionId, int giftListId)
-        //{
+            // Get the specified gift list
+            var list = usersSharedLists.Where(l => l.GiftListId == connectionData.GiftListId);
 
-        //}
+            // If the specified giftlist id is not a part of the retrieved lists
+            if(list == null)
+            {
+                // Return an unauthorized response.
+                return StatusCode((int)HttpStatusCode.Unauthorized);
+            }
+
+            // Connect the user to the channel of the gift list specified
+            try
+            {
+                var listId = connectionData.GiftListId.ToString();
+
+                await _hubContext.Groups.AddToGroupAsync(connectionData.ConnectionId, listId);
+                return StatusCode((int)HttpStatusCode.OK, "Connected to List Chat Channel");
+            }catch(Exception e)
+            {
+                // TODO: Add logging
+                return StatusCode((int)HttpStatusCode.InternalServerError, e.Message);
+            }
+        }
+
+        [Route("api/LeaveListChat")]
+        [HttpPost]
+        public async Task<ActionResult> LeaveListChatChannel(ItemChatConnectDTO connectionData)
+        {
+            try
+            {
+                await _hubContext.Groups.RemoveFromGroupAsync(connectionData.ConnectionId, connectionData.GiftListId.ToString());
+                return StatusCode((int)HttpStatusCode.OK, "Disconnected from list chat channel");
+            }catch(Exception e)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, e.Message);
+            }
+        }
+
+        [Route("api/SendMessageToList")]
+        [HttpPost]
+        public async Task<ActionResult> SendMessageToList(string Message, int GiftListId)
+        {
+            var userName = User.Claims.First(e => e.Type == "name").Value;
+            var listId = GiftListId.ToString();
+
+            var message = new ChatMessageDTO()
+            {
+                FromUser = userName,
+                Message = Message
+            };
+
+            await _hubContext.Clients.Group(listId).SendAsync("ListMessage", message);
+            return StatusCode((int)HttpStatusCode.OK);
+        }
     }
 }

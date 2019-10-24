@@ -415,6 +415,15 @@ namespace GiftWizItApi.Controllers
             return StatusCode((int)HttpStatusCode.OK, result);
         }
 
+        // TODO: Somewhat of a security issue, unimportant though as it's practically useless to exploit.
+        [Route("api/SearchPrivateListItems")]
+        [HttpGet]
+        public async Task<ActionResult> GetSearchedPrivateListItems(int giftListId)
+        {
+            var result = await _unitOfWork.GiftItems.GetPrivateGiftListItems(giftListId);
+            return StatusCode((int)HttpStatusCode.OK, result);
+        }
+
         [Route("api/SearchPublicListItems")]
         [HttpGet]
         public async Task<ActionResult> GetSearchedPublicListItems(int giftListId)

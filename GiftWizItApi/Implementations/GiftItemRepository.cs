@@ -15,7 +15,20 @@ namespace GiftWizItApi.Implementations
 
         }
 
-        public async Task<IEnumerable<CombGiftItems>> GetGiftListItems(int gift_list_id, bool onlyPublic = true, string user_id = null)
+        public async Task<IEnumerable<CombGiftItems>> GetPrivateGiftListItems(
+            int gift_list_id,
+            string user_id = null
+        )
+        {
+            var result = Context.DbGiftItemsObject.FromSql($"SELECT gi.item_id, i.image, i.product_id, gift_list_id, partner_id, Afflt_Link, i.name as itm_name, gl.name as glst_name FROM GList_Items as gi JOIN Links_Items_Partners as lip ON gi.g_list_id IN (SELECT glsh.gift_list_id FROM GiftLists as glsh WHERE glsh.user_id != 'NULL' AND glsh.gift_list_id = {gift_list_id} AND glsh.is_public = 'false') JOIN Items as i ON gi.item_id = i.item_id JOIN GiftLists as gl ON gl.gift_list_id = gi.g_list_id WHERE lip.item_id = gi.item_id AND gi._deleted = 0");
+            return await result.ToListAsync();
+        }
+
+        public async Task<IEnumerable<CombGiftItems>> GetGiftListItems(
+            int gift_list_id, 
+            bool onlyPublic = true, 
+            string user_id = null
+        )
         {
             IQueryable<CombGiftItems> result = Context.DbGiftItemsObject.FromSql($"SELECT gi.item_id, i.image, i.product_id, gift_list_id, partner_id, Afflt_Link, i.name as itm_name, gl.name as glst_name FROM GList_Items as gi JOIN Links_Items_Partners as lip ON gi.g_list_id IN (SELECT glsh.gift_list_id FROM GiftLists as glsh WHERE glsh.user_id = {user_id} AND glsh.gift_list_id = {gift_list_id}) JOIN Items as i ON gi.item_id = i.item_id JOIN GiftLists as gl ON gl.gift_list_id = gi.g_list_id WHERE lip.item_id = gi.item_id AND gi._deleted = 0");
 

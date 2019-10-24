@@ -135,7 +135,38 @@ namespace GiftWizItApi.Controllers
                 var existingUserContact = await unitOfWork.ContactUsers.GetUserContactById(existingContact.ContactId, userId);
                 if(existingUserContact != null)
                 {
-                    return StatusCode((int)HttpStatusCode.BadRequest, "Contact already exists for user");
+                    if(existingUserContact.Deleted == true)
+                    {
+                        try
+                        {
+                            existingUserContact.Deleted = false;
+
+                            var notification = new ContactAddedNotificationDTO()
+                            {
+                                NotificationTitle = NotificationConstants.ContactAddedNotifTitle
+                            };
+
+                            await unitOfWork.CompleteAsync();
+
+                            unitOfWork.Notifications.Add(new Notifications()
+                            {
+                                UserId = userId,
+                                Title = NotificationConstants.ContactAddSuccessNotifTitle,
+                                Message = $"You successfully Added {contact.Name} as a contact.",
+                                Type = NotificationConstants.InfoType,
+                                CreatedOn = DateTime.Now
+                            });
+
+                            await unitOfWork.CompleteAsync();
+
+                            await hubContext.Clients.Group(userId).SendAsync("Notification", notification);
+
+                            return StatusCode((int)HttpStatusCode.OK);
+                        }catch(Exception e)
+                        {
+                            return StatusCode((int)HttpStatusCode.InternalServerError, e.Message);
+                        }
+                    }
                 }
 
                 ContactDTO contactToAdd = mapper.Map<ContactDTO>(existingContact);
@@ -161,6 +192,13 @@ namespace GiftWizItApi.Controllers
                     Type = NotificationConstants.InfoType,
                     CreatedOn = DateTime.Now
                 });
+
+                var notification = new ContactAddedNotificationDTO()
+                {
+                    NotificationTitle = NotificationConstants.ContactAddedNotifTitle
+                };
+
+                await hubContext.Clients.Group(userId).SendAsync("Notification", notification);
             }
 
             try

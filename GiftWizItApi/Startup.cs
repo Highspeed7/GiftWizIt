@@ -47,7 +47,7 @@ namespace GiftWizItApi
                 )
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            services.AddSignalR();
+            services.AddSignalR().AddAzureSignalR("Endpoint=https://giftwizit.service.signalr.net;AccessKey=Th7aS327jWcrpRz8yLyGDMOeF6OcBnzvMaN6rcvVJKI=;Version=1.0;");
             services.AddHttpContextAccessor();
 
             services.AddSingleton<IEmailConfiguration>(Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>());
@@ -101,9 +101,10 @@ namespace GiftWizItApi
             app.UseCors(GWAllowSpecificOrigins);
             app.UseHttpsRedirection();
             app.UseAuthentication();
-            app.UseSignalR(routes =>
+            app.UseAzureSignalR(routes =>
             {
                 routes.MapHub<MainHub>("/notifHub");
+                routes.MapHub<ChatHub>("/chatHub");
             });
             app.UseMvc();
         }

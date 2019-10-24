@@ -12,6 +12,7 @@ namespace GiftWizItApi.Constants
         public const string ListShareSuccessNotifTitle = "A list has been shared with you";
 
         public const string ContactAddedNotifTitle = "You've been added as someone's contact";
+        public const string ContactAddSuccessNotifTitle = "Contact successfully added";
         public const string ContactDeleteSuccessNotifTitle = "Contact successfully deleted.";
 
         public const string InfoType = "info";
