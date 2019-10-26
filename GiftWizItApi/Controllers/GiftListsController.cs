@@ -203,13 +203,14 @@ namespace GiftWizItApi.Controllers
 
             foreach (GiftItemMoveDTO item in giftItems)
             {
+                // TODO: Add the below back later removing for now to allow free movement between shared lists.
                 // Validate the gift list destination is valid
-                var validDestGiftList = giftLists.FirstOrDefault(gl => gl.Id == item.To_Glist_Id);
+                //var validDestGiftList = giftLists.FirstOrDefault(gl => gl.Id == item.To_Glist_Id);
 
-                if (validDestGiftList == null)
-                {
-                    return StatusCode((int)HttpStatusCode.BadRequest, "Invalid destination giftlist provided");
-                }
+                //if (validDestGiftList == null)
+                //{
+                //    return StatusCode((int)HttpStatusCode.BadRequest, "Invalid destination giftlist provided");
+                //}
                 // Validate the item
                 var itemsToCheck = giftLists.SelectMany(gl => gl.GiftItems);
                 var validItems = itemsToCheck.Where(i => i.Item_Id == item.Item_Id);

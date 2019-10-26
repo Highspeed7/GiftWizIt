@@ -14,5 +14,6 @@ namespace GiftWizItApi.Interfaces
         Task<IEnumerable<SharedLists>> GetAllUserSharedLists(string userId);
         Task<IEnumerable<SharedLists>> GetUserSharedListCollection(string userId, int giftListId);
         Task<IEnumerable<SharedLists>> GetListsByContactId(int contactId);
+        Task<IEnumerable<SharedLists>> GetEditableListsByContactId(int contactId);
     }
 }

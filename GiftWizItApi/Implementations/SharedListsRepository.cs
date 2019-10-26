@@ -38,7 +38,7 @@ namespace GiftWizItApi.Implementations
                 .Where(sl => sl.GiftListId == giftListId)
                 .FirstOrDefaultAsync();
         }
-
+       
         public async Task<IEnumerable<SharedLists>> GetAllUserSharedLists(string userId)
         {
             return await Context.SharedLists.Include(sl => sl.Contact).Include(sl => sl.GiftList).Where(sl => sl.UserId == userId).ToListAsync();
@@ -55,6 +55,14 @@ namespace GiftWizItApi.Implementations
                 .Include(sl => sl.User)
                 .Include(sl => sl.GiftList)
                 .Where(sl => sl.ContactId == contactId && sl.GiftList.Deleted == false).ToListAsync();
+        }
+
+        public async Task<IEnumerable<SharedLists>> GetEditableListsByContactId(int contactId)
+        {
+            return await Context.SharedLists
+                .Include(sl => sl.User)
+                .Include(sl => sl.GiftList)
+                .Where(sl => sl.ContactId == contactId && sl.GiftList.Deleted == false && sl.GiftList.AllowItemAdds == true).ToListAsync();
         }
     }
 }

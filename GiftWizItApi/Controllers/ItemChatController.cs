@@ -94,5 +94,10 @@ namespace GiftWizItApi.Controllers
             await _hubContext.Clients.Group(listId).SendAsync("ListMessage", message);
             return StatusCode((int)HttpStatusCode.OK);
         }
+
+        private void SaveMessageToDatabase()
+        {
+
+        }
     }
 }

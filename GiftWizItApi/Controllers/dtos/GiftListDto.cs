@@ -11,6 +11,8 @@ namespace GiftWizItApi.Controllers.dtos
         public int Id { get; set; }
         public string Name { get; set; }
         public bool IsPublic { get; set; }
+        public bool RestrictChat { get; set; }
+        public bool AllowItemAdds { get; set; }
 
         public List<GiftItemDTO> GiftItems { get; set; }
     }

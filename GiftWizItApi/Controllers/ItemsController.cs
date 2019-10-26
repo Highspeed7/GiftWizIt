@@ -144,18 +144,19 @@ namespace GiftWizItApi.Controllers
             
             foreach (var item in items)
             {
+                // TODO: Validate gift lists later
                 // Validate Gift List
-                var validGiftList = giftLists.Where(gl => gl.Id == item.G_List_Id);
+                // var validGiftList = giftLists.Where(gl => gl.Id == item.G_List_Id);
                 // Validate Item
                 var validItems = wish_items.Where(wi => wi.Item_Id == item.Item_Id);
 
                 // Get WishItem Link
                 WishItem wishItem = await _unitOfWork.WishItems.GetWishItemByItemId(item.Item_Id);
-                
-                if(validGiftList.Count() == 0 || validItems.Count() == 0)
+                // TODO: Add this back to the if statement, below, later : validGiftList.Count() == 0 || 
+                if (validItems.Count() == 0)
                 {
                     // TODO: Implement logging
-                    return StatusCode((int)HttpStatusCode.BadRequest, "Invalid Gift Lists or Items");
+                    return StatusCode((int)HttpStatusCode.BadRequest, "Invalid Gift List or Items");
                 }else
                 {
                     GiftItem newGiftItem = new GiftItem

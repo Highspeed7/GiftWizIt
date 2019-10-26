@@ -27,6 +27,7 @@ namespace GiftWizItApi.Models
         public DbSet<Favorites> Favorites { get; set; }
         public DbSet<UserFacebook> UserFacebook { get; set; }
         public DbSet<Notifications> Notifications { get; set; }
+        public DbSet<ListMessages> ListMessages { get; set; }
 
         public DbQuery<WishListRaw> DbWishListObject { get; set; }
         public DbQuery<CombGiftItems> DbGiftItemsObject { get; set; }
@@ -72,7 +73,37 @@ namespace GiftWizItApi.Models
                 .HasOne(gl => gl.Users)
                 .WithMany(u => u.GiftLists)
                 .HasForeignKey(gl => gl.UserId);
-                
+
+            // ListMessages Configuration
+            modelBuilder.Entity<ListMessages>()
+                .ToTable("GList_Messages")
+                .HasKey(lm => lm.Id);
+            modelBuilder.Entity<ListMessages>()
+                .Property(lm => lm.Id)
+                .HasColumnName("id");
+            modelBuilder.Entity<ListMessages>()
+                .Property(lm => lm.CreatedAt)
+                .HasColumnName("created_at")
+                .HasDefaultValueSql("GETUTCDATE()");
+            modelBuilder.Entity<ListMessages>()
+                .Property(lm => lm.UserId)
+                .HasColumnName("user_id")
+                .IsRequired(true);
+            modelBuilder.Entity<ListMessages>()
+                .Property(lm => lm.GiftListId)
+                .HasColumnName("gift_list_id");
+            modelBuilder.Entity<ListMessages>()
+                .Property(lm => lm.Message)
+                .IsRequired(true)
+                .HasColumnName("message");
+            modelBuilder.Entity<ListMessages>()
+                .HasOne(lm => lm.User)
+                .WithMany(u => u.ListMessages)
+                .HasForeignKey(lm => lm.UserId);
+            modelBuilder.Entity<ListMessages>()
+                .HasOne(lm => lm.GiftList)
+                .WithMany(gl => gl.ListMessages)
+                .HasForeignKey(lm => lm.GiftListId);
 
             // WishLists Configuration
             modelBuilder.Entity<WishLists>()

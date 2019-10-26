@@ -82,6 +82,35 @@ namespace GiftWizItApi.Controllers
         }
 
         [Authorize]
+        [Route("api/SpecialSharedLists")]
+        [HttpGet]
+        public async Task<ActionResult> GetSpecialUserSharedLists()
+        {
+            var userId = await userService.GetUserIdAsync();
+            var userContactId = await unitOfWork.Contacts.GetContactIdByUserId(userId);
+
+            var sharedLists = await unitOfWork.SharedLists.GetEditableListsByContactId(userContactId);
+
+            List<GiftListDto> giftLists = new List<GiftListDto>();
+
+            foreach(SharedLists list in sharedLists)
+            {
+
+                giftLists.Add(new GiftListDto()
+                {
+                    Name = list.GiftList.Name,
+                    Id = list.GiftList.Id,
+                    IsPublic = list.GiftList.IsPublic,
+                    RestrictChat = list.GiftList.RestrictChat,
+                    AllowItemAdds = list.GiftList.AllowItemAdds,
+                    UserId = list.GiftList.UserId
+                });
+            }
+
+            return StatusCode((int)HttpStatusCode.OK, giftLists);
+        }
+
+        [Authorize]
         [Route("api/GetUserSharedListItems")]
         [HttpPost]
         public async Task<ActionResult> GetUserSharedListItems(int listId)
