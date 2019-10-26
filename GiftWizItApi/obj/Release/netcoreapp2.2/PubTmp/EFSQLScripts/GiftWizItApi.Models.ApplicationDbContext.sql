@@ -1536,3 +1536,56 @@ END;
 
 GO
 
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191026000224_AddListMessageTable')
+BEGIN
+    CREATE TABLE [GList_Messages] (
+        [id] int NOT NULL IDENTITY,
+        [user_id] nvarchar(450) NOT NULL,
+        [gift_list_id] int NOT NULL,
+        [message] nvarchar(max) NOT NULL,
+        [created_at] datetime2 NOT NULL DEFAULT (GETUTCDATE()),
+        CONSTRAINT [PK_GList_Messages] PRIMARY KEY ([id]),
+        CONSTRAINT [FK_GList_Messages_GiftLists_gift_list_id] FOREIGN KEY ([gift_list_id]) REFERENCES [GiftLists] ([gift_list_id]) ON DELETE CASCADE,
+        CONSTRAINT [FK_GList_Messages_Users_user_id] FOREIGN KEY ([user_id]) REFERENCES [Users] ([user_id]) ON DELETE CASCADE
+    );
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191026000224_AddListMessageTable')
+BEGIN
+    CREATE INDEX [IX_GList_Messages_gift_list_id] ON [GList_Messages] ([gift_list_id]);
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191026000224_AddListMessageTable')
+BEGIN
+    CREATE INDEX [IX_GList_Messages_user_id] ON [GList_Messages] ([user_id]);
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191026000224_AddListMessageTable')
+BEGIN
+    INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+    VALUES (N'20191026000224_AddListMessageTable', N'2.2.1-servicing-10028');
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191026060444_AddedUserNameColumnToGListMessages')
+BEGIN
+    ALTER TABLE [GList_Messages] ADD [username] nvarchar(max) NOT NULL DEFAULT N'';
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191026060444_AddedUserNameColumnToGListMessages')
+BEGIN
+    INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+    VALUES (N'20191026060444_AddedUserNameColumnToGListMessages', N'2.2.1-servicing-10028');
+END;
+
+GO
+

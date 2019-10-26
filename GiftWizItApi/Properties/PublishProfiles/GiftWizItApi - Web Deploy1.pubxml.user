@@ -13,4 +13,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <Value>Data Source=giftwizit.database.windows.net%3bInitial Catalog=GiftWizIt%3bUser ID=gwdbadmin%3bPassword=gwAdmin##86%3bConnect Timeout=30%3bEncrypt=True%3bTrustServerCertificate=False%3bApplicationIntent=ReadWrite%3bMultiSubnetFailover=False</Value>
     </DestinationConnectionStrings>
   </ItemGroup>
+  <ItemGroup>
+    <EFMigrations Include="GiftWizItApi.Models.ApplicationDbContext">
+      <Value>Data Source=giftwizit.database.windows.net%3bInitial Catalog=GiftWizIt%3bUser ID=gwdbadmin%3bPassword=gwAdmin##86%3bConnect Timeout=30%3bEncrypt=True%3bTrustServerCertificate=False%3bApplicationIntent=ReadWrite%3bMultiSubnetFailover=False</Value>
+    </EFMigrations>
+  </ItemGroup>
 </Project>

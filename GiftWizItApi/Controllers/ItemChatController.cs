@@ -1,5 +1,6 @@
 ﻿using GiftWizItApi.Controllers.dtos;
 using GiftWizItApi.Interfaces;
+using GiftWizItApi.Models;
 using GiftWizItApi.SignalR.Hubs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -82,22 +83,38 @@ namespace GiftWizItApi.Controllers
         [HttpPost]
         public async Task<ActionResult> SendMessageToList(string Message, int GiftListId)
         {
+            string userId = await _userService.GetUserIdAsync();
             var userName = User.Claims.First(e => e.Type == "name").Value;
             var listId = GiftListId.ToString();
 
             var message = new ChatMessageDTO()
             {
                 FromUser = userName,
-                Message = Message
+                Message = Message,
+            };
+
+            var listMessage = new ListMessages()
+            {
+                UserId = userId,
+                UserName = userName,
+                CreatedAt = DateTime.Now,
+                Message = Message,
+                GiftListId = GiftListId
             };
 
             await _hubContext.Clients.Group(listId).SendAsync("ListMessage", message);
+
+            await SaveMessageToDatabase(listMessage);
+
             return StatusCode((int)HttpStatusCode.OK);
         }
 
-        private void SaveMessageToDatabase()
+        private async Task SaveMessageToDatabase(ListMessages listMessage)
         {
+            _unitOfWork.ListMessages.Add(listMessage);
 
+            await _unitOfWork.CompleteAsync();
+            return;
         }
     }
 }

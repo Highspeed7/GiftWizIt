@@ -90,6 +90,10 @@ namespace GiftWizItApi.Models
                 .HasColumnName("user_id")
                 .IsRequired(true);
             modelBuilder.Entity<ListMessages>()
+                .Property(lm => lm.UserName)
+                .HasColumnName("username")
+                .IsRequired(true);
+            modelBuilder.Entity<ListMessages>()
                 .Property(lm => lm.GiftListId)
                 .HasColumnName("gift_list_id");
             modelBuilder.Entity<ListMessages>()
