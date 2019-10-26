@@ -1,11 +1,13 @@
-﻿using System;
+﻿using GiftWizItApi.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace GiftWizItApi.Interfaces
 {
-    public class IListMessagesRepository
+    public interface IListMessagesRepository : IRepository<ListMessages>
     {
+        
     }
 }

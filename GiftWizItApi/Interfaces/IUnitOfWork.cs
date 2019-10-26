@@ -21,6 +21,7 @@ namespace GiftWizItApi.Interfaces
         IUserFacebookRepository UserFacebook { get; }
         INotificationsRepository Notifications { get; }
         IUserCheckoutRepository UserCheckout { get; }
+        IListMessagesRepository ListMessages { get; }
         Task<int> CompleteAsync();
     }
 }
