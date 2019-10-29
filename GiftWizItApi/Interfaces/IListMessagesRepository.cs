@@ -1,4 +1,5 @@
-﻿using GiftWizItApi.Models;
+﻿using GiftWizItApi.Extensions;
+using GiftWizItApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,6 @@ namespace GiftWizItApi.Interfaces
 {
     public interface IListMessagesRepository : IRepository<ListMessages>
     {
-        
+        Task<PagedResult<ListMessages>> GetPagedListMessages(int giftListId, int pageSize);
     }
 }

@@ -41,6 +41,8 @@
     <Compile Remove="Migrations\20190830211757_AddPersistColumnToNotifications.Designer.cs" />
     <Compile Remove="Migrations\20191025235955_AddListMessageTable.cs" />
     <Compile Remove="Migrations\20191025235955_AddListMessageTable.Designer.cs" />
+    <Compile Remove="Migrations\20191029202533_AddedPromoCollectionsAndPromoItemsTables.cs" />
+    <Compile Remove="Migrations\20191029202533_AddedPromoCollectionsAndPromoItemsTables.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

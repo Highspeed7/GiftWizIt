@@ -28,6 +28,10 @@ namespace GiftWizItApi.Models
         public DbSet<UserFacebook> UserFacebook { get; set; }
         public DbSet<Notifications> Notifications { get; set; }
         public DbSet<ListMessages> ListMessages { get; set; }
+        public DbSet<PromoCollections> PromoCollections { get; set; }
+        public DbSet<PromoItems> PromoItems { get; set; }
+        public DbSet<Tags> Tags { get; set; }
+        public DbSet<ItemTags> ItemTags { get; set; }
 
         public DbQuery<WishListRaw> DbWishListObject { get; set; }
         public DbQuery<CombGiftItems> DbGiftItemsObject { get; set; }
@@ -453,6 +457,78 @@ namespace GiftWizItApi.Models
             modelBuilder.Entity<UserFacebook>()
                 .HasOne(uf => uf.User)
                 .WithOne(uf => uf.UserFacebook);
+
+            // PromoCollections Table
+            modelBuilder.Entity<PromoCollections>()
+                .ToTable("Promo_Collections")
+                .HasKey(pc => pc.Id);
+            modelBuilder.Entity<PromoCollections>()
+                .Property(pc => pc.Id)
+                .HasColumnName("id");
+            modelBuilder.Entity<PromoCollections>()
+                .Property(pc => pc.Name)
+                .HasColumnName("name");
+            modelBuilder.Entity<PromoCollections>()
+                .Property(pc => pc.Start_Date)
+                .HasColumnName("start_date")
+                .IsRequired(true);
+            modelBuilder.Entity<PromoCollections>()
+                .Property(pc => pc.End_Date)
+                .HasColumnName("end_date");
+
+            // PromoItems Intermediary Table
+            modelBuilder.Entity<PromoItems>()
+                .ToTable("Promo_Items")
+                .HasKey(pi => new { pi.ItemId, pi.CollectionId });
+            modelBuilder.Entity<PromoItems>()
+                .Property(pi => pi.CollectionId)
+                .HasColumnName("collection_id");
+            modelBuilder.Entity<PromoItems>()
+                .Property(pi => pi.ItemId)
+                .HasColumnName("item_id");
+            modelBuilder.Entity<PromoItems>()
+                .HasOne(pi => pi.Item)
+                .WithMany(i => i.PromoItems)
+                .HasForeignKey(pi => pi.ItemId);
+            modelBuilder.Entity<PromoItems>()
+                .HasOne(pi => pi.Collection)
+                .WithMany(c => c.PromoItems)
+                .HasForeignKey(pi => pi.CollectionId);
+
+            // Tags Table
+            modelBuilder.Entity<Tags>()
+                .ToTable("Tags")
+                .HasKey(t => t.Id);
+            modelBuilder.Entity<Tags>()
+                .Property(t => t.Id)
+                .HasColumnName("id");
+            modelBuilder.Entity<Tags>()
+                .Property(t => t.TagName)
+                .HasColumnName("tag_name")
+                .IsRequired(true);
+            modelBuilder.Entity<Tags>()
+                .Property(t => t.Deleted)
+                .HasColumnName("_deleted")
+                .HasDefaultValue(false);
+
+            // ItemTags Intermediary Table
+            modelBuilder.Entity<ItemTags>()
+                .ToTable("Item_Tags")
+                .HasKey(it => new { it.ItemId, it.TagId });
+            modelBuilder.Entity<ItemTags>()
+                .Property(it => it.TagId)
+                .HasColumnName("tag_id");
+            modelBuilder.Entity<ItemTags>()
+                .Property(it => it.ItemId)
+                .HasColumnName("item_id");
+            modelBuilder.Entity<ItemTags>()
+                .HasOne(it => it.Item)
+                .WithMany(i => i.Tags)
+                .HasForeignKey(it => it.ItemId);
+            modelBuilder.Entity<ItemTags>()
+                .HasOne(it => it.Tag)
+                .WithMany(t => t.ItemTags)
+                .HasForeignKey(it => it.TagId);
         }
     }
 }

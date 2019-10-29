@@ -13,7 +13,6 @@ using System.Threading.Tasks;
 
 namespace GiftWizItApi.Controllers
 {
-    [Authorize]
     [ApiController]
     public class ItemChatController : ControllerBase
     {
@@ -32,6 +31,7 @@ namespace GiftWizItApi.Controllers
             _hubContext = hubContext;
         }
 
+        [Authorize]
         [Route("api/ListChatChannel")]
         [HttpPost]
         public async Task<ActionResult> ConnectToListChatChannel(ItemChatConnectDTO connectionData)
@@ -65,6 +65,7 @@ namespace GiftWizItApi.Controllers
             }
         }
 
+        [Authorize]
         [Route("api/LeaveListChat")]
         [HttpPost]
         public async Task<ActionResult> LeaveListChatChannel(ItemChatConnectDTO connectionData)
@@ -79,6 +80,7 @@ namespace GiftWizItApi.Controllers
             }
         }
 
+        [Authorize]
         [Route("api/SendMessageToList")]
         [HttpPost]
         public async Task<ActionResult> SendMessageToList(string Message, int GiftListId)
@@ -107,6 +109,16 @@ namespace GiftWizItApi.Controllers
             await SaveMessageToDatabase(listMessage);
 
             return StatusCode((int)HttpStatusCode.OK);
+        }
+
+        [Authorize]
+        [Route("api/ItemChat/getListMessages")]
+        [HttpGet]
+        public async Task<ActionResult> GetListMessages(int giftListId, int pageSize)
+        {
+            var messages = await _unitOfWork.ListMessages.GetPagedListMessages(giftListId, pageSize);
+
+            return StatusCode((int)HttpStatusCode.OK, messages);
         }
 
         private async Task SaveMessageToDatabase(ListMessages listMessage)

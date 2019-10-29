@@ -4,14 +4,16 @@ using GiftWizItApi.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GiftWizItApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191029204126_AddedPromoCollectionsAndPromotItemsTable")]
+    partial class AddedPromoCollectionsAndPromotItemsTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -189,21 +191,6 @@ namespace GiftWizItApi.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("GiftLists");
-                });
-
-            modelBuilder.Entity("GiftWizItApi.Models.ItemTags", b =>
-                {
-                    b.Property<int>("ItemId")
-                        .HasColumnName("item_id");
-
-                    b.Property<int>("TagId")
-                        .HasColumnName("tag_id");
-
-                    b.HasKey("ItemId", "TagId");
-
-                    b.HasIndex("TagId");
-
-                    b.ToTable("Item_Tags");
                 });
 
             modelBuilder.Entity("GiftWizItApi.Models.Items", b =>
@@ -426,26 +413,6 @@ namespace GiftWizItApi.Migrations
                     b.ToTable("Shared_Lists");
                 });
 
-            modelBuilder.Entity("GiftWizItApi.Models.Tags", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<bool>("Deleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("_deleted")
-                        .HasDefaultValue(false);
-
-                    b.Property<int>("TagName")
-                        .HasColumnName("tag_name");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Tags");
-                });
-
             modelBuilder.Entity("GiftWizItApi.Models.UserCheckout", b =>
                 {
                     b.Property<string>("UserId")
@@ -614,19 +581,6 @@ namespace GiftWizItApi.Migrations
                     b.HasOne("GiftWizItApi.Models.Users", "Users")
                         .WithMany("GiftLists")
                         .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("GiftWizItApi.Models.ItemTags", b =>
-                {
-                    b.HasOne("GiftWizItApi.Models.Items", "Item")
-                        .WithMany("Tags")
-                        .HasForeignKey("ItemId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("GiftWizItApi.Models.Tags", "Tag")
-                        .WithMany("ItemTags")
-                        .HasForeignKey("TagId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("GiftWizItApi.Models.ListMessages", b =>

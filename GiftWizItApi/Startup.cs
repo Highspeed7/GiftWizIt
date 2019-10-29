@@ -47,7 +47,7 @@ namespace GiftWizItApi
                 )
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            services.AddSignalR().AddAzureSignalR("Endpoint=https://giftwizit.service.signalr.net;AccessKey=Th7aS327jWcrpRz8yLyGDMOeF6OcBnzvMaN6rcvVJKI=;Version=1.0;");
+            services.AddSignalR().AddAzureSignalR("Endpoint=https://giftwizit.service.signalr.net;AccessKey=MShqbFK+d7U9O+YJ44RZW5wAk+bndIAm6Q/7tnseJZI=;Version=1.0;");
             services.AddHttpContextAccessor();
 
             services.AddSingleton<IEmailConfiguration>(Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>());
