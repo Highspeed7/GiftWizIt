@@ -1589,3 +1589,84 @@ END;
 
 GO
 
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191029204126_AddedPromoCollectionsAndPromotItemsTable')
+BEGIN
+    CREATE TABLE [Promo_Collections] (
+        [id] int NOT NULL IDENTITY,
+        [name] nvarchar(max) NULL,
+        [start_date] datetime2 NOT NULL,
+        [end_date] datetime2 NOT NULL,
+        CONSTRAINT [PK_Promo_Collections] PRIMARY KEY ([id])
+    );
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191029204126_AddedPromoCollectionsAndPromotItemsTable')
+BEGIN
+    CREATE TABLE [Promo_Items] (
+        [item_id] int NOT NULL,
+        [collection_id] int NOT NULL,
+        CONSTRAINT [PK_Promo_Items] PRIMARY KEY ([item_id], [collection_id]),
+        CONSTRAINT [FK_Promo_Items_Promo_Collections_collection_id] FOREIGN KEY ([collection_id]) REFERENCES [Promo_Collections] ([id]) ON DELETE CASCADE,
+        CONSTRAINT [FK_Promo_Items_Items_item_id] FOREIGN KEY ([item_id]) REFERENCES [Items] ([item_id]) ON DELETE CASCADE
+    );
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191029204126_AddedPromoCollectionsAndPromotItemsTable')
+BEGIN
+    CREATE INDEX [IX_Promo_Items_collection_id] ON [Promo_Items] ([collection_id]);
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191029204126_AddedPromoCollectionsAndPromotItemsTable')
+BEGIN
+    INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+    VALUES (N'20191029204126_AddedPromoCollectionsAndPromotItemsTable', N'2.2.1-servicing-10028');
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191029204940_AddedTagsAndIntermediaryItemTagsTable')
+BEGIN
+    CREATE TABLE [Tags] (
+        [id] int NOT NULL IDENTITY,
+        [tag_name] int NOT NULL,
+        [_deleted] bit NOT NULL DEFAULT 0,
+        CONSTRAINT [PK_Tags] PRIMARY KEY ([id])
+    );
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191029204940_AddedTagsAndIntermediaryItemTagsTable')
+BEGIN
+    CREATE TABLE [Item_Tags] (
+        [tag_id] int NOT NULL,
+        [item_id] int NOT NULL,
+        CONSTRAINT [PK_Item_Tags] PRIMARY KEY ([item_id], [tag_id]),
+        CONSTRAINT [FK_Item_Tags_Items_item_id] FOREIGN KEY ([item_id]) REFERENCES [Items] ([item_id]) ON DELETE CASCADE,
+        CONSTRAINT [FK_Item_Tags_Tags_tag_id] FOREIGN KEY ([tag_id]) REFERENCES [Tags] ([id]) ON DELETE CASCADE
+    );
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191029204940_AddedTagsAndIntermediaryItemTagsTable')
+BEGIN
+    CREATE INDEX [IX_Item_Tags_tag_id] ON [Item_Tags] ([tag_id]);
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191029204940_AddedTagsAndIntermediaryItemTagsTable')
+BEGIN
+    INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+    VALUES (N'20191029204940_AddedTagsAndIntermediaryItemTagsTable', N'2.2.1-servicing-10028');
+END;
+
+GO
+

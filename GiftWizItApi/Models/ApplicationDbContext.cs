@@ -482,10 +482,7 @@ namespace GiftWizItApi.Models
             // PromoItems Intermediary Table
             modelBuilder.Entity<PromoItems>()
                 .ToTable("Promo_Items")
-                .HasKey(pi => new { pi.ItemId, pi.CollectionId });
-            modelBuilder.Entity<PromoItems>()
-                .Property(pi => pi.CollectionId)
-                .HasColumnName("collection_id");
+                .HasKey(pi => new { pi.Id });
             modelBuilder.Entity<PromoItems>()
                 .Property(pi => pi.ItemId)
                 .HasColumnName("item_id");
@@ -493,15 +490,14 @@ namespace GiftWizItApi.Models
                 .HasOne(pi => pi.Item)
                 .WithMany(i => i.PromoItems)
                 .HasForeignKey(pi => pi.ItemId);
-            modelBuilder.Entity<PromoItems>()
-                .HasOne(pi => pi.Collection)
-                .WithMany(c => c.PromoItems)
-                .HasForeignKey(pi => pi.CollectionId);
 
             // Tags Table
             modelBuilder.Entity<Tags>()
                 .ToTable("Tags")
                 .HasKey(t => t.Id);
+            modelBuilder.Entity<Tags>()
+                .HasIndex(t => t.TagName)
+                .IsUnique();
             modelBuilder.Entity<Tags>()
                 .Property(t => t.Id)
                 .HasColumnName("id");

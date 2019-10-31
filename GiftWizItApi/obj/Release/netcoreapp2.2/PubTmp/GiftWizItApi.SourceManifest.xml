@@ -1,4 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sitemanifest>
   <IisApp path="C:\Users\Brian\source\repos\GiftWizIt\GiftWizItApi\obj\Release\netcoreapp2.2\PubTmp\Out\" />
+  <dbfullsql path="C:\Users\Brian\source\repos\GiftWizIt\GiftWizItApi\obj\Release\netcoreapp2.2\PubTmp\EFSQLScripts\GiftWizItApi.Models.ApplicationDbContext.sql" />
 </sitemanifest>
