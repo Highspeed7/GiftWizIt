@@ -368,6 +368,9 @@ namespace GiftWizItApi.Migrations
                     b.Property<DateTime>("End_Date")
                         .HasColumnName("end_date");
 
+                    b.Property<string>("MatchTags")
+                        .HasColumnName("match_tags");
+
                     b.Property<string>("Name")
                         .HasColumnName("name");
 
@@ -381,15 +384,20 @@ namespace GiftWizItApi.Migrations
 
             modelBuilder.Entity("GiftWizItApi.Models.PromoItems", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
                     b.Property<int>("ItemId")
                         .HasColumnName("item_id");
 
-                    b.Property<int>("CollectionId")
-                        .HasColumnName("collection_id");
+                    b.Property<int?>("PromoCollectionsId");
 
-                    b.HasKey("ItemId", "CollectionId");
+                    b.HasKey("Id");
 
-                    b.HasIndex("CollectionId");
+                    b.HasIndex("ItemId");
+
+                    b.HasIndex("PromoCollectionsId");
 
                     b.ToTable("Promo_Items");
                 });
@@ -438,10 +446,14 @@ namespace GiftWizItApi.Migrations
                         .HasColumnName("_deleted")
                         .HasDefaultValue(false);
 
-                    b.Property<int>("TagName")
+                    b.Property<string>("TagName")
+                        .IsRequired()
                         .HasColumnName("tag_name");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TagName")
+                        .IsUnique();
 
                     b.ToTable("Tags");
                 });
@@ -664,15 +676,14 @@ namespace GiftWizItApi.Migrations
 
             modelBuilder.Entity("GiftWizItApi.Models.PromoItems", b =>
                 {
-                    b.HasOne("GiftWizItApi.Models.PromoCollections", "Collection")
-                        .WithMany("PromoItems")
-                        .HasForeignKey("CollectionId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("GiftWizItApi.Models.Items", "Item")
                         .WithMany("PromoItems")
                         .HasForeignKey("ItemId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("GiftWizItApi.Models.PromoCollections")
+                        .WithMany("PromoItems")
+                        .HasForeignKey("PromoCollectionsId");
                 });
 
             modelBuilder.Entity("GiftWizItApi.Models.SharedLists", b =>

@@ -15,9 +15,10 @@ namespace GiftWizItApi.Implementations
 
         }
 
-        public void Add(string userId)
+        public new Items Add(Items item)
         {
-            throw new NotImplementedException();
+            base.Add(item);
+            return item;
         }
 
         public async Task<Items> GetById(int itemId)

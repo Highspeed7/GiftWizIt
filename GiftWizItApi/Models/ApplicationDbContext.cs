@@ -475,6 +475,9 @@ namespace GiftWizItApi.Models
             modelBuilder.Entity<PromoCollections>()
                 .Property(pc => pc.End_Date)
                 .HasColumnName("end_date");
+            modelBuilder.Entity<PromoCollections>()
+                .Property(pc => pc.MatchTags)
+                .HasColumnName("match_tags");
 
             // PromoItems Intermediary Table
             modelBuilder.Entity<PromoItems>()

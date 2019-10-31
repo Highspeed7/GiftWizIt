@@ -8,7 +8,7 @@ namespace GiftWizItApi.Interfaces
 {
     public interface IItemsRepository : IRepository<Items>
     {
-        void Add(string userId);
+        new Items Add(Items item);
         Task<Items> GetById(int itemId);
     }
 }

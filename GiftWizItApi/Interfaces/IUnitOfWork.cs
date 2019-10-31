@@ -22,6 +22,10 @@ namespace GiftWizItApi.Interfaces
         INotificationsRepository Notifications { get; }
         IUserCheckoutRepository UserCheckout { get; }
         IListMessagesRepository ListMessages { get; }
+        IPromoCollectionsRepository PromoCollections { get; }
+        IPromoItemsRepository PromoItems { get; }
+        IItemTagsRepository ItemTags { get; }
+        ITagsRepository Tags { get; }
         Task<int> CompleteAsync();
     }
 }

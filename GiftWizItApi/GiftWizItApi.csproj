@@ -43,6 +43,8 @@
     <Compile Remove="Migrations\20191025235955_AddListMessageTable.Designer.cs" />
     <Compile Remove="Migrations\20191029202533_AddedPromoCollectionsAndPromoItemsTables.cs" />
     <Compile Remove="Migrations\20191029202533_AddedPromoCollectionsAndPromoItemsTables.Designer.cs" />
+    <Compile Remove="Migrations\20191031171747_TestMigration.cs" />
+    <Compile Remove="Migrations\20191031171747_TestMigration.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
