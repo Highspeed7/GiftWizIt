@@ -110,13 +110,11 @@ namespace GiftWizItApi.Controllers
         [HttpGet]
         public async Task<IEnumerable<GiftLists>> GetUserGiftLists()
         {
+            // TODO: Move toward clean architecture
             var userId = await userService.GetUserIdAsync();
 
             var giftLists = await _unitOfWork.GiftLists.GetUserLists(userId);
-
-
-            //await _hubContext.Clients.Group(userId).SendAsync("Notification", "Testing");
-
+            
             return giftLists;
         }
 

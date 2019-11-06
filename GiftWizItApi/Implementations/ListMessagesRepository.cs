@@ -1,6 +1,7 @@
 ﻿using GiftWizItApi.Extensions;
 using GiftWizItApi.Interfaces;
 using GiftWizItApi.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +23,13 @@ namespace GiftWizItApi.Implementations
             var result = Context.ListMessages.Where(lm => lm.GiftListId == giftListId).OrderByDescending(lm => lm.CreatedAt);
 
             return await result.GetPaged(pager.PageCount, pager.PageSize);
+        }
+
+        public async Task<int> GetListMessagesCountAsync(int giftListId)
+        {
+            var result = await Context.ListMessages.Where(lm => lm.GiftListId == giftListId).ToListAsync();
+
+            return result.Count();
         }
     }
 }

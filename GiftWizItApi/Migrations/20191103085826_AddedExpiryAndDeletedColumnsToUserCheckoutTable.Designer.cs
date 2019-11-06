@@ -4,14 +4,16 @@ using GiftWizItApi.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GiftWizItApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191103085826_AddedExpiryAndDeletedColumnsToUserCheckoutTable")]
+    partial class AddedExpiryAndDeletedColumnsToUserCheckoutTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -143,7 +145,9 @@ namespace GiftWizItApi.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<bool>("AllowItemAdds")
-                        .HasColumnName("allow_item_adds");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("allow_item_adds")
+                        .HasDefaultValue(true);
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
@@ -175,7 +179,9 @@ namespace GiftWizItApi.Migrations
                         .HasDefaultValue("");
 
                     b.Property<bool>("RestrictChat")
-                        .HasColumnName("restrict_chat");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("restrict_chat")
+                        .HasDefaultValue(false);
 
                     b.Property<string>("UserId")
                         .HasColumnName("user_id");

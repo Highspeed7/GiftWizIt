@@ -121,6 +121,16 @@ namespace GiftWizItApi.Controllers
             return StatusCode((int)HttpStatusCode.OK, messages);
         }
 
+        [Authorize]
+        [Route("api/ItemChat/getListMessageCount")]
+        [HttpGet]
+        public async Task<ActionResult> GetListMessagesCount(int giftListId)
+        {
+            var messageCount = await _unitOfWork.ListMessages.GetListMessagesCountAsync(giftListId);
+
+            return StatusCode((int)HttpStatusCode.OK, messageCount);
+        }
+
         private async Task SaveMessageToDatabase(ListMessages listMessage)
         {
             _unitOfWork.ListMessages.Add(listMessage);

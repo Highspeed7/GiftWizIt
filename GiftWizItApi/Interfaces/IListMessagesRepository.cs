@@ -10,5 +10,6 @@ namespace GiftWizItApi.Interfaces
     public interface IListMessagesRepository : IRepository<ListMessages>
     {
         Task<PagedResult<ListMessages>> GetPagedListMessages(int giftListId, int pageSize);
+        Task<int> GetListMessagesCountAsync(int giftListId);
     }
 }

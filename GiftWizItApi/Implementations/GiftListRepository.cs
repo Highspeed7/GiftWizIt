@@ -23,6 +23,9 @@ namespace GiftWizItApi.Implementations
             var giftList = new GiftLists
             {
                 Name = glist.Name,
+                Password = glist.Password,
+                RestrictChat = glist.RestrictChat,
+                AllowItemAdds = glist.AllowItemAdds,
                 IsPublic = glist.IsPublic,
                 UserId = glist.UserId
             };

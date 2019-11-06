@@ -20,8 +20,7 @@ namespace GiftWizItApi.Implementations
             var result = await Context.Users
                 .Where(u => u.UserId == userId)
                 .IncludeFilter(u => u.UserCheckouts
-                    .Where(uc => uc.Completed == false))
-                .FirstOrDefaultAsync();
+                    .Where(uc => uc.Completed == false && uc.ExpiryDate > uc.DateCreated)).FirstOrDefaultAsync();
 
             return result.UserCheckouts;
         }

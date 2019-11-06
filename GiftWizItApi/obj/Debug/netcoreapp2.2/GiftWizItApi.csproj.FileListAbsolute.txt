@@ -3,6 +3,7 @@ C:\Users\Brian\source\repos\GiftWizIt\GiftWizItApi\bin\Debug\netcoreapp2.2\GiftW
 C:\Users\Brian\source\repos\GiftWizIt\GiftWizItApi\bin\Debug\netcoreapp2.2\GiftWizItApi.runtimeconfig.dev.json
 C:\Users\Brian\source\repos\GiftWizIt\GiftWizItApi\bin\Debug\netcoreapp2.2\GiftWizItApi.dll
 C:\Users\Brian\source\repos\GiftWizIt\GiftWizItApi\bin\Debug\netcoreapp2.2\GiftWizItApi.pdb
+C:\Users\Brian\source\repos\GiftWizIt\GiftWizItApi\obj\Debug\netcoreapp2.2\GiftWizItApi.csprojAssemblyReference.cache
 C:\Users\Brian\source\repos\GiftWizIt\GiftWizItApi\obj\Debug\netcoreapp2.2\GiftWizItApi.csproj.CoreCompileInputs.cache
 C:\Users\Brian\source\repos\GiftWizIt\GiftWizItApi\obj\Debug\netcoreapp2.2\GiftWizItApi.RazorAssemblyInfo.cache
 C:\Users\Brian\source\repos\GiftWizIt\GiftWizItApi\obj\Debug\netcoreapp2.2\GiftWizItApi.RazorAssemblyInfo.cs
@@ -11,4 +12,3 @@ C:\Users\Brian\source\repos\GiftWizIt\GiftWizItApi\obj\Debug\netcoreapp2.2\GiftW
 C:\Users\Brian\source\repos\GiftWizIt\GiftWizItApi\obj\Debug\netcoreapp2.2\GiftWizItApi.RazorTargetAssemblyInfo.cache
 C:\Users\Brian\source\repos\GiftWizIt\GiftWizItApi\obj\Debug\netcoreapp2.2\GiftWizItApi.dll
 C:\Users\Brian\source\repos\GiftWizIt\GiftWizItApi\obj\Debug\netcoreapp2.2\GiftWizItApi.pdb
-C:\Users\Brian\source\repos\GiftWizIt\GiftWizItApi\obj\Debug\netcoreapp2.2\GiftWizItApi.csprojAssemblyReference.cache

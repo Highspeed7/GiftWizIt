@@ -68,11 +68,11 @@ namespace GiftWizItApi.Models
             modelBuilder.Entity<GiftLists>()
                 .Property(gl => gl.RestrictChat)
                 .HasColumnName("restrict_chat")
-                .HasDefaultValue(false);
+                .IsRequired(true);
             modelBuilder.Entity<GiftLists>()
                 .Property(gl => gl.AllowItemAdds)
                 .HasColumnName("allow_item_adds")
-                .HasDefaultValue(true);
+                .IsRequired(true);
             modelBuilder.Entity<GiftLists>()
                 .HasOne(gl => gl.Users)
                 .WithMany(u => u.GiftLists)
@@ -237,10 +237,18 @@ namespace GiftWizItApi.Models
                 .Property(uc => uc.DateCompleted)
                 .HasColumnName("date_completed");
             modelBuilder.Entity<UserCheckout>()
+                .Property(uc => uc.ExpiryDate)
+                .HasColumnName("expiry_date");
+            modelBuilder.Entity<UserCheckout>()
                 .Property(uc => uc.Completed)
                 .IsRequired(true)
                 .HasDefaultValue(false)
                 .HasColumnName("completed");
+            modelBuilder.Entity<UserCheckout>()
+                .Property(uc => uc.Deleted)
+                .IsRequired(true)
+                .HasDefaultValue(false)
+                .HasColumnName("deleted");
             modelBuilder.Entity<UserCheckout>()
                 .Property(uc => uc.WebUrl)
                 .HasColumnName("web_url");
