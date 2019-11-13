@@ -536,6 +536,20 @@ namespace GiftWizItApi.Models
                 .HasOne(it => it.Tag)
                 .WithMany(t => t.ItemTags)
                 .HasForeignKey(it => it.TagId);
+
+            // ItemClaims Intermediary Table
+            modelBuilder.Entity<ItemClaims>()
+                .ToTable("Item_Claims")
+                .HasKey(ic => ic.ClaimId);
+            modelBuilder.Entity<ItemClaims>()
+                .Property(ic => ic.ClaimId)
+                .HasColumnName("claim_id");
+            modelBuilder.Entity<ItemClaims>()
+                .Property(ic => ic.GiftListId)
+                .HasColumnName("gift_list_id");
+            modelBuilder.Entity<ItemClaims>()
+                .Property(ic => ic.ItemId)
+                .HasColumnName("item_id");
         }
     }
 }

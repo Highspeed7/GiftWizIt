@@ -29,6 +29,7 @@ namespace GiftWizItApi.Models
         public List<Favorites> Favorites { get; set; }
         public List<PromoItems> PromoItems { get; set; }
         public List<ItemTags> Tags { get; set; }
+        public List<ItemClaims> ItemClaims { get; set; }
 
         public Items()
         {

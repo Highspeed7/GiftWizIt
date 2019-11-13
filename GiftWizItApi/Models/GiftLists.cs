@@ -38,5 +38,6 @@ namespace GiftWizItApi.Models
         public List<SharedLists> SharedLists { get; set; }
         public List<Favorites> Favorites { get; set; }
         public List<ListMessages> ListMessages { get; set; }
+        public List<ItemClaims> ItemClaims { get; set; }
     }
 }

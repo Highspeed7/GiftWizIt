@@ -484,6 +484,8 @@ namespace GiftWizItApi.Controllers
             dbGiftList.Name = giftList.NewName;
             dbGiftList.Password = (giftList.NewPass == null) ? "" : giftList.NewPass;
             dbGiftList.IsPublic = giftList.IsPublic;
+            dbGiftList.RestrictChat = giftList.RestrictChat;
+            dbGiftList.AllowItemAdds = giftList.AllowAdds;
 
             foreach (SharedLists list in dbSharedList)
             {

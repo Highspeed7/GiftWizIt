@@ -93,6 +93,7 @@ namespace GiftWizItApi.Controllers
             {
                 FromUser = userName,
                 Message = Message,
+                CreatedAt = DateTime.Now
             };
 
             var listMessage = new ListMessages()
@@ -114,9 +115,9 @@ namespace GiftWizItApi.Controllers
         [Authorize]
         [Route("api/ItemChat/getListMessages")]
         [HttpGet]
-        public async Task<ActionResult> GetListMessages(int giftListId, int pageSize)
+        public async Task<ActionResult> GetListMessages(int giftListId, int pageSize, int skipCount = -1)
         {
-            var messages = await _unitOfWork.ListMessages.GetPagedListMessages(giftListId, pageSize);
+            var messages = await _unitOfWork.ListMessages.GetPagedListMessages(giftListId, pageSize, skipCount);
 
             return StatusCode((int)HttpStatusCode.OK, messages);
         }

@@ -33,6 +33,7 @@ namespace GiftWizItApi.Implementations
             PromoItems = new PromoItemsRepository(_context);
             ItemTags = new ItemTagsRepository(_context);
             Tags = new TagsRepository(_context);
+            ItemClaims = new ItemClaimsRepository(_context);
         }
 
         public IGiftListRepository GiftLists { get; private set; }
@@ -54,6 +55,7 @@ namespace GiftWizItApi.Implementations
         public IPromoItemsRepository PromoItems { get; private set; }
         public IItemTagsRepository ItemTags { get; private set; }
         public ITagsRepository Tags { get; private set; }
+        public IItemClaimsRepository ItemClaims { get; private set; }
 
         public async Task<int> CompleteAsync()
         {

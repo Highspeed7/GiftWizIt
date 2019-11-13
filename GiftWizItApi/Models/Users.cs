@@ -25,6 +25,8 @@ namespace GiftWizItApi.Models
 
         public List<Notifications> Notifications { get; set; }
 
+        public List<ItemClaims> ItemClaims { get; set; }
+
         public UserFacebook UserFacebook { get; set; }
     }
 }

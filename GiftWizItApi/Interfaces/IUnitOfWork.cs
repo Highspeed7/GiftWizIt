@@ -26,6 +26,7 @@ namespace GiftWizItApi.Interfaces
         IPromoItemsRepository PromoItems { get; }
         IItemTagsRepository ItemTags { get; }
         ITagsRepository Tags { get; }
+        IItemClaimsRepository ItemClaims { get; }
         Task<int> CompleteAsync();
     }
 }
