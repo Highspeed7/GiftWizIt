@@ -32,6 +32,7 @@ namespace GiftWizItApi.Models
         public DbSet<PromoItems> PromoItems { get; set; }
         public DbSet<Tags> Tags { get; set; }
         public DbSet<ItemTags> ItemTags { get; set; }
+        public DbSet<ItemClaims> ItemClaims { get; set; }
 
         public DbQuery<WishListRaw> DbWishListObject { get; set; }
         public DbQuery<CombGiftItems> DbGiftItemsObject { get; set; }
@@ -545,11 +546,17 @@ namespace GiftWizItApi.Models
                 .Property(ic => ic.ClaimId)
                 .HasColumnName("claim_id");
             modelBuilder.Entity<ItemClaims>()
+                .Property(ic => ic.UserId)
+                .HasColumnName("user_id");
+            modelBuilder.Entity<ItemClaims>()
                 .Property(ic => ic.GiftListId)
                 .HasColumnName("gift_list_id");
             modelBuilder.Entity<ItemClaims>()
                 .Property(ic => ic.ItemId)
                 .HasColumnName("item_id");
+            modelBuilder.Entity<ItemClaims>()
+                .Property(ic => ic.Closed)
+                .HasColumnName("_closed");
         }
     }
 }

@@ -1874,3 +1874,99 @@ END;
 
 GO
 
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191113201108_AddedItemClaimsTable')
+BEGIN
+    CREATE TABLE [Item_Claims] (
+        [claim_id] int NOT NULL IDENTITY,
+        [UserId] nvarchar(450) NULL,
+        [item_id] int NOT NULL,
+        [gift_list_id] int NOT NULL,
+        CONSTRAINT [PK_Item_Claims] PRIMARY KEY ([claim_id]),
+        CONSTRAINT [FK_Item_Claims_GiftLists_gift_list_id] FOREIGN KEY ([gift_list_id]) REFERENCES [GiftLists] ([gift_list_id]) ON DELETE CASCADE,
+        CONSTRAINT [FK_Item_Claims_Items_item_id] FOREIGN KEY ([item_id]) REFERENCES [Items] ([item_id]) ON DELETE CASCADE,
+        CONSTRAINT [FK_Item_Claims_Users_UserId] FOREIGN KEY ([UserId]) REFERENCES [Users] ([user_id]) ON DELETE NO ACTION
+    );
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191113201108_AddedItemClaimsTable')
+BEGIN
+    CREATE INDEX [IX_Item_Claims_gift_list_id] ON [Item_Claims] ([gift_list_id]);
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191113201108_AddedItemClaimsTable')
+BEGIN
+    CREATE INDEX [IX_Item_Claims_item_id] ON [Item_Claims] ([item_id]);
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191113201108_AddedItemClaimsTable')
+BEGIN
+    CREATE INDEX [IX_Item_Claims_UserId] ON [Item_Claims] ([UserId]);
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191113201108_AddedItemClaimsTable')
+BEGIN
+    INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+    VALUES (N'20191113201108_AddedItemClaimsTable', N'2.2.1-servicing-10028');
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191114023927_AddedClosedColumnToItemClaims')
+BEGIN
+    ALTER TABLE [Item_Claims] ADD [_closed] bit NOT NULL DEFAULT 0;
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191114023927_AddedClosedColumnToItemClaims')
+BEGIN
+    INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+    VALUES (N'20191114023927_AddedClosedColumnToItemClaims', N'2.2.1-servicing-10028');
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191114045345_AddedUserIdColumnNameToItemClaimsTable')
+BEGIN
+    ALTER TABLE [Item_Claims] DROP CONSTRAINT [FK_Item_Claims_Users_UserId];
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191114045345_AddedUserIdColumnNameToItemClaimsTable')
+BEGIN
+    EXEC sp_rename N'[Item_Claims].[UserId]', N'user_id', N'COLUMN';
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191114045345_AddedUserIdColumnNameToItemClaimsTable')
+BEGIN
+    EXEC sp_rename N'[Item_Claims].[IX_Item_Claims_UserId]', N'IX_Item_Claims_user_id', N'INDEX';
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191114045345_AddedUserIdColumnNameToItemClaimsTable')
+BEGIN
+    ALTER TABLE [Item_Claims] ADD CONSTRAINT [FK_Item_Claims_Users_user_id] FOREIGN KEY ([user_id]) REFERENCES [Users] ([user_id]) ON DELETE NO ACTION;
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191114045345_AddedUserIdColumnNameToItemClaimsTable')
+BEGIN
+    INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+    VALUES (N'20191114045345_AddedUserIdColumnNameToItemClaimsTable', N'2.2.1-servicing-10028');
+END;
+
+GO
+

@@ -11,6 +11,7 @@ namespace GiftWizItApi.Models
         public string UserId { get; set; }
         public int ItemId { get; set; }
         public int GiftListId { get; set; }
+        public bool Closed { get; set; }
 
         public Items Item { get; set; }
         public GiftLists GiftList { get; set; }

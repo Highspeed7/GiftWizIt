@@ -8,5 +8,6 @@ namespace GiftWizItApi.Interfaces
 {
     public interface IItemClaimsRepository: IRepository<ItemClaims>
     {
+        Task<ItemClaims> GetItemClaim(int item_id, int list_id);
     }
 }
