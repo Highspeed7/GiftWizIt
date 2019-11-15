@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using GiftWizItApi.Controllers.dtos;
 using GiftWizItApi.Interfaces;
@@ -46,7 +47,7 @@ namespace GiftWizItApi.Controllers
 
         [Route("api/Users")]
         [HttpPost]
-        public async Task<int> RegisterUser()
+        public async Task<ActionResult> RegisterUser()
         {
             var userId = await userService.GetUserIdAsync();
 
@@ -87,7 +88,15 @@ namespace GiftWizItApi.Controllers
                 });
             }
 
-            return await _unitOfWork.CompleteAsync();
+            await _unitOfWork.CompleteAsync();
+
+            var userData = new UserDataDTO() {
+                Id = user.UserId,
+                Email = user.Email,
+                Username = user.Name
+            };
+
+            return StatusCode((int)HttpStatusCode.OK, userData);
         }
     }
 }

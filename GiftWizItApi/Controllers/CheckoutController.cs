@@ -39,7 +39,8 @@ namespace GiftWizItApi.Controllers
                 UserId = userId,
                 CheckoutId = checkout.Id,
                 DateCreated = DateTime.Now,
-                WebUrl = checkout.WebUrl
+                WebUrl = checkout.WebUrl,
+                ExpiryDate = DateTime.Now.AddDays(14)
             };
 
             _unitOfwork.UserCheckout.Add(userCheckout);

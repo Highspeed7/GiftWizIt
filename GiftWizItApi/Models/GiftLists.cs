@@ -33,10 +33,11 @@ namespace GiftWizItApi.Models
         public DateTime EventDate { get; set; }
 
         public bool Deleted { get; set; }
-        
+
         public List<GiftItem> GiftItems { get; set; }
         public List<SharedLists> SharedLists { get; set; }
         public List<Favorites> Favorites { get; set; }
         public List<ListMessages> ListMessages { get; set; }
+        public List<ItemClaims> ItemClaims { get; set; }
     }
 }

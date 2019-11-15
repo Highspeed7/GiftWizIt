@@ -7,6 +7,7 @@ namespace GiftWizItApi.Controllers.dtos
 {
     public class UserDataDTO
     {
+        public string Id { get; set; }
         public string Username { get; set; }
         public string Email { get; set; }
     }

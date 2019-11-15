@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace GiftWizItApi.Models
 {
@@ -31,5 +29,11 @@ namespace GiftWizItApi.Models
         public List<Favorites> Favorites { get; set; }
         public List<PromoItems> PromoItems { get; set; }
         public List<ItemTags> Tags { get; set; }
+        public List<ItemClaims> ItemClaims { get; set; }
+
+        public Items()
+        {
+            CreatedOn = DateTime.Now;
+        }
     }
 }

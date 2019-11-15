@@ -32,6 +32,7 @@ namespace GiftWizItApi.Models
         public DbSet<PromoItems> PromoItems { get; set; }
         public DbSet<Tags> Tags { get; set; }
         public DbSet<ItemTags> ItemTags { get; set; }
+        public DbSet<ItemClaims> ItemClaims { get; set; }
 
         public DbQuery<WishListRaw> DbWishListObject { get; set; }
         public DbQuery<CombGiftItems> DbGiftItemsObject { get; set; }
@@ -68,11 +69,11 @@ namespace GiftWizItApi.Models
             modelBuilder.Entity<GiftLists>()
                 .Property(gl => gl.RestrictChat)
                 .HasColumnName("restrict_chat")
-                .HasDefaultValue(false);
+                .IsRequired(true);
             modelBuilder.Entity<GiftLists>()
                 .Property(gl => gl.AllowItemAdds)
                 .HasColumnName("allow_item_adds")
-                .HasDefaultValue(true);
+                .IsRequired(true);
             modelBuilder.Entity<GiftLists>()
                 .HasOne(gl => gl.Users)
                 .WithMany(u => u.GiftLists)
@@ -237,10 +238,18 @@ namespace GiftWizItApi.Models
                 .Property(uc => uc.DateCompleted)
                 .HasColumnName("date_completed");
             modelBuilder.Entity<UserCheckout>()
+                .Property(uc => uc.ExpiryDate)
+                .HasColumnName("expiry_date");
+            modelBuilder.Entity<UserCheckout>()
                 .Property(uc => uc.Completed)
                 .IsRequired(true)
                 .HasDefaultValue(false)
                 .HasColumnName("completed");
+            modelBuilder.Entity<UserCheckout>()
+                .Property(uc => uc.Deleted)
+                .IsRequired(true)
+                .HasDefaultValue(false)
+                .HasColumnName("deleted");
             modelBuilder.Entity<UserCheckout>()
                 .Property(uc => uc.WebUrl)
                 .HasColumnName("web_url");
@@ -475,14 +484,14 @@ namespace GiftWizItApi.Models
             modelBuilder.Entity<PromoCollections>()
                 .Property(pc => pc.End_Date)
                 .HasColumnName("end_date");
+            modelBuilder.Entity<PromoCollections>()
+                .Property(pc => pc.MatchTags)
+                .HasColumnName("match_tags");
 
             // PromoItems Intermediary Table
             modelBuilder.Entity<PromoItems>()
                 .ToTable("Promo_Items")
-                .HasKey(pi => new { pi.ItemId, pi.CollectionId });
-            modelBuilder.Entity<PromoItems>()
-                .Property(pi => pi.CollectionId)
-                .HasColumnName("collection_id");
+                .HasKey(pi => new { pi.Id });
             modelBuilder.Entity<PromoItems>()
                 .Property(pi => pi.ItemId)
                 .HasColumnName("item_id");
@@ -490,15 +499,14 @@ namespace GiftWizItApi.Models
                 .HasOne(pi => pi.Item)
                 .WithMany(i => i.PromoItems)
                 .HasForeignKey(pi => pi.ItemId);
-            modelBuilder.Entity<PromoItems>()
-                .HasOne(pi => pi.Collection)
-                .WithMany(c => c.PromoItems)
-                .HasForeignKey(pi => pi.CollectionId);
 
             // Tags Table
             modelBuilder.Entity<Tags>()
                 .ToTable("Tags")
                 .HasKey(t => t.Id);
+            modelBuilder.Entity<Tags>()
+                .HasIndex(t => t.TagName)
+                .IsUnique();
             modelBuilder.Entity<Tags>()
                 .Property(t => t.Id)
                 .HasColumnName("id");
@@ -529,6 +537,26 @@ namespace GiftWizItApi.Models
                 .HasOne(it => it.Tag)
                 .WithMany(t => t.ItemTags)
                 .HasForeignKey(it => it.TagId);
+
+            // ItemClaims Intermediary Table
+            modelBuilder.Entity<ItemClaims>()
+                .ToTable("Item_Claims")
+                .HasKey(ic => ic.ClaimId);
+            modelBuilder.Entity<ItemClaims>()
+                .Property(ic => ic.ClaimId)
+                .HasColumnName("claim_id");
+            modelBuilder.Entity<ItemClaims>()
+                .Property(ic => ic.UserId)
+                .HasColumnName("user_id");
+            modelBuilder.Entity<ItemClaims>()
+                .Property(ic => ic.GiftListId)
+                .HasColumnName("gift_list_id");
+            modelBuilder.Entity<ItemClaims>()
+                .Property(ic => ic.ItemId)
+                .HasColumnName("item_id");
+            modelBuilder.Entity<ItemClaims>()
+                .Property(ic => ic.Closed)
+                .HasColumnName("_closed");
         }
     }
 }

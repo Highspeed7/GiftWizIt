@@ -9,6 +9,6 @@ namespace GiftWizItApi.Controllers.dtos
     {
         public string FromUser { get; set; }
         public string Message { get; set; }
-        //public DateTime CreatedOn { get; set; }
+        public DateTime CreatedAt { get; set; }
     }
 }

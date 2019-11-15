@@ -25,11 +25,13 @@ namespace GiftWizItApi.Mapping
                 .ForMember(sf => sf.IsPublic, opt => opt.MapFrom(sl => sl.GiftList.IsPublic))
                 .ForMember(sf => sf.FromUser, opt => opt.MapFrom(sl => sl.User.Name))
                 .ReverseMap();
-               
+
+            CreateMap<Items, ItemDTO>().ReverseMap();
             CreateMap<LnksItmsPtnrsDTO, LnksItmsPtnrs>();
             CreateMap<GiftListDto, GiftLists>();
             CreateMap<GiftItemDTO, GiftItem>();
             CreateMap<ItemDbResource, Items>();
+            CreateMap<TagsDTO, Tags>();
             CreateMap<PageRes, Page>();
         }
     }

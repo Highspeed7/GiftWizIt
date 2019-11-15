@@ -9,7 +9,7 @@ namespace GiftWizItApi.Extensions
     public static class IQueryableExtension
     {
         public static async Task<PagedResult<T>> GetPaged<T>(this IQueryable<T> query,
-                                                 int page, int pageSize) where T : class
+                                                 int page, int pageSize, int skip = -1) where T : class
         {
             var result = new PagedResult<T>();
             result.CurrentPage = page;
@@ -19,7 +19,11 @@ namespace GiftWizItApi.Extensions
             var pageCount = (double)result.RowCount / pageSize;
             result.PageCount = (int)Math.Ceiling(pageCount);
 
-            var skip = (page - 1) * pageSize;
+            // If no skip value is provided
+            if(skip == -1)
+            {
+                skip = (page - 1) * pageSize;
+            }
 
             result.Results = await query.Skip(skip).Take(pageSize).ToListAsync();
 

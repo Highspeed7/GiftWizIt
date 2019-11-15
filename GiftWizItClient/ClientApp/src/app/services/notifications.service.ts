@@ -30,6 +30,7 @@ export class NotificationsService {
       var connectionId;
 
       connection.on("Notification", (message) => {
+        console.log(message);
         alert(message);
       });
 

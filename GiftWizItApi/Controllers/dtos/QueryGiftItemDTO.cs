@@ -15,5 +15,7 @@ namespace GiftWizItApi.Controllers.dtos
         public string Itm_Name { get; set; }
         public string Glst_Name { get; set; }
         public string Image { get; set; }
+        public string ClaimedById { get; set; }
+        public string ClaimedBy { get; set; }
     }
 }

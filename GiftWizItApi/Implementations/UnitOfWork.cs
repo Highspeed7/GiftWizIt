@@ -11,7 +11,7 @@ namespace GiftWizItApi.Implementations
     {
         private readonly ApplicationDbContext _context;
 
-        public UnitOfWork(ApplicationDbContext context )
+        public UnitOfWork(ApplicationDbContext context)
         {
             _context = context;
             GiftLists = new GiftListRepository(_context);
@@ -29,6 +29,11 @@ namespace GiftWizItApi.Implementations
             Notifications = new NotificationsRepository(_context);
             UserCheckout = new UserCheckoutRespository(_context);
             ListMessages = new ListMessagesRepository(_context);
+            PromoCollections = new PromoCollectionsRepository(_context);
+            PromoItems = new PromoItemsRepository(_context);
+            ItemTags = new ItemTagsRepository(_context);
+            Tags = new TagsRepository(_context);
+            ItemClaims = new ItemClaimsRepository(_context);
         }
 
         public IGiftListRepository GiftLists { get; private set; }
@@ -46,6 +51,11 @@ namespace GiftWizItApi.Implementations
         public INotificationsRepository Notifications { get; private set; }
         public IUserCheckoutRepository UserCheckout { get; private set; }
         public IListMessagesRepository ListMessages { get; private set; }
+        public IPromoCollectionsRepository PromoCollections { get; private set; }
+        public IPromoItemsRepository PromoItems { get; private set; }
+        public IItemTagsRepository ItemTags { get; private set; }
+        public ITagsRepository Tags { get; private set; }
+        public IItemClaimsRepository ItemClaims { get; private set; }
 
         public async Task<int> CompleteAsync()
         {

@@ -8,7 +8,6 @@ using GiftWizItApi.Controllers.dtos;
 using GiftWizItApi.Interfaces;
 using GiftWizItApi.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GiftWizItApi.Controllers
