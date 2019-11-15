@@ -29,14 +29,22 @@ namespace GiftWizItApi.Controllers
         [HttpPost]
         public async Task<ActionResult> ClaimListItem(int item_id, int list_id)
         {
-            var userId = await userService.GetUserIdAsync(); 
+            var userId = await userService.GetUserIdAsync();
 
-            unitOfWork.ItemClaims.Add(new ItemClaims()
+            var itemClaim = await unitOfWork.ItemClaims.GetItemClaim(item_id, list_id);
+
+            if(itemClaim != null)
             {
-                GiftListId = list_id,
-                ItemId = item_id,
-                UserId = userId
-            });
+                itemClaim.Closed = false;
+            }else
+            {
+                unitOfWork.ItemClaims.Add(new ItemClaims()
+                {
+                    GiftListId = list_id,
+                    ItemId = item_id,
+                    UserId = userId
+                });
+            }
 
             var result = await unitOfWork.CompleteAsync();
 
