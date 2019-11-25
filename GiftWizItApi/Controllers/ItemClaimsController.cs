@@ -35,8 +35,14 @@ namespace GiftWizItApi.Controllers
 
             if(itemClaim != null)
             {
+                if(itemClaim.UserId != userId)
+                {
+                    itemClaim.UserId = userId;
+                }
+
                 itemClaim.Closed = false;
-            }else
+            }
+            else
             {
                 unitOfWork.ItemClaims.Add(new ItemClaims()
                 {
@@ -56,6 +62,8 @@ namespace GiftWizItApi.Controllers
         [HttpPost]
         public async Task<ActionResult> UnclaimListItem(int item_id, int list_id)
         {
+            var userId = await userService.GetUserIdAsync();
+
             var itemClaim = await unitOfWork.ItemClaims.GetItemClaim(item_id, list_id);
 
             if(itemClaim == null)

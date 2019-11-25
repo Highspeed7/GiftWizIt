@@ -20,7 +20,7 @@ namespace GiftWizItApi.Implementations
             string user_id = null
         )
         {
-            var result = Context.DbGiftItemsObject.FromSql($"SELECT gi.item_id, i.image, i.product_id, gift_list_id, partner_id, Afflt_Link, i.name as itm_name, gl.name as glst_name FROM GList_Items as gi JOIN Links_Items_Partners as lip ON gi.g_list_id IN (SELECT glsh.gift_list_id FROM GiftLists as glsh WHERE glsh.user_id != 'NULL' AND glsh.gift_list_id = {gift_list_id} AND glsh.is_public = 'false') JOIN Items as i ON gi.item_id = i.item_id JOIN GiftLists as gl ON gl.gift_list_id = gi.g_list_id WHERE lip.item_id = gi.item_id AND gi._deleted = 0");
+            var result = Context.DbGiftItemsObject.FromSql($"SELECT gi.item_id, i.image, i.product_id, gl.gift_list_id, partner_id, Afflt_Link, i.name as itm_name, gl.name as glst_name, ic.user_id as claimedById, usrs.name as claimedBy FROM GList_Items as gi JOIN Links_Items_Partners as lip ON gi.g_list_id IN (SELECT glsh.gift_list_id FROM GiftLists as glsh WHERE glsh.user_id != 'NULL' AND glsh.gift_list_id = {gift_list_id} AND glsh.is_public = 'false') JOIN Items as i ON gi.item_id = i.item_id JOIN GiftLists as gl ON gl.gift_list_id = gi.g_list_id LEFT OUTER JOIN Item_Claims as ic ON ic.item_id = i.item_id AND ic.gift_list_id = gl.gift_list_id AND ic._closed = 0 LEFT OUTER JOIN Users as usrs ON ic.user_id = usrs.user_id WHERE lip.item_id = gi.item_id AND gi._deleted = 0");
             return await result.ToListAsync();
         }
 
@@ -34,7 +34,7 @@ namespace GiftWizItApi.Implementations
 
             if (onlyPublic == true && user_id == null)
             {
-                result = Context.DbGiftItemsObject.FromSql($"SELECT gi.item_id, i.image, i.product_id, gift_list_id, partner_id, Afflt_Link, i.name as itm_name, gl.name as glst_name FROM GList_Items as gi JOIN Links_Items_Partners as lip ON gi.g_list_id IN (SELECT glsh.gift_list_id FROM GiftLists as glsh WHERE glsh.user_id != 'NULL' AND glsh.gift_list_id = {gift_list_id} AND glsh.is_public = 'true') JOIN Items as i ON gi.item_id = i.item_id JOIN GiftLists as gl ON gl.gift_list_id = gi.g_list_id WHERE lip.item_id = gi.item_id AND gi._deleted = 0");
+                result = Context.DbGiftItemsObject.FromSql($"SELECT gi.item_id, i.image, i.product_id, gl.gift_list_id, partner_id, Afflt_Link, i.name as itm_name, gl.name as glst_name, ic.user_id as claimedById, usrs.name as claimedBy FROM GList_Items as gi JOIN Links_Items_Partners as lip ON gi.g_list_id IN (SELECT glsh.gift_list_id FROM GiftLists as glsh WHERE glsh.user_id != 'NULL' AND glsh.gift_list_id = {gift_list_id} AND glsh.is_public = 'true') JOIN Items as i ON gi.item_id = i.item_id JOIN GiftLists as gl ON gl.gift_list_id = gi.g_list_id LEFT OUTER JOIN Item_Claims as ic ON ic.item_id = i.item_id AND ic.gift_list_id = gl.gift_list_id AND ic._closed = 0 LEFT OUTER JOIN Users as usrs ON ic.user_id = usrs.user_id WHERE lip.item_id = gi.item_id AND gi._deleted = 0");
             }
             else if(onlyPublic == false)
             {
