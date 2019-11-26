@@ -22,7 +22,7 @@ namespace GiftWizItApi.Implementations
                                     .Include(it => it.Item)
                                     .ThenInclude(i => i.LinkItemPartners)
                                     .Include(it => it.Tag)
-                                    .Where(it => it.Tag.TagName == tag).ToListAsync();
+                                    .Where(it => it.Tag.TagName == tag && it.Deleted == false).ToListAsync();
             return result;
         }
     }

@@ -41,6 +41,9 @@ namespace GiftWizItApi.Controllers
             var name = User.Claims.First(e => e.Type == "name").Value;
             var listName = $"{name}'s Wish List";
 
+            // Filter the image url
+            item.Image = FilterItemImageUrls(item.Image);
+
             // Check if wish list already exists
             WishLists existingWishList = await _unitOfWork.WishLists.GetWishListAsync(listName, userId);
             WishItem existingListItem = null;
@@ -118,6 +121,9 @@ namespace GiftWizItApi.Controllers
                     {
                         // Check to make sure the affiliate link isn't already in the items list.
                         // Now update the link-items-partners table
+                        // Append the affiliate tag to the end of the url
+                        var strLen = item.Url.Count();
+
                         _unitOfWork.LnksItmsPtns.Add(item.Url, insertedWishitem.Item.Item_Id, partner.PartnerId);
                         await _unitOfWork.CompleteAsync();
                     }
@@ -187,6 +193,20 @@ namespace GiftWizItApi.Controllers
             var items = result.Where(r => r.Item.LinkItemPartners.Where(lip => lip.AffliateLink == itemUrl).Count() > 0);
 
             return items;
+        }
+
+        private string FilterItemImageUrls(string imageUrl)
+        {
+            string[] disallowedValues = {
+                "FMwebp_"
+            };
+
+            foreach(string value in disallowedValues)
+            {
+                imageUrl = imageUrl.Replace(value, "");
+            }
+
+            return imageUrl;
         }
     }
 }

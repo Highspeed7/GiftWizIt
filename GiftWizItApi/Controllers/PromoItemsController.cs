@@ -29,7 +29,7 @@ namespace GiftWizItApi.Controllers.dtos
 
         [Authorize]
         [Route("SetPromoItems")]
-        public async Task<ActionResult> setPromoItems(PromoItemsDTO[] promoItems)
+        public async Task<ActionResult> SetPromoItems(PromoItemsDTO[] promoItems)
         {
             // TODO: Add check later for items already added to the promo-items table
             foreach(PromoItemsDTO item in promoItems)
