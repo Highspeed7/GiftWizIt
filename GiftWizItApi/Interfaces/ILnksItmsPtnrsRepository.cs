@@ -11,5 +11,6 @@ namespace GiftWizItApi.Interfaces
         void Add(string url, int item_id, int partner_id);
         Task<LnksItmsPtnrs> GetLnksItmsPtnrs(int partnerId);
         Task<LnksItmsPtnrs> GetItemByDomainAsync(string itemUrl);
+        Task<IEnumerable<LnksItmsPtnrs>> PerformLinkQuery();
     }
 }
