@@ -33,5 +33,10 @@ namespace GiftWizItApi.Implementations
         {
             return await Context.LinkItemsPartners.Where(lip => lip.AffliateLink == itemUrl).FirstOrDefaultAsync();
         }
+
+        public async Task<IEnumerable<LnksItmsPtnrs>> PerformLinkQuery()
+        {
+            return await Context.LinkItemsPartners.FromSql($"SELECT * FROM Links_Items_Partners WHERE afflt_link LIKE '%amazon.com%'").ToListAsync();
+        }
     }
 }

@@ -12,5 +12,6 @@ namespace GiftWizItApi.Models
 
         public Tags Tag { get; set; }
         public Items Item { get; set; }
+        public bool Deleted { get; set; }
     }
 }

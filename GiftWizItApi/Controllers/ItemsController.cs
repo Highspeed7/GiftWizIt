@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GiftWizItApi.Controllers
 {
-    [Authorize]
     [ApiController]
     public class ItemsController : ControllerBase
     {
@@ -30,6 +29,7 @@ namespace GiftWizItApi.Controllers
             this.mapper = mapper;
         }
 
+        [Authorize]
         [Route("api/Items")]
         [HttpPost]
         public async Task<ActionResult> CreateItem(ItemDTO item)
@@ -40,6 +40,11 @@ namespace GiftWizItApi.Controllers
             var userId = await userService.GetUserIdAsync();
             var name = User.Claims.First(e => e.Type == "name").Value;
             var listName = $"{name}'s Wish List";
+
+            item.Url = AffiliatizeLink(item.Url);
+
+            // Filter the image url
+            item.Image = FilterItemImageUrls(item.Image);
 
             // Check if wish list already exists
             WishLists existingWishList = await _unitOfWork.WishLists.GetWishListAsync(listName, userId);
@@ -118,6 +123,9 @@ namespace GiftWizItApi.Controllers
                     {
                         // Check to make sure the affiliate link isn't already in the items list.
                         // Now update the link-items-partners table
+                        // Append the affiliate tag to the end of the url
+                        var strLen = item.Url.Count();
+
                         _unitOfWork.LnksItmsPtns.Add(item.Url, insertedWishitem.Item.Item_Id, partner.PartnerId);
                         await _unitOfWork.CompleteAsync();
                     }
@@ -130,6 +138,7 @@ namespace GiftWizItApi.Controllers
             return StatusCode((int)HttpStatusCode.OK);
         }
 
+        [Authorize]
         [Route("api/MoveItems")]
         [HttpPost]
         public async Task<ActionResult> ItemToGiftList(GiftItemMoveDTO[] items)
@@ -180,6 +189,48 @@ namespace GiftWizItApi.Controllers
             return StatusCode((int)HttpStatusCode.OK);
         }
 
+        //[Route("api/Affiliatize")]
+        //[HttpGet]
+        //public async Task<bool> AffiliatizeLinks()
+        //{
+        //    var affltData = await _unitOfWork.LnksItmsPtns.PerformLinkQuery();
+
+        //    foreach(var data in affltData)
+        //    {
+        //        if(data.AffliateLink.Contains("?") && !data.AffliateLink.Contains("tag=giftwizit19-20"))
+        //        {
+        //            data.AffliateLink = $"{data.AffliateLink}&tag=giftwizit19-20";
+        //        }else if(!data.AffliateLink.Contains("tag=giftwizit19-20"))
+        //        {
+        //            data.AffliateLink = $"{data.AffliateLink}?tag=giftwizit19-20";
+        //        }
+        //    }
+
+        //    try
+        //    {
+        //        return await _unitOfWork.CompleteAsync() > 0;
+        //    }catch(Exception e)
+        //    {
+        //        return false;
+        //    }
+        //}
+
+        private string AffiliatizeLink(string url)
+        {
+            if (url.Contains("amazon.com"))
+            {
+                if (url.Contains("?") && !url.Contains("tag=giftwizit19-20"))
+                {
+                    url = $"{url}&tag=giftwizit19-20";
+                }
+                else if (!url.Contains("tag=giftwizit19-20"))
+                {
+                    url = $"{url}?tag=giftwizit19-20";
+                }
+            }
+            return url;
+        }
+
         private async Task<IEnumerable<WishItem>> validateProvidedItem(string itemUrl, string userId)
         {
             IEnumerable<WishItem> result = await _unitOfWork.WishItems.GetWishItemByUrl(itemUrl, userId);
@@ -187,6 +238,20 @@ namespace GiftWizItApi.Controllers
             var items = result.Where(r => r.Item.LinkItemPartners.Where(lip => lip.AffliateLink == itemUrl).Count() > 0);
 
             return items;
+        }
+
+        private string FilterItemImageUrls(string imageUrl)
+        {
+            string[] disallowedValues = {
+                "FMwebp_"
+            };
+
+            foreach(string value in disallowedValues)
+            {
+                imageUrl = imageUrl.Replace(value, "");
+            }
+
+            return imageUrl;
         }
     }
 }

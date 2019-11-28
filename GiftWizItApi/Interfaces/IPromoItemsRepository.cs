@@ -8,5 +8,6 @@ namespace GiftWizItApi.Interfaces
 {
     public interface IPromoItemsRepository: IRepository<PromoItems>
     {
+        
     }
 }

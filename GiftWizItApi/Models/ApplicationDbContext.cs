@@ -527,6 +527,9 @@ namespace GiftWizItApi.Models
                 .Property(it => it.TagId)
                 .HasColumnName("tag_id");
             modelBuilder.Entity<ItemTags>()
+                .Property(it => it.Deleted)
+                .HasColumnName("_deleted");
+            modelBuilder.Entity<ItemTags>()
                 .Property(it => it.ItemId)
                 .HasColumnName("item_id");
             modelBuilder.Entity<ItemTags>()

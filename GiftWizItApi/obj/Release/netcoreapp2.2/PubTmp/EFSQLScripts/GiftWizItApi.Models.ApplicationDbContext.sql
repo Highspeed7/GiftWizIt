@@ -1970,3 +1970,18 @@ END;
 
 GO
 
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191124005141_AddDeletedFlagToItemTagsTable')
+BEGIN
+    ALTER TABLE [Item_Tags] ADD [_deleted] bit NOT NULL DEFAULT 0;
+END;
+
+GO
+
+IF NOT EXISTS(SELECT * FROM [__EFMigrationsHistory] WHERE [MigrationId] = N'20191124005141_AddDeletedFlagToItemTagsTable')
+BEGIN
+    INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+    VALUES (N'20191124005141_AddDeletedFlagToItemTagsTable', N'2.2.1-servicing-10028');
+END;
+
+GO
+
