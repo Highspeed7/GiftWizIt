@@ -54,6 +54,7 @@ namespace GiftWizItApi
             services.AddSingleton<IGiftWizItWebSettings>(Configuration.GetSection("GiftWizItWebSettings").Get<GiftWizItWebSettings>());
             services.AddSingleton<INotificationsService, NotificationsService>();
             services.AddTransient<IEmailService, EmailService>();
+            services.AddTransient<IAWSPAAPIService, AWSPAAPIService>();
             services.AddTransient<IUserService, UserService>();
             services.AddCors(options =>
             {
